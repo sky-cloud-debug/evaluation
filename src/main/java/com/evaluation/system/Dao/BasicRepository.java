@@ -5,4 +5,5 @@ package com.evaluation.system.Dao;
 
 public interface BasicRepository extends JpaRepository<basic,Integer> {
 
+        public basic findByClassMajor(Integer number);
 }
