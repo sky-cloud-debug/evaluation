@@ -5,25 +5,23 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@Entity
 @Data
+@Entity
 @ToString
-public class basic {
+public class honor {
 
-    //学号
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "number")
+    //学号
     private String number;
 
     //姓名
     private String name;
 
-    //性别
-    private String sex;
-
-    //专业年级班级
-    private String classMajor;
+    //学生荣誉
+    //团干部、三好学生等
+    private String studentHonor;
 
     public String getNumber() {
         return number;
@@ -41,29 +39,20 @@ public class basic {
         this.name = name;
     }
 
-    public String getSex() {
-        return sex;
+    public String getStudentHonor() {
+        return studentHonor;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getClassMajor() {
-        return classMajor;
-    }
-
-    public void setClassMajor(String classMajor) {
-        this.classMajor = classMajor;
+    public void setStudentHonor(String studentHonor) {
+        this.studentHonor = studentHonor;
     }
 
     @Override
     public String toString() {
-        return "basic{" +
+        return "honor{" +
                 "number=" + number +
                 ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", classMajor='" + classMajor + '\'' +
+                ", studentHonor='" + studentHonor + '\'' +
                 '}';
     }
 }

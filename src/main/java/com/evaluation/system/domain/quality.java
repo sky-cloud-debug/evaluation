@@ -3,7 +3,7 @@ package com.evaluation.system.domain;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 @ToString
@@ -11,7 +11,10 @@ import javax.persistence.Entity;
 public class quality {
 
     //学号
-    private Integer number;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="number")
+    private String number;
 
     //道德素养
     private Double moral;
@@ -31,11 +34,11 @@ public class quality {
     //专业班级
     private String classMajor;
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
