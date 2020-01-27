@@ -7,6 +7,5 @@ public interface QualityRepository extends JpaRepository<quality,Integer> {
     public quality findBywisdom(double asd);
 
     public quality findByClassMajor(String major);
-    //////hello
 
 }
