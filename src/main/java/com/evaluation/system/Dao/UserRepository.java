@@ -1,8 +1,10 @@
 package com.evaluation.system.Dao;
 
-import org.apache.catalina.User;
+import com.evaluation.system.domain.user;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User,Integer> {
-    public User findByPassword(int id);
+
+public interface UserRepository extends JpaRepository<user,Integer> {
+    public user findByPasswordId(int id);
 }
