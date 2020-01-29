@@ -12,7 +12,6 @@ public class basic {
 
     //学号
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "number")
     private String number;
 

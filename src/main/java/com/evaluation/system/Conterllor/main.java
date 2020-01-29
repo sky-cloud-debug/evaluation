@@ -12,4 +12,7 @@ public class main {
     public String add(){
         return "table/add";
     }
+
+    @GetMapping("/form")
+    public String form(){return "page/form";}
 }

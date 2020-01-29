@@ -11,7 +11,6 @@ import javax.persistence.*;
 public class honor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "number")
     //学号
     private String number;
