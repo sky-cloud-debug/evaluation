@@ -1,6 +1,10 @@
 package com.evaluation.system.Dao;
 
-public interface yxScholarshipRepository {
+import com.evaluation.system.domain.yxScholarship;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface yxScholarshipRepository extends JpaRepository<yxScholarship,String> {
 
 
 }
