@@ -1,9 +1,8 @@
 package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Dao.yxScholarshipRepository;
-import com.evaluation.system.Service.yxScholarshipService;
+import com.evaluation.system.Service.ScholarshipService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,37 +18,48 @@ public class scholarshipConterllor {
     yxScholarshipRepository yxScholarshipRepository;
 
     @Autowired
-    yxScholarshipService yxScholarshipService;
+    ScholarshipService ScholarshipService;
 
+    @GetMapping("/yxscholarship")
+    public String yx(){return "scholarship/yxform";}
 
     /**
      * 申报优秀学生奖学金
      * @create：song
-     * @param model
      * @param request
+     * @param model
      * @return
      */
     @GetMapping("/yxScholarship")
-    public String yxScholarship(Model model, HttpServletRequest request){
+    public String yxScholarship(Model model,HttpServletRequest request){
         String level=request.getParameter("interest");
         String card=request.getParameter("card");
 
-        String information=yxScholarshipService.add_yx(level,card);
-        if(information.equals("申请成功")){
+        String information= ScholarshipService.add_yx(level,card);
+        model.addAttribute("msg",information);
+        if(information.equals("申请成功，等待审批")){
             return "scholarship/successful";
         }
-        return "";
+        return "scholarship/error";
     }
-
     /**
      * 申报其他奖学金
      * @create：song
+     * @param request
      * @param model
      * @return
      */
     @GetMapping("/qtscholarship")
-    public String qtscholarship(Model model){
-        return null;
+    public String qtscholarship(Model model,HttpServletRequest request){
+        String bonusName=request.getParameter("bonusName");
+        String card=request.getParameter("card");
+
+        String information=ScholarshipService.add_qt(bonusName,card);
+        model.addAttribute("msg",information);
+        if(information.equals("申请成功，等待审批")){
+            return "scholarship/successful";
+        }
+        return "scholarship/error";
     }
 
 }

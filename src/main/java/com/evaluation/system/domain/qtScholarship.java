@@ -2,27 +2,27 @@ package com.evaluation.system.domain;
 
 import lombok.Data;
 import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@Data
 @Entity
 @ToString
-@Data
-public class yxScholarship {
-
+public class qtScholarship {
 
     @Id
     @Column(name="number")
-    String number;  //学号
+    String number; //学号
 
-    String scholarshipLevel; //奖学金等级
+    String bonus_name; //奖学金名称
 
-    Integer cardNumber;  //卡号
+    Integer cardNumber; //卡号
 
-    String state; //审核状态
+    String state;  //审核状态
 
-    String reason; //驳回原因
+    String reason;  //驳回原因
 
     public String getNumber() {
         return number;
@@ -32,12 +32,12 @@ public class yxScholarship {
         this.number = number;
     }
 
-    public String getScholarshipLevel() {
-        return scholarshipLevel;
+    public String getBonus_name() {
+        return bonus_name;
     }
 
-    public void setScholarshipLevel(String scholarshipLevel) {
-        this.scholarshipLevel = scholarshipLevel;
+    public void setBonus_name(String bonus_name) {
+        this.bonus_name = bonus_name;
     }
 
     public Integer getCardNumber() {
@@ -64,11 +64,19 @@ public class yxScholarship {
         this.reason = reason;
     }
 
+    public qtScholarship(String number, String bonus_name, Integer cardNumber, String state, String reason) {
+        this.number = number;
+        this.bonus_name = bonus_name;
+        this.cardNumber = cardNumber;
+        this.state = state;
+        this.reason = reason;
+    }
+
     @Override
     public String toString() {
-        return "yxScholarship{" +
+        return "qtScholarship{" +
                 "number='" + number + '\'' +
-                ", scholarshipLevel='" + scholarshipLevel + '\'' +
+                ", bonus_name='" + bonus_name + '\'' +
                 ", cardNumber=" + cardNumber +
                 ", state='" + state + '\'' +
                 ", reason='" + reason + '\'' +
