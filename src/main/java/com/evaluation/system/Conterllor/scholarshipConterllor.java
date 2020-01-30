@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,9 @@ public class scholarshipConterllor {
     @GetMapping("/yxscholarship")
     public String yx(){return "scholarship/yxform";}
 
+    @GetMapping("/qtscholarship")
+    public String qt(){return "scholarship/qtform";}
+
     /**
      * 申报优秀学生奖学金
      * @create：song
@@ -30,10 +34,12 @@ public class scholarshipConterllor {
      * @param model
      * @return
      */
-    @GetMapping("/yxScholarship")
+    @PostMapping("/yxScholarship")
     public String yxScholarship(Model model,HttpServletRequest request){
         String level=request.getParameter("interest");
         String card=request.getParameter("card");
+
+        System.out.println(level+"====="+card+"----------");
 
         String information= ScholarshipService.add_yx(level,card);
         model.addAttribute("msg",information);
@@ -49,10 +55,12 @@ public class scholarshipConterllor {
      * @param model
      * @return
      */
-    @GetMapping("/qtscholarship")
+    @PostMapping("/qtScholarship")
     public String qtscholarship(Model model,HttpServletRequest request){
         String bonusName=request.getParameter("bonusName");
         String card=request.getParameter("card");
+
+        System.out.println(bonusName+"===="+card+"-----------------");
 
         String information=ScholarshipService.add_qt(bonusName,card);
         model.addAttribute("msg",information);

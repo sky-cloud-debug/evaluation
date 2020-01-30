@@ -26,13 +26,13 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         }
         int Card=Integer.parseInt(card);
 
-        yxScholarship.setNumber("12345");     //没有获取主键
+        yxScholarship.setNumber("1234567");     //没有获取主键
         yxScholarship.setCardNumber(Card);
         yxScholarship.setScholarshipLevel(level);
         yxScholarship.setReason("--");
         yxScholarship.setState("--");
         yxScholarshipRepository.save(yxScholarship);
-        return "申请成功";
+        return "申请成功，等待审批";
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
             return "卡号错误";
         }
         int card1= Integer.parseInt(card);
-        qtScholarship qtScholarship=new qtScholarship("123",bonusName,card1,"--","--");
+        qtScholarship qtScholarship=new qtScholarship("1234",bonusName,card1,"--","--");
         qtScholarshipRepository.save(qtScholarship);
         return "申请成功，等待审批";
     }

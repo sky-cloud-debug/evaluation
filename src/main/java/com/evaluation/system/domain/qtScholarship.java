@@ -64,6 +64,8 @@ public class qtScholarship {
         this.reason = reason;
     }
 
+    public qtScholarship(){}
+
     public qtScholarship(String number, String bonus_name, Integer cardNumber, String state, String reason) {
         this.number = number;
         this.bonus_name = bonus_name;
