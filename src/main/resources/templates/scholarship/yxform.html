@@ -6,8 +6,8 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="css/layui.css" media="all">
-    <link rel="stylesheet" href="css/public.css" media="all">
+    <link rel="stylesheet" href="/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
 </head>
 <body>
 <div class="layuimini-container">
@@ -25,7 +25,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">奖学金等级</label>
                     <div class="layui-input-block">
-                        <select name="interest" lay-filter="aihao">
+                        <select class="layui-select" name="interest" lay-filter="aihao">
                             <option th:value="一等奖学金">一等奖学金</option>
                             <option th:value="二等奖学金">二等奖学金</option>
                             <option th:value="三等奖学金">三等奖学金</option>
@@ -49,7 +49,12 @@
     </div>
 </div>
 
-<script src="layui.js" charset="utf-8"></script>
+<script src="/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form
+    });
+</script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <!--<script>-->
 <!--    layui.use(['layedit', 'laydate'], function () {-->
