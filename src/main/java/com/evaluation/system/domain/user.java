@@ -10,8 +10,9 @@ import javax.persistence.*;
 @ToString
 public class user {
 
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String number;
