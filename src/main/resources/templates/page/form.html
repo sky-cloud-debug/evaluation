@@ -1,66 +1,99 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="utf-8">
-    <title>优秀奖学金申报</title>
+    <title>layui</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="css/layui.css" media="all">
-    <link rel="stylesheet" href="css/public.css" media="all">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
 </head>
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
 
         <blockquote class="layui-elem-quote layui-text">
-            此处不要删<a href="/doc/base/faq.html#form" target="_blank">此处不要删</a> 2. <a href="/doc/modules/form.html#render" target="_blank">动态添加的表单元素如何更新？</a>
+            鉴于小伙伴的普遍反馈，先温馨提醒两个常见“问题”：1. <a href="/doc/base/faq.html#form" target="_blank">为什么select/checkbox/radio没显示？</a> 2. <a href="/doc/modules/form.html#render" target="_blank">动态添加的表单元素如何更新？</a>
         </blockquote>
+
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend>添加申请</legend>
+            <legend>表单集合演示</legend>
         </fieldset>
 
         <form class="layui-form" action="">
             <div class="layui-form-item">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">奖学金等级</label>
-                    <div class="layui-input-block">
-                        <select th:name="interest" lay-filter="aihao">
-                            <option th:value="一等奖学金">一等奖学金</option>
-                            <option th:value="二等奖学金">二等奖学金</option>
-                            <option th:value="三等奖学金">三等奖学金</option>
-                        </select>
+                <label class="layui-form-label">单行输入框</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证必填项</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证手机</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证邮箱</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">银行卡号</label>
-                <div class="layui-input-block">
-                    <input type="text" th:id="card" th:name="card" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
+                <div class="layui-inline">
+                    <label class="layui-form-label">多规则验证</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-            </div>
-
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-            <div class="layui-form-item">
-
                 <div class="layui-inline">
                     <label class="layui-form-label">验证日期</label>
                     <div class="layui-input-inline">
                         <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证链接</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="url" lay-verify="url" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证身份证</label>
+                <div class="layui-input-block">
+                    <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">自定义验证</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">范围</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -201,7 +234,18 @@
                     <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
-
+            <!--<div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">编辑器</label>
+              <div class="layui-input-block">
+                <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
+              </div>
+            </div>-->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
         </form>
 
         <!-- 示例-970 -->
@@ -397,7 +441,7 @@
     </div>
 </div>
 
-<script src="layui.js" charset="utf-8"></script>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
