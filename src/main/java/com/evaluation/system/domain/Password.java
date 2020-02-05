@@ -13,8 +13,9 @@ import javax.persistence.Id;
 @ToString
 public class Password {
 
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String password;

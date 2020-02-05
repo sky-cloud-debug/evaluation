@@ -8,3 +8,4 @@ public interface BasicRepository extends JpaRepository<basic,String> {
         public basic findByClassMajor(Integer number);
 }
 
+//push在哪来着
