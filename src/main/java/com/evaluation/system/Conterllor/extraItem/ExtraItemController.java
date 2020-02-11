@@ -1,14 +1,13 @@
 package com.evaluation.system.Conterllor.extraItem;
 
-import jdk.nashorn.internal.ir.RuntimeNode;
-import org.springframework.http.HttpRequest;
+import com.evaluation.system.Service.fileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.jws.WebParam;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,4 +44,30 @@ public class ExtraItemController {
         }
 
     }
+
+    @Autowired
+    private fileService fileService;
+
+    @PostMapping("/pictureUpload")
+    @ResponseBody
+    public Map<Object, Object> pictureUpload(@RequestParam(value = "pictureUpload",required = true) MultipartFile file){
+
+        System.out.println(file.getOriginalFilename());
+        System.out.println(file.getResource());
+        System.out.println(file);
+        String imagePath = "D:/image/";
+        Map<Object, Object> res = new HashMap<>();
+
+        fileService.unloadFile(file,imagePath);
+
+        if(false){ // 上传失败
+            res.put("code",250);
+        }
+
+        res.put("data",imagePath);
+
+        return res;
+    }
+
+
 }
