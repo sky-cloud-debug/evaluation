@@ -50,6 +50,7 @@ public class ScoreController {
         // 测试数据输入完毕
         String type = "Moral";
         excelService.submitScore(classMajor, name, type, map);
+
         return "";
     }
 
