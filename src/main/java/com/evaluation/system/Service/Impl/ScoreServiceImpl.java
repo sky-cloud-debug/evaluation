@@ -9,6 +9,7 @@ import com.evaluation.system.util.ExcelUtils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Service
@@ -35,14 +36,18 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     // 为对应excel表格注入班级成员
-    public String setClassMember(String classMajor, String type, ArrayList<String> namelist) {
-        excelUtils.setHead(classMajor, type, namelist);
+    public String setClassMember(String classMajor,ArrayList<String> namelist) throws IOException {
+        excelUtils.setHead(classMajor, "Moral", namelist);
+        excelUtils.setHead(classMajor, "Heart", namelist);
+        excelUtils.setHead(classMajor, "Technology", namelist);
         return "Success";
     }
 
     // 为对应excel表格注入测评小组成员
-    public String setTestMember(String classMajor, ArrayList<String> scoreList) {
-        excelUtils.setTest(classMajor, scoreList);
+    public String setTestMember(String classMajor,ArrayList<String> scoreList) {
+        excelUtils.setTest(classMajor, "Moral", scoreList);
+        excelUtils.setTest(classMajor, "Heart", scoreList);
+        excelUtils.setTest(classMajor, "Technology", scoreList);
         return "Success";
     }
 
@@ -51,6 +56,7 @@ public class ScoreServiceImpl implements ScoreService {
         excelUtils.inputScore(classMajor, name, type, scoreList);
         return "Success";
     }
+
 
 
 }
