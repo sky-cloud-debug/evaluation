@@ -7,5 +7,5 @@ import java.util.ArrayList;
 
 public interface TestGroupRepository extends JpaRepository<testGroup, String> {
 
-    public ArrayList<testGroup> findByClassMajor(String classMajor);
+    public ArrayList<testGroup> findByClassMajorOrderByNumber(String classMajor);
 }

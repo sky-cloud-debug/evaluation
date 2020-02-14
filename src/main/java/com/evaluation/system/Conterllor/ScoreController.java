@@ -45,7 +45,7 @@ public class ScoreController {
     }
 
     // 注入测评小组成员
-    @RequestMapping("/test1")
+    @GetMapping("/setTeamMember")
     public String setTestMember() {
         String classMajor = "计算机18-4";
         String type = "Moral";
@@ -59,8 +59,8 @@ public class ScoreController {
         return "index";
     }
 
-    // 测评小组打分
-    @RequestMapping("/test2")
+    // 测评小组打分 德育成绩
+    @RequestMapping("/submitMoral")
     public String submitMoralScore() {
         String classMajor = "计算机18-4"; // 班级
         String name = "江宇轩"; // 测评小组打分人名
@@ -72,9 +72,110 @@ public class ScoreController {
         scoreList.add(75);
         scoreList.add(95);
         scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
         // -end
+        scoreService.submitScore(classMajor, name, type, scoreList);
+        return "index";
+    }
 
-        return "";
+    // 测评小组打分 身心成绩
+    @GetMapping("/submitHeart")
+    public String submitHeartScore() {
+        String classMajor = "计算机18-4"; // 班级
+        String name = "江宇轩"; // 测评小组打分人名
+        String type = "Heart"; // 德育成绩
+        ArrayList<Integer> scoreList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        // 测试数据-start
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        // -end
+        scoreService.submitScore(classMajor, name, type, scoreList);
+        return "index";
+    }
+
+    // 测评小组打分 科技人文成绩
+    @GetMapping("/submitTechnology")
+    public String submitTechnologyScore() {
+        String classMajor = "计算机18-4"; // 班级
+        String name = "江宇轩"; // 测评小组打分人名
+        String type = "Technology"; // 德育成绩
+        ArrayList<Integer> scoreList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        // 测试数据-start
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        scoreList.add(65);
+        scoreList.add(95);
+        scoreList.add(85);
+        scoreList.add(75);
+        scoreList.add(95);
+        // -end
+        scoreService.submitScore(classMajor, name, type, scoreList);
+        return "index";
+    }
+
+    // 计算学生成绩
+    @GetMapping("/Calculation")
+    public String Calculation() {
+        String classMajor = "计算机18-4";
+        scoreService.Calculate(classMajor);
+        return "index";
     }
 
 

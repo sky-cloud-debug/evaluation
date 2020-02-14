@@ -63,9 +63,49 @@ public class ExcelUtils {
         saveExcel(wb, filePath);
     }
 
-    // 测评小组打分 TODO！！！
+    // 测评小组打分
     public void inputScore(String classMajor, String name, String type, ArrayList<Integer> scoreList) {
+        String filePath = excelPath + classMajor + type + ".xlsx";
+        XSSFWorkbook wb = returnWorkBookGivenFileHandle(filePath);
+        XSSFSheet sheet = wb.getSheet("Sheet1");
+        for (int i = 1; i <= sheet.getLastRowNum(); ++i) {
+            XSSFRow row = sheet.getRow(i);
+            XSSFCell cell = row.getCell(0);
+            if (cell.getStringCellValue().equals(name)) {
+                for (int j = 1; j <= scoreList.size(); ++j) {
+                    cell = row.createCell(j);
+                    cell.setCellValue(scoreList.get(j - 1));
+                }
+            }
+        }
+        saveExcel(wb, filePath);
+    }
 
+    // 计算班级成员成绩
+    public ArrayList<Double> Calculate(String classMajor, String type) {
+        String filePath = excelPath + classMajor + type + ".xlsx";
+        XSSFWorkbook wb = returnWorkBookGivenFileHandle(filePath);
+        XSSFSheet sheet = wb.getSheet("Sheet1");
+        ArrayList<Double> scoreList = new ArrayList<Double>();
+        for (int i = 1; i <= sheet.getRow(0).getPhysicalNumberOfCells(); ++i) { // 列
+            double sum = 0;
+            double max = 0;
+            double min = 100;
+            for (int j = 1; j <= sheet.getLastRowNum(); ++j) { // 遍历行 getLastRowNum()->最后一行行标
+                XSSFRow row = sheet.getRow(j);
+                XSSFCell cell = row.getCell(i);
+                double score = cell.getNumericCellValue();
+                sum += score;
+                if (max < score)
+                    max = score;
+                if (min > score)
+                    min = score;
+            }
+            sum -= (max + min);
+            double average = sum / (sheet.getLastRowNum() - 2);
+            scoreList.add(average);
+        }
+        return scoreList;
     }
 
     // 建立excel表格

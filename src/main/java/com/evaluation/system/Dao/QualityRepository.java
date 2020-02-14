@@ -8,4 +8,5 @@ public interface QualityRepository extends JpaRepository<quality,String> {
 
     public quality findByClassMajor(String major);
 
+
 }
