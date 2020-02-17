@@ -2,12 +2,13 @@ package com.evaluation.system.domain;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+@Proxy(lazy = false)
 @Entity
-@ToString
 @Data
 public class yxScholarship {
 
@@ -23,6 +24,17 @@ public class yxScholarship {
     String state; //审核状态
 
     String reason; //驳回原因
+
+    public yxScholarship(String number, String scholarshipLevel, Integer cardNumber, String state, String reason) {
+        this.number = number;
+        this.scholarshipLevel = scholarshipLevel;
+        this.cardNumber = cardNumber;
+        this.state = state;
+        this.reason = reason;
+    }
+
+    public yxScholarship() {
+    }
 
     public String getNumber() {
         return number;

@@ -2,12 +2,13 @@ package com.evaluation.system.domain;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@ToString
+@Proxy(lazy = false)
 public class basic {
 
     //学号
@@ -23,6 +24,16 @@ public class basic {
 
     //专业年级班级
     private String classMajor;
+
+    public basic(String number, String name, String sex, String classMajor) {
+        this.number = number;
+        this.name = name;
+        this.sex = sex;
+        this.classMajor = classMajor;
+    }
+
+    public basic() {
+    }
 
     public String getNumber() {
         return number;

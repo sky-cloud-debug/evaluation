@@ -2,11 +2,12 @@ package com.evaluation.system.domain;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+@Proxy(lazy = false)
 @Data
 @Entity
 @ToString
