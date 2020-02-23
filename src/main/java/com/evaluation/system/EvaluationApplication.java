@@ -1,14 +1,13 @@
 package com.evaluation.system;
 
-import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(scanBasePackages = {"com.evaluation.system.Service"})
-
+@SpringBootApplication
 public class EvaluationApplication {
-
+    private Logger logger= LoggerFactory.getLogger(EvaluationApplication.class);
     public static void main(String[] args) {
         SpringApplication.run(EvaluationApplication.class, args);
     }
