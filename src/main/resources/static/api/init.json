@@ -74,13 +74,13 @@
               "title": "优秀奖学金",
               "href": "scholarship/yxform.html",
               "icon": "fa fa-stumbleupon-circle",
-              "target": "_blank"
+              "target": "_self"
             },
             {
               "title": "单项奖学金",
               "href": "scholarship/qtform.html",
               "icon": "fa fa-viacoin",
-              "target": "_blank"
+              "target": "_self"
             }
           ]
         },

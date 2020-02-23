@@ -53,11 +53,29 @@
 </div>
 
     <script src="/layui.js" charset="utf-8"></script>
-    <script>
-     layui.use(['form'], function(){
-         var form = layui.form
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息-确认信息无误后提交申请'
+            }, function () {
+
+                // 关闭弹出层
+                layer.close(index);
+
+
+            });
+
+            return false;
         });
-    </script>
+
+    });
+</script>
 
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <!--<script>-->
@@ -109,17 +127,6 @@
 <!--            })-->
 <!--            return false;-->
 <!--        });-->
-
-<!--        //表单初始赋值-->
-<!--        form.val('example', {-->
-<!--            "username": "贤心" // "name": "value"-->
-<!--            , "password": "123456"-->
-<!--            , "interest": 1-->
-<!--            , "like[write]": true //复选框选中状态-->
-<!--            , "close": true //开关状态-->
-<!--            , "sex": "女"-->
-<!--            , "desc": "我爱 layui"-->
-<!--        })-->
 
 
 <!--    });-->
