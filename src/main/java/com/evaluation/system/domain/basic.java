@@ -22,14 +22,38 @@ public class basic {
     //性别
     private String sex;
 
+    //政治面貌
+    private String political;
+
+    //职务
+    private String duty;
+
     //专业年级班级
     private String classMajor;
 
-    public basic(String number, String name, String sex, String classMajor) {
+    public basic(String number, String name, String sex, String political, String duty, String classMajor) {
         this.number = number;
         this.name = name;
         this.sex = sex;
+        this.political = political;
+        this.duty = duty;
         this.classMajor = classMajor;
+    }
+
+    public String getPolitical() {
+        return political;
+    }
+
+    public void setPolitical(String political) {
+        this.political = political;
+    }
+
+    public String getDuty() {
+        return duty;
+    }
+
+    public void setDuty(String duty) {
+        this.duty = duty;
     }
 
     public basic() {
@@ -70,9 +94,11 @@ public class basic {
     @Override
     public String toString() {
         return "basic{" +
-                "number=" + number +
+                "number='" + number + '\'' +
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
+                ", political='" + political + '\'' +
+                ", duty='" + duty + '\'' +
                 ", classMajor='" + classMajor + '\'' +
                 '}';
     }

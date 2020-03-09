@@ -46,4 +46,18 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         qtScholarshipRepository.save(qtScholarship);
         return "申请成功，等待审批";
     }
+
+    @Override
+    public String updata_qt(qtScholarship qt) {
+
+        qtScholarshipRepository.save(qt);
+        return "修改成功";
+    }
+    @Override
+    public qtScholarship findBynumberAndbonus_name(String number,String Bonus_name) {
+        //return qtScholarshipRepository.findByNumberAndBonus_name(number,Bonus_name);
+        return null;
+    }
+
+
 }

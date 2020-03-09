@@ -18,6 +18,25 @@ public class user {
 
     private Integer passwordId;
 
+    private Integer permissions;
+
+    public user(String number, Integer passwordId, Integer permissions) {
+        this.number = number;
+        this.passwordId = passwordId;
+        this.permissions = permissions;
+    }
+
+    public user() {
+    }
+
+    public Integer getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Integer permissions) {
+        this.permissions = permissions;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -48,6 +67,7 @@ public class user {
                 "id=" + id +
                 ", number='" + number + '\'' +
                 ", passwordId=" + passwordId +
+                ", permissions=" + permissions +
                 '}';
     }
 }

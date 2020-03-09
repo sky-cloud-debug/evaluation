@@ -1,7 +1,6 @@
 package com.evaluation.system.domain;
 
 import lombok.Data;
-import lombok.ToString;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Column;
@@ -10,16 +9,16 @@ import javax.persistence.Id;
 @Proxy(lazy = false)
 @Data
 @Entity
-@ToString
 public class qtScholarship {
 
     @Id
     @Column(name="number")
+
     String number; //学号
 
     String bonus_name; //奖学金名称
 
-    Integer cardNumber; //卡号
+    Integer card_number; //卡号
 
     String state;  //审核状态
 
@@ -42,11 +41,11 @@ public class qtScholarship {
     }
 
     public Integer getCardNumber() {
-        return cardNumber;
+        return card_number;
     }
 
     public void setCardNumber(Integer cardNumber) {
-        this.cardNumber = cardNumber;
+        this.card_number = cardNumber;
     }
 
     public String getState() {
@@ -65,14 +64,15 @@ public class qtScholarship {
         this.reason = reason;
     }
 
-    public qtScholarship(){}
-
-    public qtScholarship(String number, String bonus_name, Integer cardNumber, String state, String reason) {
+    public qtScholarship(String number, String bonus_name, Integer card_number, String state, String reason) {
         this.number = number;
         this.bonus_name = bonus_name;
-        this.cardNumber = cardNumber;
+        this.card_number = card_number;
         this.state = state;
         this.reason = reason;
+    }
+
+    public qtScholarship() {
     }
 
     @Override
@@ -80,7 +80,7 @@ public class qtScholarship {
         return "qtScholarship{" +
                 "number='" + number + '\'' +
                 ", bonus_name='" + bonus_name + '\'' +
-                ", cardNumber=" + cardNumber +
+                ", cardNumber=" + card_number +
                 ", state='" + state + '\'' +
                 ", reason='" + reason + '\'' +
                 '}';

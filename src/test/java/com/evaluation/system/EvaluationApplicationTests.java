@@ -1,7 +1,10 @@
 package com.evaluation.system;
 
+import com.evaluation.system.Dao.UserRepository;
 import com.evaluation.system.Service.Impl.BasicServicelpml;
+import com.evaluation.system.Service.Impl.ScholarshipServiceImpl;
 import com.evaluation.system.Service.Impl.ShowAwardslpml;
+import com.evaluation.system.Service.Impl.userServicelmpl;
 import com.evaluation.system.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +21,20 @@ class EvaluationApplicationTests {
     @Autowired
     ShowAwardslpml showAwardslpml;
 
+    @Autowired
+    BasicServicelpml basicServicelpml;
+    @Autowired
+    ScholarshipServiceImpl scholarshipService;
+
+    @Autowired
+    userServicelmpl userServicelmpl;
+
     @Test
     public void contextLoads() {
-        List<AllxyAwards> allqtAwards = showAwardslpml.findAllyxAwards();
-        for(int i=0;i<allqtAwards.size();i++){
-            System.out.println(allqtAwards.get(i));
-        }
+
+        user user=userServicelmpl.findByNumber("20171935");
+        String s = userServicelmpl.updatapassword(user);
+        System.out.println(s);
     }
 
 }

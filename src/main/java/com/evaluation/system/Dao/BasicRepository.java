@@ -15,6 +15,8 @@ public interface BasicRepository extends JpaRepository<basic, String> {
 
     public basic findByClassMajor(Integer number);
 
+    public basic findByNumberContains(String number);
+
     public ArrayList<basic> findByClassMajorOrderByNumber(String classMajor);
 
     //这是从quality与basic两个表中查询的数据，实体类是ShowStu
