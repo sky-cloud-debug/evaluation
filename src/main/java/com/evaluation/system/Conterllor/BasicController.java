@@ -92,19 +92,21 @@ public class BasicController {
     }
 
     //下面是修改信息的部分
-    @GetMapping("/scoring")
+    @GetMapping("basicmodify")
     public String toEditPage(Model model,HttpServletRequest request){
         String number=request.getParameter("number");
         basic ba=basicServicelpml.findbynumber(number);
         model.addAttribute("scoring",ba);
 
         //这一步是信息的回显，返回修改页面
-        return "scoring/modify";
+        return "basic/modify";
     }
+
     //修改basic信息
-    @PutMapping("/scoring")
-    public String updatabasic(basic ba){
-        basicServicelpml.updatabasic(ba);
+    @PutMapping("modifyok")
+    public String updatabasic(basic ba,HttpServletRequest request){
+        String number=request.getParameter("number");
+        basicServicelpml.updatabasic(ba,number);
         return "redirect:/";//返回到一个提示修改成功的页面，或者返回到展示个人信息的页面
     }
 }

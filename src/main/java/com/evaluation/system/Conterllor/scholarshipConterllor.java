@@ -76,19 +76,19 @@ public class scholarshipConterllor {
 
     //下面是修改奖项
     //信息的回显
-    @GetMapping("/scoring")
+    @GetMapping("/modifyqt")
     public String toEditPage(Model model,HttpServletRequest request){
         String number=request.getParameter("number");
         String bonus=request.getParameter("bonus");
-        //qtScholarship qt = qtScholarshipRepository.findByNumberAndBonus_name(number,bonus);
-        //model.addAttribute("scoring",qt);
+        qtScholarship qt = qtScholarshipRepository.findByNumberAndBonus_name(number,bonus);
+        model.addAttribute("scoring",qt);
         //这一步是信息的回显，返回修改页面
         return "scoring/modify1";
     }
     //修改信息
-    @PutMapping("/modify1")
+    @PutMapping("/modifyqt")
     public String upqtscholarship(qtScholarship qt){
         qtScholarshipRepository.save(qt);
-        return "redirect:/";//返回到查询奖项信息页
+        return "redirect:/";//返回到查询奖项信息页或者成功页
     }
 }

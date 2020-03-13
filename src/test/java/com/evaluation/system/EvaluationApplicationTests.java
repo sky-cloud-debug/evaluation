@@ -1,5 +1,6 @@
 package com.evaluation.system;
 
+import com.evaluation.system.Dao.BasicRepository;
 import com.evaluation.system.Dao.UserRepository;
 import com.evaluation.system.Service.Impl.BasicServicelpml;
 import com.evaluation.system.Service.Impl.ScholarshipServiceImpl;
@@ -29,11 +30,14 @@ class EvaluationApplicationTests {
     @Autowired
     userServicelmpl userServicelmpl;
 
+    @Autowired
+    BasicRepository basicRepository;
     @Test
     public void contextLoads() {
-
-        user user=userServicelmpl.findByNumber("20171935");
-        String s = userServicelmpl.updatapassword(user);
+        qtScholarship name = scholarshipService.findBynumberAndbonus_name("2018212435", "社会实践");
+        name.setBonus_name("完美");
+        String s;
+        s = scholarshipService.updata_qt(name);
         System.out.println(s);
     }
 

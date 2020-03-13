@@ -6,9 +6,9 @@ import org.hibernate.annotations.Proxy;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-@Proxy(lazy = false)
-@Data
 @Entity
+@Data
+@Proxy(lazy = false)
 public class qtScholarship {
 
     @Id
@@ -23,6 +23,17 @@ public class qtScholarship {
     String state;  //审核状态
 
     String reason;  //驳回原因
+
+    public qtScholarship(String number, String bonus_name, Integer card_number, String state, String reason) {
+        this.number = number;
+        this.bonus_name = bonus_name;
+        this.card_number = card_number;
+        this.state = state;
+        this.reason = reason;
+    }
+
+    public qtScholarship() {
+    }
 
     public String getNumber() {
         return number;
@@ -40,12 +51,12 @@ public class qtScholarship {
         this.bonus_name = bonus_name;
     }
 
-    public Integer getCardNumber() {
+    public Integer getCard_number() {
         return card_number;
     }
 
-    public void setCardNumber(Integer cardNumber) {
-        this.card_number = cardNumber;
+    public void setCard_number(Integer card_number) {
+        this.card_number = card_number;
     }
 
     public String getState() {
@@ -62,27 +73,5 @@ public class qtScholarship {
 
     public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    public qtScholarship(String number, String bonus_name, Integer card_number, String state, String reason) {
-        this.number = number;
-        this.bonus_name = bonus_name;
-        this.card_number = card_number;
-        this.state = state;
-        this.reason = reason;
-    }
-
-    public qtScholarship() {
-    }
-
-    @Override
-    public String toString() {
-        return "qtScholarship{" +
-                "number='" + number + '\'' +
-                ", bonus_name='" + bonus_name + '\'' +
-                ", cardNumber=" + card_number +
-                ", state='" + state + '\'' +
-                ", reason='" + reason + '\'' +
-                '}';
     }
 }

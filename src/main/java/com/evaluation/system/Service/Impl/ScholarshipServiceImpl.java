@@ -8,6 +8,9 @@ import com.evaluation.system.domain.yxScholarship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 public class ScholarshipServiceImpl implements ScholarshipService {
 
@@ -53,10 +56,23 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         qtScholarshipRepository.save(qt);
         return "修改成功";
     }
+
+    @Override
+    public String delete_qt(String number, String Bonus_name) {
+
+        int i = qtScholarshipRepository.deleteByNumberAndBonus_name(number, Bonus_name);
+        if(i==1){
+            return "删除成功";
+        }else {
+            return "删除失败";
+        }
+
+    }
+
     @Override
     public qtScholarship findBynumberAndbonus_name(String number,String Bonus_name) {
-        //return qtScholarshipRepository.findByNumberAndBonus_name(number,Bonus_name);
-        return null;
+
+        return qtScholarshipRepository.findByNumberAndBonus_name(number,Bonus_name);
     }
 
 

@@ -11,5 +11,5 @@ public interface BasicService {
 
     public basic findbynumber(String number);
 
-    public void updatabasic(basic ba);
+    public String updatabasic(basic ba,String number);
 }

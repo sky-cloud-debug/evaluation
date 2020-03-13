@@ -26,7 +26,12 @@ public class BasicServicelpml implements BasicService {
     }
 
     @Override
-    public void updatabasic(basic ba) {
+    public String updatabasic(basic ba,String number) {
+        String num=ba.getNumber();
+        if(!num.equals(number)){
+            basicRepository.removeByNumber(number);
+        }
         basicRepository.save(ba);
+        return "修改成功";
     }
 }

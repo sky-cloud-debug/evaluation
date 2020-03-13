@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public interface BasicRepository extends JpaRepository<basic, String> {
     public basic findByNumberContains(String number);
 
     public ArrayList<basic> findByClassMajorOrderByNumber(String classMajor);
+
+    @Transactional
+    public String removeByNumber(String number);
 
     //这是从quality与basic两个表中查询的数据，实体类是ShowStu
     @Query(value = "select new com.evaluation.system.domain.ShowStu(a.number,a.name,a.sex,a.classMajor,b.moral,b.wisdom,b.heart,b.technology,b.totalCount) from basic a,quality b  where a.number = b.number")
