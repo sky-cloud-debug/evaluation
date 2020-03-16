@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ExcelUtils {
 
     // 后期更改为服务器excel存放地址
-    public static String excelPath = "C:\\Users\\JYuXuAN\\Desktop\\";
+    public static String excelPath = "score\\";
 
     // 9*9乘法注入excel测试，后期删除
     public void test() {

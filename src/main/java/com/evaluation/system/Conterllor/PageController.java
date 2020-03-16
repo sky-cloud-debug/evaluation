@@ -8,6 +8,6 @@ public class PageController {
 
     @RequestMapping("/list")
     public String Tolist(){
-        return "index";
+        return "page/table";
     }
 }
