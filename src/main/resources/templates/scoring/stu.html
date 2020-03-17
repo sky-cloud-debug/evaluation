@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="/layui.all.js"></script>
+    <style>
+        .current{
+            background: #aaa;
+        }
+        #toTop{
+            display: block;
+            position: fixed;
+            right: 0;
+            bottom: 200px;
+            background: #6b6b6b;
+            z-index: 2;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/BasicController/insertUserInfo",
+                    success: function (data) {
+                        var Jdata=JSON.parse(data);
+                        $.each(Jdata,function (i,v) {
+                            if(i>=1){
+                                var str="<tr id="+v.number+ ">\n" +
+                                    "            <td>"+v.number+"</td>\n" +
+                                    "            <td>"+v.name+"</td>\n" +
+                                    "            <td>"+v.sex+"</td>\n" +
+                                    "            <td>"+v.class_major+"</td>\n" +
+                                    "            <td>"+v.moral+"</td>\n" +
+                                    "            <td>"+v.wisdom+"</td>\n" +
+                                    "            <td>"+v.heart+"</td>\n" +
+                                    "            <td>"+v.technology+"</td>\n" +
+                                    "            <td>"+v.total_count+"</td>\n" +
+                                    "        </tr>"
+                                $("#tb").append(str);
+                            }
+                        })
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                })
+
+            $('#find').click(function () {
+                var $Sno=$('#Sno').val();
+               // console.log(typeof ($Sno));
+                if($Sno.length!=10){
+                    alert("学好输入位数有误");
+                }else {
+                    $('#tb>tr').removeClass("current");
+                    $('#'+$Sno).addClass("current");
+                   var top=$('#'+$Sno).offset().top;
+                    $(window).scrollTop(top);
+                }
+            })
+        })
+
+    </script>
+</head>
+<body>
+<!-- 回到顶部-->
+<a id="toTop" class="layui-icon layui-icon-up" style="font-size: 40px;color: white;" href="#"></a>
+
+<!--搜索框-->
+<div class="layui-inline">
+    <div class="layui-input-inline">
+        <input id="Sno" type="tel"   class="layui-input" placeholder="请搜索学号">
+    </div>
+    <div class="layui-input-inline">
+        <button id="find" type="button" class="layui-btn">查  询</button>
+    </div>
+
+<!--数据表格-->
+</div>
+<div style="z-index: 1" class="layui-form">
+    <table class="layui-table">
+        <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="80">
+            <col width="200">
+            <col width="200">
+            <col width="200">
+            <col width="200">
+            <col width="200">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th id=123>学号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>专业</th>
+            <th>道德</th>
+            <th>智育</th>
+            <th>心理</th>
+            <th>科技</th>
+            <th>总分</th>
+        </tr>
+        </thead>
+        <tbody id="tb">
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

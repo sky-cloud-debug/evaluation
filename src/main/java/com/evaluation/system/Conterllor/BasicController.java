@@ -3,13 +3,18 @@ package com.evaluation.system.Conterllor;
 import com.evaluation.system.Service.Impl.BasicServicelpml;
 import com.evaluation.system.Service.Impl.ShowAwardslpml;
 import com.evaluation.system.domain.*;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +37,46 @@ public class BasicController {
         }else {
             model.addAttribute("msg","读取信息错误！");
         }
-        return "ShowMessage";//返回到这个页面，现在还没有
+        return "stu.html";//返回到这个页面，现在还没有
     }
+
+    @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public void insertUserInfo(@RequestBody(required=false) String name,Model model,HttpServletResponse response) throws IOException {
+
+        List<ShowStu> list=new ArrayList<ShowStu>();
+        list=basicServicelpml.ShowScore();
+       // System.out.print(list.get(1));
+        if(list!=null){
+            model.addAttribute("msg",list);
+        }else {
+            model.addAttribute("msg","读取信息错误！");
+        }
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(ShowStu st : list){
+
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                            + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                            + "\""+"sex"+"\""+":"+ "\""+ st.getSex()+"\""+ ","
+                            + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
+                            + "\""+"moral"+"\""+":"+ "\""+ st.getMoral()+"\""+ ","
+                            + "\""+"wisdom"+"\""+":"+ "\""+ st.getWisdom()+"\""+ ","
+                            + "\""+"heart"+"\""+":"+ "\""+ st.getHeart()+"\""+ ","
+                            + "\""+"technology"+"\""+":"+ "\""+ st.getTechnology()+"\""+ ","
+                            + "\""+"total_count"+"\""+":"+ "\""+ st.getTotal_count()+"\""
+                    +"}";
+
+        }
+        out.print("["+jstr+"]");
+
+
+
+    }
+
+
+
     //这是查询个人的获奖情况不知道是否用的到，随手写上了
     @GetMapping("personaward")
     public String showawards(Model model, HttpServletRequest request){
