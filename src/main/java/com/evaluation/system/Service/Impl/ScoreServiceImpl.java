@@ -29,19 +29,35 @@ public class ScoreServiceImpl implements ScoreService {
 
     ExcelUtils excelUtils = new ExcelUtils();
 
+    /**
+     * 得到班级成员信息
+     * @param classMajor
+     * @return
+     */
     @Override
     public ArrayList<basic> getClassInfo(String classMajor) {
         ArrayList<basic> list = basicRepository.findByClassMajorOrderByNumber(classMajor);
         return list;
     }
 
+    /**
+     * 得到测评小组成员信息
+     * @param classMajor
+     * @return
+     */
     @Override
     public ArrayList<testGroup> getTestInfo(String classMajor) {
         ArrayList<testGroup> list = testGroupRepository.findByClassMajorOrderByNumber(classMajor);
         return list;
     }
 
-    // 为对应excel表格注入班级成员
+    /**
+     * 为对应excel表格注入班级成员
+     * @param classMajor
+     * @param namelist
+     * @return
+     * @throws IOException
+     */
     public String setClassMember(String classMajor, ArrayList<String> namelist) throws IOException {
         excelUtils.setHead(classMajor, "Moral", namelist);
         excelUtils.setHead(classMajor, "Heart", namelist);
@@ -49,7 +65,12 @@ public class ScoreServiceImpl implements ScoreService {
         return "Success";
     }
 
-    // 为对应excel表格注入测评小组成员
+    /**
+     * 为对应excel表格注入测评小组成员
+     * @param classMajor
+     * @param scoreList
+     * @return
+     */
     public String setTestMember(String classMajor, ArrayList<String> scoreList) {
         excelUtils.setTest(classMajor, "Moral", scoreList);
         excelUtils.setTest(classMajor, "Heart", scoreList);
@@ -57,13 +78,24 @@ public class ScoreServiceImpl implements ScoreService {
         return "Success";
     }
 
-    // 注入分数  班级--打分者姓名--打分项--成绩列表
+    /**
+     * 注入分数  班级--打分者姓名--打分项--成绩列表
+     * @param classMajor
+     * @param name
+     * @param type
+     * @param scoreList
+     * @return
+     */
     public String submitScore(String classMajor, String name, String type, ArrayList<Integer> scoreList) {
         excelUtils.inputScore(classMajor, name, type, scoreList);
         return "Success";
     }
 
-    // 班级成员分数计算
+    /**
+     * 班级成员分数计算
+     * @param classMajor
+     * @return
+     */
     public String Calculate(String classMajor) {
         ArrayList<basic> basicList = basicRepository.findByClassMajorOrderByNumber(classMajor);
         ArrayList<quality> qualityList = new ArrayList<quality>();
