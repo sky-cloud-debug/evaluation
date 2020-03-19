@@ -19,9 +19,9 @@
         <td th:text="${b.classMajor}"></td>
         <td th:text="${b.number}"></td>
         <td th:text="${b.name}"></td>
-        <td><input type="text" name="moral"></td>
-        <td><input type="text" name="health"></td>
-        <td><input type="text" name="tech"></td>
+        <td><input type="text" name="moral"+${b.name}></td>
+        <td><input type="text" name="health"+${b.index}></td>
+        <td><input type="text" name="tech"+${b.index}></td>
     </tr>
 </table>
     <input type="submit">
