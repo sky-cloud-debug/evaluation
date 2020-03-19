@@ -5,8 +5,8 @@
     <title>学生列表</title>
 </head>
 <body>
-<form action="subScore" method="get">
-<table>
+<form action="stu.html" method="get">
+<table id="student">
     <tr>
         <th>班级</th>
         <th>学号</th>
@@ -19,12 +19,24 @@
         <td th:text="${b.classMajor}"></td>
         <td th:text="${b.number}"></td>
         <td th:text="${b.name}"></td>
-        <td><input type="text" name="moral"+${b.name}></td>
-        <td><input type="text" name="health"+${b.index}></td>
-        <td><input type="text" name="tech"+${b.index}></td>
+        <td><input type="text" name="moral"></td>
+        <td><input type="text" name="health"></td>
+        <td><input type="text" name="tech"></td>
     </tr>
 </table>
-    <input type="submit">
+    <input type="submit" onclick="submit()">
 </form>
+<script>
+    function submit(){
+        alert("Hi");
+        var moral=[];
+        var health=[];
+        var tech=[];
+
+        var tab=document.getElementById(student);
+        var rows=tab.rows;
+        alert(rows.length);
+    }
+</script>
 </body>
 </html>
