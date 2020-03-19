@@ -34,6 +34,7 @@
             var Stechnology="";
             var Stotal="";
             var err="输入学号有误！";
+            var pg="";
             var Jdata;//json数组 定义全局变量封装成函数，复用
             function toJson(data){
                 Jdata=JSON.parse(data);
@@ -78,7 +79,7 @@
                                         ,btn: ['我知道了']
                                         ,btnAlign: 'c'
                                         ,moveType: 1 //拖拽模式，0或者1
-                                        ,content: "<h2>"+err+"</h2>" +"<br>姓名："+ Sname+'<br>学号：'+Snumber+"<br>性别："+  Ssex +"<br>专业："+Smajor+"<br>道德："+  Smoral+"<br>智育："+ Swisdom +"<br>身心："+Sheart +"<br>科技："+Stechnology +"<br>总分："+Stotal
+                                        ,content: "<h2>"+err+"</h2>" +"<br>姓名："+ Sname+'<br>学号：'+Snumber+"<br>性别："+  Ssex +"<br>专业："+Smajor+"<br>道德："+  Smoral+"<br>智育："+ Swisdom +"<br>身心："+Sheart +"<br>科技："+Stechnology +"<br>总分："+Stotal+"<br>你的信息在第"+pg+"页"
                                         ,success: function(layero){
                                             var btn = layero.find('.layui-layer-btn');
                                             btn.find('.layui-layer-btn0').attr({
@@ -133,6 +134,7 @@
                                    Stechnology=item.technology;
                                    Stotal=item.total_count;
                                    err="查询成功:";
+                                   pg=parseInt(index/15)+1;
                                }
                            }
                        })
