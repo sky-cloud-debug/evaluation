@@ -20,12 +20,30 @@
         }
     </style>
     <script>
+
+
         $(document).ready(function() {
+
+            var Sname="";
+            var Snumber="";
+            var Ssex="";
+            var Smajor="";
+            var Smoral="";
+            var Swisdom="";
+            var Sheart="";
+            var Stechnology="";
+            var Stotal="";
+            var err="输入学号有误！";
+            var Jdata;//json数组 定义全局变量封装成函数，复用
+            function toJson(data){
+                Jdata=JSON.parse(data);
+            }
+            var arrdata=[];
                 $.ajax({
                     type: "POST",
                     url: "/BasicController/insertUserInfo",
                     success: function (data) {
-                        var Jdata=JSON.parse(data);
+                        toJson(data);
                         $.each(Jdata,function (i,v) {
                             if(i>=1){
                                 var str="<tr id="+v.number+ ">\n" +
@@ -39,28 +57,90 @@
                                     "            <td>"+v.technology+"</td>\n" +
                                     "            <td>"+v.total_count+"</td>\n" +
                                     "        </tr>"
-                                $("#tb").append(str);
+                                arrdata.push(str);
                             }
                         })
+
+                        layui.use(['laypage', 'layer'], function(){
+                            var laypage = layui.laypage
+                                ,layer = layui.layer
+                                ,$=layui.jquery;
+                            var active = {
+                                notice: function(){
+                                    //示范一个公告层
+                                    layer.open({
+                                        type: 1
+                                        ,title: false //不显示标题栏
+                                        ,closeBtn: false
+                                        ,area: '300px;'
+                                        ,shade: 0.8
+                                        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                                        ,btn: ['我知道了']
+                                        ,btnAlign: 'c'
+                                        ,moveType: 1 //拖拽模式，0或者1
+                                        ,content: "<h2>"+err+"</h2>" +"<br>姓名："+ Sname+'<br>学号：'+Snumber+"<br>性别："+  Ssex +"<br>专业："+Smajor+"<br>道德："+  Smoral+"<br>智育："+ Swisdom +"<br>身心："+Sheart +"<br>科技："+Stechnology +"<br>总分："+Stotal
+                                        ,success: function(layero){
+                                            var btn = layero.find('.layui-layer-btn');
+                                            btn.find('.layui-layer-btn0').attr({
+                                                href: '#'
+                                            });
+                                        }
+                                    });
+                                }
+                            };
+                            $('#layerDemo .layui-btn').on('click', function(){
+                                var othis = $(this), method = othis.data('method');
+                                active[method] ? active[method].call(this, othis) : '';
+                            });
+
+                            //完整功能
+                            laypage.render({
+                                elem: 'demo7'
+                                ,count: arrdata.length
+                                ,limit:15
+                                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                                ,jump: function(obj){
+                                   // console.log(obj.curr);
+                                    $("#tb>tr").remove();
+                                    for(var i=(obj.curr-1)*15;i<obj.curr*15;i++){
+                                        $("#tb"). append(arrdata[i]);
+                                    }
+                                }
+                            });
+                        });
                     },
                     error: function (e) {
                         console.log(e)
                     }
                 })
-
-            $('#find').click(function () {
-                var $Sno=$('#Sno').val();
-               // console.log(typeof ($Sno));
-                if($Sno.length!=10){
-                    alert("学好输入位数有误");
-                }else {
-                    $('#tb>tr').removeClass("current");
-                    $('#'+$Sno).addClass("current");
-                   var top=$('#'+$Sno).offset().top;
-                    $(window).scrollTop(top);
-                }
-            })
-        })
+            info();
+            function info() {
+                $('body').delegate('#Sno','propertychange input',function(){
+                    //实时获取文本内容
+                    var $Sno=$(this).val();
+                    if($Sno.length==10) {
+                       $(Jdata).each(function (index,item) {
+                           if(index>0){
+                               if(item.number==$Sno){
+                                   pg=parseInt(index/15)+1;
+                                   Sname=item.name;
+                                   Snumber=item.number;
+                                   Ssex=item.sex;
+                                   Smajor=item.class_major;
+                                   Smoral=item.moral;
+                                   Swisdom=item.wisdom;
+                                   Sheart=item.heart;
+                                   Stechnology=item.technology;
+                                   Stotal=item.total_count;
+                                   err="查询成功:";
+                               }
+                           }
+                       })
+                   }
+                    //  console.log(Sname);
+                });
+            }
+        });
 
     </script>
 </head>
@@ -74,7 +154,9 @@
         <input id="Sno" type="tel"   class="layui-input" placeholder="请搜索学号">
     </div>
     <div class="layui-input-inline">
-        <button id="find" type="button" class="layui-btn">查  询</button>
+        <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;">
+            <button data-method="notice" class="layui-btn">查 询</button>
+        </div>
     </div>
 
 <!--数据表格-->
@@ -100,7 +182,7 @@
             <th>专业</th>
             <th>道德</th>
             <th>智育</th>
-            <th>心理</th>
+            <th>身心</th>
             <th>科技</th>
             <th>总分</th>
         </tr>
@@ -109,5 +191,6 @@
         </tbody>
     </table>
 </div>
+<div id="demo7"></div>
 </body>
 </html>
