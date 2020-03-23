@@ -28,14 +28,18 @@
 </form>
 <script>
     function submit(){
-        alert("Hi");
-        var moral=[];
-        var health=[];
-        var tech=[];
+        alert("start...")
+        var lists=$("#student").children("tr");
+        for (var i=0;i<trList.length;i++) {
+            var tdArr = trList.eq(i).find("td");
+            var moral = lists.eq(0).find("input").val();//收入类别
+            var health = lists.eq(1).find("input").val();//收入金额
+            var tech = lists.eq(2).find("input").val();//    备注
 
-        var tab=document.getElementById(student);
-        var rows=tab.rows;
-        alert(rows.length);
+            alert(moral);
+            alert(health);
+            alert(tech);
+        }
     }
 </script>
 </body>
