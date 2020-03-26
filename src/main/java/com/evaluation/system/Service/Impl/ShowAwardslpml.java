@@ -8,6 +8,7 @@ import com.evaluation.system.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,11 +40,23 @@ public class ShowAwardslpml implements ShowAwards {
 
     @Override
     public List<AllqtAwards> findAllqtAwards() {
-        return basicRepository.FindqtAward();
+        List<AllqtAwards> list=new ArrayList<AllqtAwards>();
+        list=basicRepository.FindqtAward();
+        if(list==null){
+            return null;
+        }else {
+            return list;
+        }
     }
 
     @Override
     public List<AllxyAwards> findAllyxAwards() {
-        return basicRepository.FindyxAward();
+        List<AllxyAwards> list=new ArrayList<AllxyAwards>();
+        list=basicRepository.FindyxAward();
+        if(list==null){
+            return null;
+        }else {
+            return list;
+        }
     }
 }

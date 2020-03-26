@@ -2,10 +2,7 @@ package com.evaluation.system;
 
 import com.evaluation.system.Dao.BasicRepository;
 import com.evaluation.system.Dao.UserRepository;
-import com.evaluation.system.Service.Impl.BasicServicelpml;
-import com.evaluation.system.Service.Impl.ScholarshipServiceImpl;
-import com.evaluation.system.Service.Impl.ShowAwardslpml;
-import com.evaluation.system.Service.Impl.userServicelmpl;
+import com.evaluation.system.Service.Impl.*;
 import com.evaluation.system.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +29,15 @@ class EvaluationApplicationTests {
 
     @Autowired
     BasicRepository basicRepository;
+
+    @Autowired
+    TempbasicServicelmpl tempbasicServicelmpl;
     @Test
     public void contextLoads() {
-        qtScholarship name = scholarshipService.findBynumberAndbonus_name("2018212435", "社会实践");
-        name.setBonus_name("完美");
-        String s;
-        s = scholarshipService.updata_qt(name);
-        System.out.println(s);
+        List<temporarybasic> s = tempbasicServicelmpl.findall();
+        for (temporarybasic te:s){
+            System.out.println(te);
+        }
     }
 
 }
