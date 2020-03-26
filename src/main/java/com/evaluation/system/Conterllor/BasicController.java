@@ -103,7 +103,7 @@ public class BasicController {
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
                     + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
                     + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
-                    + "\""+"total_count"+"\""+":"+ "\""+ st.getBonus_name()+"\""
+                    + "\""+"bonus_name"+"\""+":"+ "\""+ st.getBonus_name()+"\""
                     +"}";
 
         }
@@ -124,7 +124,7 @@ public class BasicController {
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
                     + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
                     + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
-                    + "\""+"total_count"+"\""+":"+ "\""+ st.getScholarshipLevel()+"\""
+                    + "\""+"scholarshipLevel"+"\""+":"+ "\""+ st.getScholarshipLevel()+"\""
                     +"}";
         }
         out.print("["+jstr+"]");
