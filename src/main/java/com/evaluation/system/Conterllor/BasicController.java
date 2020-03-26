@@ -75,8 +75,6 @@ public class BasicController {
         }
         out.print("["+jstr+"]");
 
-
-
     }
 
     //这是查询个人的获奖情况不知道是否用的到，随手写上了
@@ -108,7 +106,7 @@ public class BasicController {
     }
 
     //这里是返回所有人除奖学金的奖项
-    @GetMapping("AllAwardqtlist")
+  /*  @GetMapping("AllAwardqtlist")
     public String showAllqtAwards(Model model){
         List<AllqtAwards> list=new ArrayList<AllqtAwards>();
         list=showAwardslpml.findAllqtAwards();
@@ -118,9 +116,35 @@ public class BasicController {
             model.addAttribute("msg","读取信息错误！");
         }
         return "ShowqtAwards";//返回到这个页面，现在还没有
+    }*/
+    @RequestMapping(value="/BasicController/qtAward",method = RequestMethod.POST)
+    @ResponseBody
+    public void qtAward(@RequestBody(required=false) String name,Model model,HttpServletResponse response) throws IOException {
+
+        List<AllqtAwards> list=new ArrayList<AllqtAwards>();
+        list=showAwardslpml.findAllqtAwards();
+        if(list!=null){
+            model.addAttribute("msg",list);
+        }else {
+            model.addAttribute("msg","读取信息错误！");
+        }
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(AllqtAwards st : list){
+
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                    + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
+                    + "\""+"total_count"+"\""+":"+ "\""+ st.getBonus_name()+"\""
+                    +"}";
+
+        }
+        out.print("["+jstr+"]");
     }
+
     //这个是奖学金
-    @GetMapping("AllAwardyxlist")
+  /*  @GetMapping("AllAwardyxlist")
     public String showAllyxAwards(Model model){
         List<AllxyAwards> list=new ArrayList<AllxyAwards>();
         list=showAwardslpml.findAllyxAwards();
@@ -130,6 +154,30 @@ public class BasicController {
             model.addAttribute("msg","读取信息错误！");
         }
         return "ShowyxAwards";//返回到这个页面，现在还没有
+    }*/
+    @RequestMapping(value="/BasicController/yxAward",method = RequestMethod.POST)
+    @ResponseBody
+    public void yxAward(@RequestBody(required=false) String name,Model model,HttpServletResponse response) throws IOException {
+
+        List<AllxyAwards> list=new ArrayList<AllxyAwards>();
+        list=showAwardslpml.findAllyxAwards();
+        if(list!=null){
+            model.addAttribute("msg",list);
+        }else {
+            model.addAttribute("msg","读取信息错误！");
+        }
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(AllxyAwards st : list){
+
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                    + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
+                    + "\""+"total_count"+"\""+":"+ "\""+ st.getScholarshipLevel()+"\""
+                    +"}";
+        }
+        out.print("["+jstr+"]");
     }
 
     //下面是修改信息的部分
