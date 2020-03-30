@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-<form class="layui-form" action="/BasicController/addtemporary" method="post">
+<form class="layui-form" action="" method="post">
     <div class="layuimini-main">
 
         <div class="layui-form layuimini-form" >
@@ -81,7 +81,21 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             //var index = layer.alert(JSON.stringify(data.field), {
-            alert( "保存成功！");
+
+               // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+               // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            var jdata=JSON.stringify(data.field);
+               $.ajax({
+                   type: "POST",
+                   url: "/BasicController/addtemporary",
+                   data:jdata,
+                   success:function () {
+                       alert( "保存成功！");
+                   },
+                   error:function (e) {
+                       console.log(e);
+                   }
+               });
             return false;
         });
         $(function () {

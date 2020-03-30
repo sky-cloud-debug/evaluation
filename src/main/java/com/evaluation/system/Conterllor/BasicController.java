@@ -151,7 +151,7 @@ public class BasicController {
     {
         //String s=request.getParameter("number");
        // String s = tempbasicServicelmpl.addtemporarybasic(te);
-       // System.out.print(123);
+        //System.out.print(123);
         //return s;
     }
 
