@@ -89,6 +89,8 @@
                    type: "POST",
                    url: "/BasicController/addtemporary",
                    data:jdata,
+                   contentType : "application/json",
+                    //   "\"number\"="+jdata.number+",\"name\"="+jdata.name+",\"sex\"="+jdata.sex+",\"political\"="+jdata.political+",\"duty\"="+jdata.duty+",\"classMajor\"="+jdata.classMajor,
                    success:function () {
                        alert( "保存成功！");
                    },

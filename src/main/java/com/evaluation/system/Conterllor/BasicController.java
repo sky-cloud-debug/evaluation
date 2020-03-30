@@ -147,12 +147,11 @@ public class BasicController {
 
     @RequestMapping(value="/BasicController/addtemporary",method = RequestMethod.POST)
     @ResponseBody
-    public void addtemporary(@RequestBody(required=false) String name,HttpServletResponse response)
+    public void addtemporary(@RequestBody(required=false) basic s)
     {
-        //String s=request.getParameter("number");
-       // String s = tempbasicServicelmpl.addtemporarybasic(te);
-        //System.out.print(123);
-        //return s;
+
+        System.out.print(s);
+        //前端传过来的数据直接被封装成参数了，（basic） 就是表单的数据 我输出到控制台上。
     }
 
     //这里是管理员页面，所有用户想要修改的信息在页面显示出来，等待管理员确定或者否决
