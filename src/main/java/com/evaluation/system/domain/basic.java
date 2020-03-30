@@ -93,13 +93,13 @@ public class basic {
 
     @Override
     public String toString() {
-        return "basic{" +
-                "number='" + number + '\'' +
-                ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", political='" + political + '\'' +
-                ", duty='" + duty + '\'' +
-                ", classMajor='" + classMajor + '\'' +
-                '}';
+        return "{" +
+                "\"number\""+":" + "\""+number+ "\""   +
+                ",\"name\""+":" + "\""+name+ "\"" +
+                ", \"sex\""+":" + "\""+sex+ "\"" +
+                ", \"political\""+":" + "\""+political+ "\""+
+                ", \"duty\""+":" +"\""+duty+ "\"" +
+                ", \"classMajor\""+":" + "\""+classMajor+ "\"" +
+                "}";
     }
 }

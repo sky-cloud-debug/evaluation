@@ -131,22 +131,30 @@ public class BasicController {
     }
 
     //下面是修改信息的部分
-    @GetMapping("basicmodify")
-    public String toEditPage(Model model,HttpServletRequest request){
-        String number=request.getParameter("number");
-        basic ba=basicServicelpml.findbynumber(number);
-        model.addAttribute("basic",ba);
+    @RequestMapping(value="/BasicController/toEditPage",method = RequestMethod.POST)
+    @ResponseBody
+    public void toEditPage(@RequestBody(required=false) Model model,HttpServletRequest request,HttpServletResponse response) throws IOException
+    {
+        //String number=request.getParameter("number");
+        response.setCharacterEncoding("utf-8");
+        basic ba=basicServicelpml.findbynumber("2018212412");
 
-        //这一步是信息的回显，返回修改页面将待修改的信息显示出来
-        return "basic/modify";
+        PrintWriter out=response.getWriter();
+        out.print(ba);
     }
 
     //修改后basic信息先保存到temporary等待管理员确定
-    @PostMapping("/addtemporary")
-    public String addtemporary(temporarybasic te){
-        String s = tempbasicServicelmpl.addtemporarybasic(te);
-        return s;
+
+    @RequestMapping(value="/BasicController/addtemporary",method = RequestMethod.POST)
+    @ResponseBody
+    public void addtemporary(@RequestBody(required=false) String name,HttpServletResponse response)
+    {
+        //String s=request.getParameter("number");
+       // String s = tempbasicServicelmpl.addtemporarybasic(te);
+       // System.out.print(123);
+        //return s;
     }
+
     //这里是管理员页面，所有用户想要修改的信息在页面显示出来，等待管理员确定或者否决
     //仿照你上面写的起睿
     @GetMapping("/getalltemporary")
