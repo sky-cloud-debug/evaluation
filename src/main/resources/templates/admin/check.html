@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息修改审核</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="/layui.all.js"></script>
+    <style>
+        .current{
+            background: #aaa;
+        }
+        #toTop{
+            display: block;
+            position: fixed;
+            right: 0;
+            bottom: 200px;
+            background: #6b6b6b;
+            z-index: 2;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            
+            var Jdata;//json数组 定义全局变量封装成函数，复用
+            function toJson(data) {
+                Jdata = JSON.parse(data);
+            }
+            var arrdata = [];
+            $.ajax({
+                type: "POST",
+                url: "/BasicController/getalltemporary",
+                success: function (data) {
+                   // console.log(data);
+                    toJson(data);
+                    $.each(Jdata, function (i, v) {
+                        if (i >= 1) {
+                            var str = "<tr id=" + v.number + ">\n" +
+                                "            <td>" + v.number + "</td>\n" +
+                                "            <td>" + v.name + "</td>\n" +
+                                "            <td>" + v.sex + "</td>\n" +
+                                "            <td>" + v.political + "</td>\n" +
+                                "            <td>" + v.duty + "</td>\n" +
+                                "            <td>" + v.classMajor + "</td>\n" +
+                                "            <td>" + "<button class='pass'  >通过</button> <button class='unpass' style='margin-left: 20px' >驳回</button>" + "</td>\n" +
+                                "        </tr>"
+                            arrdata.push(str);
+                        }
+                    })
+
+
+                    $('#tb').delegate('.pass','click',function(){	//把li的事件委托给 ul 这就可以操作动态添加的li 或其他DOM元素，
+                        $(this).text('已通过');
+                        $(this).siblings().text('驳回');
+                        var ID=$(this).parents('tr').attr('id') ;
+                        var arrdata=[];
+                        for(var i=0;i<6;i++){
+                            arrdata[i]=$('#' +ID+">td").eq(i).text();
+                        }
+                       // var str="number"+"="+arrdata[0]+",name"+"="+arrdata[1]+",sex"+"="+arrdata[2]+",political"+"="+arrdata[3]+",duty"+"="+arrdata[4]+",classMajor"+"="+arrdata[5] ;
+                        //console.log(str);
+                        $.ajax({
+                            type: "POST",
+                            url: "/BasicController/toEditbasicPage",
+                            data:{
+                                "number":arrdata[0],
+                                "name":arrdata[1],
+                                "sex":arrdata[2],
+                                "political":arrdata[3],
+                                "duty":arrdata[4],
+                                "classMajor":arrdata[5],
+                                "boolean":1
+                            },
+                            //datatype:'application/x-www-form-urlencoded',
+                            success:function () {
+                                alert( "已通过！");
+                            },
+                            error:function (e) {
+                                console.log(e);
+                            }
+                        });
+
+                    })
+                    $('#tb').delegate('.unpass','click',function(){	//把li的事件委托给 ul 这就可以操作动态添加的li 或其他DOM元素，
+                        $(this).text('已驳回');
+                        $(this).siblings().text('通过');
+                        var ID=$(this).parents('tr').attr('id') ;
+                        var arrdata=[];
+                        for(var i=0;i<6;i++){
+                            arrdata[i]=$('#' +ID+">td").eq(i).text();
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "/BasicController/toEditbasicPage",
+                            data:{
+                                "number":arrdata[0],
+                                "name":arrdata[1],
+                                "sex":arrdata[2],
+                                "political":arrdata[3],
+                                "duty":arrdata[4],
+                                "classMajor":arrdata[5],
+                                "boolean":0
+                            },
+                            //datatype:'application/x-www-form-urlencoded',
+                            success:function () {
+                                alert( "已驳回！");
+                            },
+                            error:function (e) {
+                                console.log(e);
+                            }
+                        });
+                    })
+
+                    layui.use(['laypage', 'layer'], function () {
+                        var laypage = layui.laypage
+                            , layer = layui.layer
+                            , $ = layui.jquery;
+                        //完整功能
+                        laypage.render({
+                            elem: 'demo7'
+                            , count: arrdata.length
+                            , limit: 15
+                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                            , jump: function (obj) {
+                                // console.log(obj.curr);
+                                $("#tb>tr").remove();
+                                for (var i = (obj.curr - 1) * 15; i < obj.curr * 15; i++) {
+                                    $("#tb").append(arrdata[i]);
+                                }
+                            }
+                        });
+                    });
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+
+
+        })
+
+
+    </script>
+</head>
+<body>
+<!-- 回到顶部-->
+<a id="toTop" class="layui-icon layui-icon-up" style="font-size: 40px;color: white;" href="#"></a>
+
+<!--数据表格-->
+<div style="z-index: 1" class="layui-form">
+    <table class="layui-table">
+        <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="80">
+            <col width="200">
+            <col width="200">
+            <col width="200">
+            <col width="200">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>政治面貌</th>
+            <th>职务</th>
+            <th>专业</th>
+            <th>审核</th>
+        </tr>
+        </thead>
+        <tbody id="tb">
+        </tbody>
+    </table>
+</div>
+<div id="demo7"></div>
+</body>
+</html>
