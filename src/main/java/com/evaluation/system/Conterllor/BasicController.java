@@ -136,9 +136,10 @@ public class BasicController {
     @ResponseBody
     public void toEditPage(@RequestBody(required=false) Model model,HttpServletRequest request,HttpServletResponse response) throws IOException
     {
-        //String number=request.getParameter("number");
+        String number=(String)request.getSession().getAttribute("number");
+        System.out.println(number);
         response.setCharacterEncoding("utf-8");
-        basic ba=basicServicelpml.findbynumber("2018212412");
+        basic ba=basicServicelpml.findbynumber(number);
 
         PrintWriter out=response.getWriter();
         out.print(ba);
@@ -150,9 +151,9 @@ public class BasicController {
     @ResponseBody
     public void addtemporary(@RequestBody(required=false) basic s)
     {
-
-        System.out.print(s);
-        //前端传过来的数据直接被封装成参数了，（basic） 就是表单的数据 我输出到控制台上。
+        temporarybasic te=new temporarybasic(s.getNumber(),s.getName(),s.getSex(),s.getPolitical(),s.getDuty(),s.getClassMajor());
+        String s1 = tempbasicServicelmpl.addtemporarybasic(te);
+        System.out.println(s1);
     }
 
     //这里是管理员页面，所有用户想要修改的信息在页面显示出来，等待管理员确定或者否决
@@ -183,17 +184,15 @@ public class BasicController {
     public void toEditbasicPage(@RequestBody(required=false) String a,temporarybasic te, HttpServletRequest request,HttpServletResponse response) throws IOException
     {
 
-        String name=request.getParameter("name");
+        String allow=request.getParameter("boolean");
         response.setCharacterEncoding("utf-8");
-        System.out.print(name);
-        //temporarybasic te = tempbasicServicelmpl.findtemporarybasic(number);//先查出来要修改的人
-        //if(ok){//同意的话就修改
-        //    basic ba=new basic(te.getNumber(),te.getName(),te.getSex(),te.getPolitical(),te.getDuty(),te.getClassMajor());
-        //    basicServicelpml.updatabasic(ba,number);
-      //  }
-        //无论同意还是不，都删除这个请求修改信息
-      //  tempbasicServicelmpl.deleteByNumber(number);
-       // return "redirect:/";//返回到一个提示修改成功的页面，或者啥也不干
+        System.out.print(allow);
+        System.out.println(te);
+        if(allow.equals("1")){//同意的话就修改
+            basic ba=new basic(te.getNumber(),te.getName(),te.getSex(),te.getPolitical(),te.getDuty(),te.getClassMajor());
+            basicServicelpml.updatabasic(ba,te.getNumber());
+        }
+        tempbasicServicelmpl.deleteByNumber(te.getNumber());
     }
 
 }
