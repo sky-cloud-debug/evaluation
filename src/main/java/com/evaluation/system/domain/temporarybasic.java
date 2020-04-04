@@ -93,14 +93,14 @@ public class temporarybasic {
 
     @Override
     public String toString() {
-        return "temporarybasic{" +
-                "number='" + number + '\'' +
-                ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", political='" + political + '\'' +
-                ", duty='" + duty + '\'' +
-                ", classMajor='" + classMajor + '\'' +
-                '}';
+        return "{" +
+                "\"number\""+":" + "\""+number+ "\""   +
+                ",\"name\""+":" + "\""+name+ "\"" +
+                ", \"sex\""+":" + "\""+sex+ "\"" +
+                ", \"political\""+":" + "\""+political+ "\""+
+                ", \"duty\""+":" +"\""+duty+ "\"" +
+                ", \"classMajor\""+":" + "\""+classMajor+ "\"" +
+                "}";
     }
 }
 

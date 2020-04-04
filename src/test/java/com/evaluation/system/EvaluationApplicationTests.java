@@ -34,10 +34,8 @@ class EvaluationApplicationTests {
     TempbasicServicelmpl tempbasicServicelmpl;
     @Test
     public void contextLoads() {
-        List<temporarybasic> s = tempbasicServicelmpl.findall();
-        for (temporarybasic te:s){
-            System.out.println(te);
-        }
+        basic basic = basicServicelpml.findbynumber("2018212412");
+        System.out.println(basic);
     }
 
 }

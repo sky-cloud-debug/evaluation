@@ -6,7 +6,5 @@ public interface userService {
 
     public user findByNumber(String number);
 
-    public String updatapassword(user user);
-
-    public String resetuser(user user);
+    public String resetuser(String number);
 }

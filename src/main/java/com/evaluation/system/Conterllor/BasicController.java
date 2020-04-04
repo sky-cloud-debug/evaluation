@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.monitor.MonitorSettingException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -131,48 +132,67 @@ public class BasicController {
     }
 
     //下面是修改信息的部分
-    @GetMapping("basicmodify")
-    public String toEditPage(Model model,HttpServletRequest request){
-        String number=request.getParameter("number");
+    @RequestMapping(value="/BasicController/toEditPage",method = RequestMethod.POST)
+    @ResponseBody
+    public void toEditPage(@RequestBody(required=false) Model model,HttpServletRequest request,HttpServletResponse response) throws IOException
+    {
+        String number=(String)request.getSession().getAttribute("number");
+        System.out.println(number);
+        response.setCharacterEncoding("utf-8");
         basic ba=basicServicelpml.findbynumber(number);
-        model.addAttribute("basic",ba);
 
-        //这一步是信息的回显，返回修改页面将待修改的信息显示出来
-        return "basic/modify";
+        PrintWriter out=response.getWriter();
+        out.print(ba);
     }
 
     //修改后basic信息先保存到temporary等待管理员确定
-    @PostMapping("/addtemporary")
-    public String addtemporary(temporarybasic te){
-        String s = tempbasicServicelmpl.addtemporarybasic(te);
-        return s;
+
+    @RequestMapping(value="/BasicController/addtemporary",method = RequestMethod.POST)
+    @ResponseBody
+    public void addtemporary(@RequestBody(required=false) basic s)
+    {
+        temporarybasic te=new temporarybasic(s.getNumber(),s.getName(),s.getSex(),s.getPolitical(),s.getDuty(),s.getClassMajor());
+        String s1 = tempbasicServicelmpl.addtemporarybasic(te);
+        System.out.println(s1);
     }
+
     //这里是管理员页面，所有用户想要修改的信息在页面显示出来，等待管理员确定或者否决
     //仿照你上面写的起睿
-    @GetMapping("/getalltemporary")
-    public void getalltemporary(@RequestBody(required=false)Model model,HttpServletResponse response) throws IOException{
+    @RequestMapping(value="/BasicController/getalltemporary",method = RequestMethod.POST)
+    @ResponseBody
+    public void getalltemporary(@RequestBody(required=false) HttpServletRequest request,HttpServletResponse response) throws IOException{
         List<temporarybasic> list=new ArrayList<>();
         list = tempbasicServicelmpl.findall();//查询所有需要修改的用户到页面，管理员确定则修改，否决则删除
-        if(list!=null){
-            model.addAttribute("msg",list);
-        }else {
-            model.addAttribute("msg","读取信息错误！");
-        }
         response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(temporarybasic st : list){
 
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                    + "\""+"sex"+"\""+":"+ "\""+ st.getSex()+"\""+ ","
+                    + "\""+"political"+"\""+":"+ "\""+ st.getPolitical()+"\""+ ","
+                    + "\""+"duty"+"\""+":"+ "\""+ st.getDuty()+"\""+ ","
+                    + "\""+"classMajor"+"\""+":"+ "\""+ st.getClassMajor()+"\""
+                    +"}";
+        }
+        out.print("["+jstr+"]");
     }
 
-    @PostMapping("/updatebasic")
-    public String toEditbasicPage(HttpServletRequest request,boolean ok){
-        String number=request.getParameter("number");
-        temporarybasic te = tempbasicServicelmpl.findtemporarybasic(number);//先查出来要修改的人
-        if(ok){//同意的话就修改
+    @RequestMapping(value="/BasicController/toEditbasicPage",method = RequestMethod.POST)
+    @ResponseBody
+    public void toEditbasicPage(@RequestBody(required=false) String a,temporarybasic te, HttpServletRequest request,HttpServletResponse response) throws IOException
+    {
+
+        String allow=request.getParameter("boolean");
+        response.setCharacterEncoding("utf-8");
+        System.out.print(allow);
+        System.out.println(te);
+        if(allow.equals("1")){//同意的话就修改
             basic ba=new basic(te.getNumber(),te.getName(),te.getSex(),te.getPolitical(),te.getDuty(),te.getClassMajor());
-            basicServicelpml.updatabasic(ba,number);
+            basicServicelpml.updatabasic(ba,te.getNumber());
         }
-        //无论同意还是不，都删除这个请求修改信息
-        tempbasicServicelmpl.deleteByNumber(number);
-        return "redirect:/";//返回到一个提示修改成功的页面，或者啥也不干
+        tempbasicServicelmpl.deleteByNumber(te.getNumber());
     }
 
 }
