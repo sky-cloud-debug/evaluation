@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>信息修改</title>
+		<link rel="stylesheet" href="../../static/css/layui.css" media="all">
+		<script src="/static/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+		<script src="/static/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+		<script src="/static/layui.js " charset="utf-8 "></script>
+		<style>
+			
+			.alert-box {
+				display: table;
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				z-index: 9999;
+				background: rgba(0, 0, 0, 0.5);
+			}
+			.alert{
+				width: 200px;
+				height: 200px;
+				margin: 200px auto;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div style="height: 50px; background-color: #009688; margin: 10px auto;">
+			<h1 align="center ">信息修改</h1>
+		</div>
+		<table class="layui-hide" id="userTable" lay-filter="user" style="white-space:nowrap;"></table>
+		<script type="text/html" id="barDemo">
+			<div>
+			    <button class="layui-btn layui-btn-xs" lay-filter="pass" id="pass_btn" onclick="pass()">通过</button>
+			    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-filter="unpass" id="unpass_btn" onclick="unpass()">不通过</button>
+            </div>
+		</script>
+		<div class="alert-box" style="display: none;">
+			<div class="alert">
+			<textarea placeholder="请输入理由" rows="8" cols="35" ></textarea>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<input type="submit" id="submit" value="提交" class="layui-btn" onclick="sub()"/>
+				</div>
+			</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			layui.use(['jquery', 'layer', 'table'], function() {
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				    table = layui.table;
+
+				//渲染数据表格
+				table.render({
+					id:'testReload',
+					elem: '#userTable',
+					url: '../../static/json/user.json',
+					page: true,
+					text: {
+						none: '暂无相关数据'
+					},
+					cols: [
+						[{
+							field: 'class',
+							title: '班級',
+							align: 'center'
+						}, {
+							field: 'id',
+							title: '学号',
+							align: 'center'
+						}, {
+							field: 'name',
+							title: '姓名',
+							align: 'center'
+						}, {
+							field: 'change',
+							title: '修改内容',
+							align: 'center'
+						}, {
+							title: '操作',
+						    fixed: 'right',
+						    width: 165,
+						    align:'center',
+						    toolbar: '#barDemo'
+						}]
+					],
+				});
+				})
+			function pass(){
+				var checkStatus = table.checkStatus('testReload');
+			    data = checkStatus.data; //获取选中行的数据
+			    console.log(data);
+//				return JSON.stringify(data); 
+//				$data = $_POST['table_dada'];
+//              var_dump(json_decode($data,true));
+
+				$.ajax({
+					type: "POST",
+					url: "",
+					dataType: "json",
+					data: JSON.stringify(checkStatus),
+					contentType: "application/json",
+					success: function(data) {
+						console.log(data)
+					},
+					error: function(e) {
+						console.log(e)
+					}
+				})
+				alert('提交成功');
+			}
+			function unpass(){
+                $("#unpass_btn").on("click",function(){
+                    $(".alert-box").css("display","block");
+                    $('#submit').on('click',function(){
+                    	$(".alert-box").css('display','none');
+                    })
+                })
+            }
+							//监听提交
+				function sub() {
+
+//					$.ajax({
+//						url: "", //提交的路径
+//						type: "post", //提交方式
+//						data: {
+//							//向后台提交的数据
+//						},
+//						dataType: "JSON", //规定请求成功后返回的数据
+//						success: function(data) {
+//
+//							alert("OK");
+//						},
+//						error: function(e) {
+//							alert("error");
+//						}
+//					})
+
+					return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+			};
+		</script>
+	</body>
+</html>

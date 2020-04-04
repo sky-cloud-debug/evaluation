@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>审核材料展示</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>班级</th>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>申请奖项</th>
+        <th>佐证材料</th>
+        <th>加分数</th>
+        <th>是否批准</th>
+        <th>驳回理由</th>
+    </tr>
+    <tr th:each="a:${awardTemp}">
+        <td th:text="${a.classMajor}"></td>
+        <td th:text="${a.number}"></td>
+        <td th:text="${a.name}"></td>
+        <td th:text="${a.awardName}"></td>
+        <td>此处显示路径下照片</td>
+        <td th:text="${a.score}"></td>
+        <td th:text="${a.judge}"></td>
+        <td th:text="${a.reason}"></td>
+    </tr>
+</table>
+</body>
+</html>
