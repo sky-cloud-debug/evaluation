@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+    <title>上传加分项</title>
+</head>
+<body>
+<form action="/subMaterials" method="post" enctype="multipart/form-data">
+    <input type="text" name="type" placeholder="奖项类型"><br> <!-- 下拉框，三选一 -->
+    <input type="text" name="awardName" placeholder="奖项名称"><br>
+    <input type="text" name="score" placeholder="加分数"><br>
+    <input type="file" name="materials"><br>
+    <input type="submit" value="提交">&nbsp;&nbsp;&nbsp;
+</form>
+</body>
+</html>

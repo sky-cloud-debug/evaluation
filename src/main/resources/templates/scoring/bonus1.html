@@ -3,12 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>审核学生奖项加分</title>
-		<link rel="stylesheet" href="/static/css/layui.css">
-		<script src="/static/layui.all.js"></script>
-		<script src="/static/layui.js"></script>
-		<script src="/static/lay/modules/jquery.js"></script>
-		<script src="/static/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-		
+		<link rel="stylesheet" href="/css/layui.css" media="all">
+		<script src="/layui.all.js"></script>
+		<script src="/layui.js"></script>
+		<script src="/lay/modules/jquery.js"></script>
+		<script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
         <style>
 			
 			.alert-box {
@@ -31,14 +30,18 @@
 			
 		</style>
 	</head>
+
 	<body>
+
 		<div class="demoTable">
 			<div class="layui-inline">
 				<input class="layui-input" name="class" id="demoReload" autocomplete="off" placeholder="请输入班级">
 			</div>
 			<button class="layui-btn" data-type="reload">搜索</button>
 		</div>
+
 		<table class="layui-hide" id="userTable" lay-filter="user" style="white-space:nowrap;"></table>
+
 		<script type="text/html" id="barDemo">
 			<div>
 			    <button class="layui-btn layui-btn-xs" lay-filter="pass" id="pass_btn" onclick="pass()">通过</button>
@@ -59,21 +62,18 @@
 		</div>
 	
 		<script type="text/javascript">
-//			$("find").bind("input propertychange", function() {
-//               var videoName = $("find").val();
-//               console.log("videoName="+videoName);
-//            });
+
             var $ = layui.$, active = {
             	reload: function(){
             		var demoReload = $('#demoReload');
             		table.reload('user',{
-            			url:'../../static/json/user.json',
+            			url:'/showMaterials',
             			where:{
             				deptname:demoReload.val()
             			}
             		})
             	}
-            }
+            };
 
 			layui.use(['jquery', 'layer', 'table'], function() {
 				var $ = layui.jquery;
@@ -84,7 +84,7 @@
 				table.render({
 					id:'testReload',
 					elem: '#userTable',
-					url: '../../static/json/user.json',
+					url: '/showMaterials',
 					page: true,
 					text: {
 						none: '暂无相关数据'
@@ -117,6 +117,7 @@
 						}, {
 							field: 'data',
 							title: '佐证材料',
+							align: 'center',
 						}, {
 						   title: '操作',
 						   fixed: 'right',
@@ -151,6 +152,7 @@
 					active[type] ? active[type].call(this) : '';
 				});
 			})
+
 			function pass(){
 				var checkStatus = table.checkStatus('testReload');
 			    data = checkStatus.data; //获取选中行的数据
