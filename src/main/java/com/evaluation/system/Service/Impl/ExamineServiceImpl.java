@@ -72,12 +72,25 @@ public class ExamineServiceImpl implements ExamineService {
     /**
      * 管理员审核加分项
      *
-     * @param awardTemp
+     * @param name
+     * @param awardName
+     * @param judge
+     * @param reason
      * @return
      */
-    public String judgeMaterials(AwardTemp awardTemp) {
+    public String judgeMaterials(String name, String awardName, boolean judge, String reason) {
+        AwardTemp awardTemp;
+        if (judge == true) {
+            awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
+            awardTemp.setJudge("已通过");
+            awardTemp.setReason("");
+        } else {
+            awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
+            awardTemp.setJudge("驳回");
+            awardTemp.setReason(reason);
+        }
         awardTempRepository.save(awardTemp); // 更新中间库
-        if (awardTemp.getJudge().equals("已通过")) {
+        if (judge) {
             Award award = new Award();
             award.setNumber(awardTemp.getNumber());
             award.setName(awardTemp.getName());

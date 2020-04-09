@@ -14,7 +14,7 @@ public interface ExamineService {
 
     public String insertAwardTemp(AwardTemp awardTemp, MultipartFile file);
 
-    public String judgeMaterials(AwardTemp awardTemp);
+    public String judgeMaterials(String name, String awardName, boolean judge, String reason);
 
     public ArrayList<AwardTemp> getJudgeResult(String number);
 

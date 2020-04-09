@@ -8,11 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
+/**
+ * author 江宇轩
+ */
 @Controller
 public class ExamineController {
 
@@ -46,16 +50,15 @@ public class ExamineController {
      * 审核材料->展示前台
      *
      * @param request
-     * @param model
      * @return
      */
     @GetMapping("/showMaterials")
-    public String showMaterials(HttpServletRequest request, Model model) {
+    @ResponseBody
+    public ArrayList<AwardTemp> showMaterials(HttpServletRequest request) {
         String classMajor = "计算机18-4"; // 后期前端传入
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, "未审批");
-        model.addAttribute("awardTemp", awardTemps);
-        return "scoring/materials";
+        return awardTemps;
     }
 
     /**
@@ -64,13 +67,20 @@ public class ExamineController {
      * @return
      */
     @GetMapping("/judgeMaterials")
-    public String judgeMaterials() {
-//        前端向后端传送的json数据，judge=”未审批/已通过/驳回“，reason="无/驳回理由"，使用 js 处理
-        AwardTemp awardTemp = new AwardTemp("2018212602", "江宇轩", "科技人文素质", "数学竞赛二等奖", 2, "已通过", "无", "计算机18-4"); // 模拟数据
-//        AwardTemp awardTemp = new AwardTemp("2018212602", "江宇轩", "科技人文素质", "人工智能竞赛三等奖", 1, "驳回", "照片模糊，请重新上传", "计算机18-4");
-        String result = examineService.judgeMaterials(awardTemp);
+    public String judgeMaterials(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        String awardName = request.getParameter("awardName");
+        String flag = request.getParameter("flag");
+        String reason = request.getParameter("reason");
+        boolean judge;
+        if (flag.equals("true")) {
+            judge = true;
+        } else {
+            judge = false;
+        }
+        String result = examineService.judgeMaterials(name, awardName, judge, reason);
         System.out.println(result);
-        return "index";
+        return result;
     }
 
     /**
@@ -83,7 +93,7 @@ public class ExamineController {
     @GetMapping("/showReject")
     public String showReject(HttpServletRequest request, Model model) {
         ArrayList<AwardTemp> awardTemps = examineService.getAwardTempRejectInfo("驳回 ");
-        model.addAttribute("awardTemp",awardTemps);
+        model.addAttribute("awardTemp", awardTemps);
         return "scoring/materials";
     }
 
@@ -98,8 +108,8 @@ public class ExamineController {
     public String judgeResult(HttpServletRequest request, Model model) {
         String number = "2018212602"; // Shiro 传入
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
-        awardTemps=examineService.getJudgeResult(number);
-        model.addAttribute("awardTemp",awardTemps);
+        awardTemps = examineService.getJudgeResult(number);
+        model.addAttribute("awardTemp", awardTemps);
         return "scoring/materials";
     }
 
