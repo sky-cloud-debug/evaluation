@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>密码重置</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="/layui.all.js"></script>
+    <style>
+        #content{
+            border: solid;
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            border-radius: 10px;
+            box-shadow: 10px 10px 5px #4e4e4e;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <div class="layui-inline" style="margin-left: 20px; margin-top:50px">
+        <div class="layui-input-inline">
+            <input id="Sno" type="tel"   class="layui-input" placeholder="请搜索学号">
+        </div>
+        <div class="layui-input-inline">
+            <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;">
+                <button data-method="notice" class="layui-btn">重  置</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#layerDemo').click(function () {
+            var data=$('#Sno').val();
+            $.ajax({
+                type: "POST",
+                url: "/UserController/resetpassword",
+                data:data,
+                //contentType : "application/json",
+                //   "\"number\"="+jdata.number+",\"name\"="+jdata.name+",\"sex\"="+jdata.sex+",\"political\"="+jdata.political+",\"duty\"="+jdata.duty+",\"classMajor\"="+jdata.classMajor,
+                success:function (data) {
+                    alert(data);
+                },
+                error:function (e) {
+                    console.log(e);
+                }
+            });
+        })
+    })
+</script>
+
+</body>
+</html>

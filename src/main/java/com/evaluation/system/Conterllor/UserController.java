@@ -70,9 +70,11 @@ public class UserController {
     }
 
     //管理员重置密码
-    @PutMapping("/resetpassword")
-    public String resetpassword(HttpServletRequest request){
-        String number=request.getParameter("number");
+    @RequestMapping(value="/UserController/resetpassword",method = RequestMethod.POST)
+    @ResponseBody
+   // @PutMapping("/resetpassword")
+    public String resetpassword(@RequestBody(required=false)String number){
+        //System.out.print(number);
         String s = userservicelmpl.resetuser(number);
         return s;
     }
