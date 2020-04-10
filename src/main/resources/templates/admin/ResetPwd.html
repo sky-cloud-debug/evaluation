@@ -37,7 +37,7 @@
             $.ajax({
                 type: "POST",
                 url: "/UserController/resetpassword",
-                data:data,
+                data:"number="+data,
                 //contentType : "application/json",
                 //   "\"number\"="+jdata.number+",\"name\"="+jdata.name+",\"sex\"="+jdata.sex+",\"political\"="+jdata.political+",\"duty\"="+jdata.duty+",\"classMajor\"="+jdata.classMajor,
                 success:function (data) {

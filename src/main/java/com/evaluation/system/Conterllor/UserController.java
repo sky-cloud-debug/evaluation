@@ -73,8 +73,9 @@ public class UserController {
     @RequestMapping(value="/UserController/resetpassword",method = RequestMethod.POST)
     @ResponseBody
    // @PutMapping("/resetpassword")
-    public String resetpassword(@RequestBody(required=false)String number){
-        //System.out.print(number);
+    public String resetpassword(@RequestBody(required=false)String num,HttpServletRequest request){
+        String number=request.getParameter("number");
+        System.out.print(number);
         String s = userservicelmpl.resetuser(number);
         return s;
     }
