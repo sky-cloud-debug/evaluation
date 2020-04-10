@@ -2,14 +2,14 @@ package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Dao.PasswordReposity;
 import com.evaluation.system.Service.Impl.userServicelmpl;
+import com.evaluation.system.domain.ChangePwd;
 import com.evaluation.system.domain.Password;
 import com.evaluation.system.domain.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
@@ -35,11 +35,18 @@ public class UserController {
         }
     }
 
-    @PutMapping("/finduser")
-    public  String findtoEdituser(HttpServletRequest request, Session session){
-        String oldpassword=request.getParameter("oldpassword");
-        String newpassword1=request.getParameter("newpassword1");
-        String newpassword2=request.getParameter("newpassword2");
+    @RequestMapping(value="/UserController/findtoEdituser",method = RequestMethod.POST)
+    @ResponseBody
+   // @PutMapping("/finduser")
+    public  String findtoEdituser(@RequestBody(required=false)ChangePwd pwd,HttpServletRequest request){
+
+//        System.out.println(pwd.getOldpassword());
+//        System.out.println(pwd.getNewpassword1());
+//        System.out.println(pwd.getNewpassword2());
+//        return null;
+        String oldpassword=pwd.getOldpassword();
+        String newpassword1=pwd.getNewpassword1();
+        String newpassword2=pwd.getNewpassword2();
 
         String usernumber=(String)request.getSession().getAttribute("number");
         user us=finduserbynumber(usernumber);
