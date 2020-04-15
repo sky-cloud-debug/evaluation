@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>审核结果</title>
+    <link rel="stylesheet" href="/static/css/layui.css" media="all">
+</head>
+
+<body style="width: 1300px; margin: auto;">
+<div style="height: 50px; width: 1300px; background-color: #009688; margin: 10px auto;">
+    <h1 align="center">审核结果</h1>
+</div>
+<table class="layui-hide" id="test"></table>
+
+<script src="/static/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use('table', function () {
+
+        var table = layui.table;
+
+        table.render({
+            elem: '#test',
+            url: '/static/json/user.json',
+            cols: [
+                [{
+                    field: 'type',
+                    title: '申请类型',
+                    align: 'center',
+                    width: '200'
+                }, {
+                    field: 'award',
+                    title: '申请奖项',
+                    align: 'center',
+                    width: '200'
+                }, {
+                    field: 'data',
+                    title: '佐证材料',
+                    align: 'center',
+                    width: '400'
+                }, {
+                    field: 'result',
+                    title: '结果',
+                    align: 'center',
+                    width: '100'
+                }, {
+                    field: 'reason',
+                    title: '原因',
+                    align: 'center',
+                    width: '395'
+                }
+                ]
+            ]
+        });
+    });
+</script>
+
+</body>
+
+</html>

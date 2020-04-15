@@ -1,13 +1,14 @@
 package com.evaluation.system.Conterllor;
 
+import com.evaluation.system.Dao.QtScholarshipRepository;
 import com.evaluation.system.Dao.yxScholarshipRepository;
 import com.evaluation.system.Service.ScholarshipService;
+import com.evaluation.system.domain.basic;
+import com.evaluation.system.domain.qtScholarship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +21,9 @@ public class scholarshipConterllor {
 
     @Autowired
     ScholarshipService ScholarshipService;
+
+    @Autowired
+    QtScholarshipRepository qtScholarshipRepository;
 
     @GetMapping("/yxscholarship")
     public String yx(){return "scholarship/yxform";}
@@ -70,4 +74,21 @@ public class scholarshipConterllor {
         return "scholarship/error";
     }
 
+    //下面是修改奖项
+    //信息的回显
+    @GetMapping("/modifyqt")
+    public String toEditPage(Model model,HttpServletRequest request){
+        String number=request.getParameter("number");
+        String bonus=request.getParameter("bonus");
+        qtScholarship qt = qtScholarshipRepository.findByNumberAndBonus_name(number,bonus);
+        model.addAttribute("scoring",qt);
+        //这一步是信息的回显，返回修改页面
+        return "scoring/modify1";
+    }
+    //修改信息
+    @PutMapping("/modifyqt")
+    public String upqtscholarship(qtScholarship qt){
+        qtScholarshipRepository.save(qt);
+        return "redirect:/";//返回到查询奖项信息页或者成功页
+    }
 }

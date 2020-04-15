@@ -15,6 +15,9 @@ public class quality {
     @Column(name="number")
     private String number;
 
+    //排名
+    private int rank;
+
     //道德素养
     private Double moral;
 
@@ -32,6 +35,28 @@ public class quality {
 
     //专业班级
     private String classMajor;
+
+    public quality(String number, int rank, Double moral, Double wisdom, Double heart, Double technology, Double totalCount, String classMajor) {
+        this.number = number;
+        this.rank = rank;
+        this.moral = moral;
+        this.wisdom = wisdom;
+        this.heart = heart;
+        this.technology = technology;
+        this.totalCount = totalCount;
+        this.classMajor = classMajor;
+    }
+
+    public quality() {
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
 
     public String getNumber() {
         return number;
@@ -92,7 +117,8 @@ public class quality {
     @Override
     public String toString() {
         return "quality{" +
-                "number=" + number +
+                "number='" + number + '\'' +
+                ", rank=" + rank +
                 ", moral=" + moral +
                 ", wisdom=" + wisdom +
                 ", heart=" + heart +

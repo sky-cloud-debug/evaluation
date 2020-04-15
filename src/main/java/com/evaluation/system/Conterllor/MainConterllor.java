@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.util.List;
 
@@ -49,6 +50,8 @@ public class MainConterllor {
             model.addAttribute("msg","用户名或密码错误");
             return "login/Login";
         }
+        HttpSession session=request.getSession();
+        session.setAttribute("number",username);
         return "index";
     }
 

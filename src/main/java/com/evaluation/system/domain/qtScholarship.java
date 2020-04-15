@@ -1,29 +1,39 @@
 package com.evaluation.system.domain;
 
 import lombok.Data;
-import lombok.ToString;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-@Proxy(lazy = false)
-@Data
 @Entity
-@ToString
+@Data
+@Proxy(lazy = false)
 public class qtScholarship {
 
     @Id
     @Column(name="number")
+
     String number; //学号
 
     String bonus_name; //奖学金名称
 
-    Integer cardNumber; //卡号
+    Integer card_number; //卡号
 
     String state;  //审核状态
 
     String reason;  //驳回原因
+
+    public qtScholarship(String number, String bonus_name, Integer card_number, String state, String reason) {
+        this.number = number;
+        this.bonus_name = bonus_name;
+        this.card_number = card_number;
+        this.state = state;
+        this.reason = reason;
+    }
+
+    public qtScholarship() {
+    }
 
     public String getNumber() {
         return number;
@@ -41,12 +51,12 @@ public class qtScholarship {
         this.bonus_name = bonus_name;
     }
 
-    public Integer getCardNumber() {
-        return cardNumber;
+    public Integer getCard_number() {
+        return card_number;
     }
 
-    public void setCardNumber(Integer cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setCard_number(Integer card_number) {
+        this.card_number = card_number;
     }
 
     public String getState() {
@@ -63,26 +73,5 @@ public class qtScholarship {
 
     public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    public qtScholarship(){}
-
-    public qtScholarship(String number, String bonus_name, Integer cardNumber, String state, String reason) {
-        this.number = number;
-        this.bonus_name = bonus_name;
-        this.cardNumber = cardNumber;
-        this.state = state;
-        this.reason = reason;
-    }
-
-    @Override
-    public String toString() {
-        return "qtScholarship{" +
-                "number='" + number + '\'' +
-                ", bonus_name='" + bonus_name + '\'' +
-                ", cardNumber=" + cardNumber +
-                ", state='" + state + '\'' +
-                ", reason='" + reason + '\'' +
-                '}';
     }
 }

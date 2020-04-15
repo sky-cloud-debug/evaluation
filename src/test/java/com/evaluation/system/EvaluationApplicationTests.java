@@ -1,7 +1,8 @@
 package com.evaluation.system;
 
-import com.evaluation.system.Service.Impl.BasicServicelpml;
-import com.evaluation.system.Service.Impl.ShowAwardslpml;
+import com.evaluation.system.Dao.BasicRepository;
+import com.evaluation.system.Dao.UserRepository;
+import com.evaluation.system.Service.Impl.*;
 import com.evaluation.system.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,23 @@ class EvaluationApplicationTests {
     @Autowired
     ShowAwardslpml showAwardslpml;
 
+    @Autowired
+    BasicServicelpml basicServicelpml;
+    @Autowired
+    ScholarshipServiceImpl scholarshipService;
+
+    @Autowired
+    userServicelmpl userServicelmpl;
+
+    @Autowired
+    BasicRepository basicRepository;
+
+    @Autowired
+    TempbasicServicelmpl tempbasicServicelmpl;
     @Test
     public void contextLoads() {
-        List<AllxyAwards> allqtAwards = showAwardslpml.findAllyxAwards();
-        for(int i=0;i<allqtAwards.size();i++){
-            System.out.println(allqtAwards.get(i));
-        }
+        basic basic = basicServicelpml.findbynumber("2018212412");
+        System.out.println(basic);
     }
 
 }

@@ -4,14 +4,17 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
 
+@Component
 public class ExcelUtils {
 
     // 后期更改为服务器excel存放地址
-    public static String excelPath = "C:\\Users\\JYuXuAN\\Desktop\\";
+    public static String excelPath="score/";
 
     // 9*9乘法注入excel测试，后期删除
     public void test() {

@@ -22,7 +22,7 @@ public class ScoreController {
     ScoreServiceImpl scoreService;
 
     // 展示前台
-    @RequestMapping("class")
+    @RequestMapping("/class")
     public String ClassInfo(HttpServletRequest request, Model model) {
         String classMajor = "计算机18-4"; // 后期Shiro框架传入
         ArrayList<basic> basicArrayList = scoreService.getClassInfo(classMajor);
