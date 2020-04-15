@@ -117,6 +117,12 @@
               "target": "_self"
             }
           ]
+        },
+        {
+          "title": "重置密码",
+          "href": "page/rest.html",
+          "icon": "fa fa-refresh",
+          "target": ""
         }
       ]
     },
