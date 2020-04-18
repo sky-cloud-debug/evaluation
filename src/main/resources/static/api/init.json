@@ -123,6 +123,12 @@
           "href": "page/rest.html",
           "icon": "fa fa-refresh",
           "target": ""
+        },
+        {
+          "title": "管理员公示",
+          "href": "page/publicity.html",
+          "icon": "fa fa-square-o",
+          "target": ""
         }
       ]
     },
