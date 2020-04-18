@@ -29,8 +29,8 @@ public class MainConterllor {
     @Autowired
     fileService fileService;
 
-    @GetMapping("index")
-    public String login(){return "login/Login";}
+   // @GetMapping("index")
+    //public String login(){return "login/Login";}
 
     @GetMapping("/add")
     public String add(){
@@ -52,7 +52,7 @@ public class MainConterllor {
         }
         HttpSession session=request.getSession();
         session.setAttribute("number",username);
-        return "index";
+        return "redirect:/index.html";
     }
 
     @PostMapping("/upfile")
