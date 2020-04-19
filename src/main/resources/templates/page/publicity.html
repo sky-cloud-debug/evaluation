@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理员公示</title>
+    <link rel="stylesheet" type="text/css" href="/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/public.css" media="all">
+    <link rel="stylesheet" href="/css/formSelects-v4.css"  type="text/css">
+</head>
+<body>
+<div style="background-color: #ffffff">
+    <br>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>查找内容</legend>
+</fieldset>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">奖项类型</label>
+        <div class="layui-input-inline" style="width: 74%">
+             <select name="prize" lay-verify="required">
+                 <option value="">请选择奖项类型</option>
+                 <option value="优秀学生奖学金">优秀学生奖学金</option>
+                 <option value="创新创业奖学金">创新创业奖学金</option>
+                 <option value="单项奖学金">单项奖学金</option>
+                 <option value="三好学生">三好学生</option>
+                 <option value="优秀学生干部">优秀学生干部</option>
+                 <option value="优秀学生团干部">优秀学生团干部</option>
+                 <option value="优秀团员">优秀团员</option>
+            </select>
+        </div>
+            <button class="layui-btn" lay-filter="formDemo" data-type="reload">立即查找</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label" >班级</label>
+        <div class="layui-input-inline" style="width: 74%">
+            <select name="class" lay-search lay-verify="required" lay-filter="classSelect" xm-select="classXmSelect" xm-select-search>
+                <option value="">请选择班级，可搜索</option>
+                <option value="17-1信息">17-1信息</option>
+                <option value="17-1数学">17-1数学</option>
+                <option value="17-1遥感">17-1遥感</option>
+                <option value="17-1物联网">17-1物联网</option>
+                <option value="17-1通信">17-1通信</option>
+                <option value="17-1电子">17-1电子</option>
+                <option value="17-1空间">17-1空间</option>
+                <option value="17-1计算机">17-1计算机</option>
+                <option value="17-1网络">17-1网络</option>
+            </select>
+        </div>
+                <button class="layui-btn" lay-filter="formDemo">立即查找</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+    <br>
+</form>
+</div>
+<table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+<div class="layui-input-block">
+    <button class="layui-btn" lay-filter="formDemo" id="btnSch">立即公布</button>
+    <button type="reset" class="layui-btn layui-btn-primary" id="btnRst">取消</button>
+</div>
+<br>
+<script type="text/javascript" src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/layui.all.js"></script>
+<script src="/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="/lay/modules/formSelects-v4.js"></script>
+<script>
+    layui.use(['form','table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table
+
+        table.render({
+            elem: '#currentTableId',//渲染的目标对象
+            url: '/api/review.json',//数据借口
+            toolbar: '#toolbarDemo',
+            cellMinWidth: 80,
+           /* defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',//数据导出时的标题
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],*/
+            cols: [[
+                {type: "checkbox",  fixed: "left"},
+                {field: 'class',  title: '班级',align: 'center'},
+                {field: 'id',  title: '学号', sort: true,align: 'center'},
+                {field: 'username',  title: '姓名',align: 'center'},
+                {field: 'scholarship-type',  title: '奖学金类型', align: 'center'},
+                {field: 'prize-type',  title: '奖项类型', align: 'center'},
+                {field: 'scholarship',  title: '奖学金申请结果', align: 'center'},
+                {field: 'prize',  title: '奖项申请结果', align: 'center'},
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+    });
+
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        var formSelects = layui.formSelects;
+        var arr = ['', ''];
+        formSelects.value('classXmSelect', arr); // 设置select的选中值
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field))
+            return false;
+        });
+    });
+</script>
+
+</body>
+</html>
