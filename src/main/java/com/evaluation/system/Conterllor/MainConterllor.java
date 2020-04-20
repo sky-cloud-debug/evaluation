@@ -29,29 +29,26 @@ public class MainConterllor {
     @Autowired
     fileService fileService;
 
-   // @GetMapping("index")
-    //public String login(){return "login/Login";}
+    @GetMapping("index")
+    public String login(){return "login/Login";}
 
     @GetMapping("/add")
     public String add(){
         return "table/add";
     }
 
-    @GetMapping("/form")
-    public String form(){return "page/form";}
-
     @PostMapping("/Login")
     public String Login(Model model,HttpServletRequest request){
-        String username=request.getParameter("username");
+        String number=request.getParameter("username");
         String password=request.getParameter("password");
-        System.out.println(username+password);
-        String str=loginService.login(username,password);
-        if(!str.equals("登录成功")){
+        System.out.println(number+password);
+        boolean str=loginService.login(number,password);
+        if(!str){
             model.addAttribute("msg","用户名或密码错误");
             return "login/Login";
         }
         HttpSession session=request.getSession();
-        session.setAttribute("number",username);
+        session.setAttribute("number",number);
         return "redirect:/index.html";
     }
 
@@ -78,5 +75,24 @@ public class MainConterllor {
 
         return "";
     }
+
+    @PostMapping("/modifypsd")
+    public String modify(HttpServletRequest request,Model model){
+        String new_psd=request.getParameter("new_password");
+        String again_psd=request.getParameter("again_password");
+
+        if(!new_psd.equals(again_psd)) {
+            model.addAttribute("msg","密码不同！");
+            return "user/modifypsd";
+        }
+
+        return "success";
+    }
+
+    @GetMapping("rest")
+    public String reset(){
+        return "page/rest";
+    }
+
 
 }
