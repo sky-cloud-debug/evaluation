@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>审核学生奖项加分</title>
+	<link rel="stylesheet" href="/css/layui.css">
+	<script src="/layui.all.js"></script>
+	<script src="/layui.js"></script>
+    <script src="/lay/modules/jquery.js"></script>
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <style>
+			
+		.alert-box {
+			display: table;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 9999;
+			background: rgba(0, 0, 0, 0.5);
+		}
+		.alert{
+			width: 200px;
+			height: 200px;
+			margin: 200px auto;
+		}
+		
+	</style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/showMaterials",
+                data: "application/json",
+                asnyc: false,
+                success: function (result) {
+
+                    var obj = result;
+                    var trStr = '';
+                    for (var i = 0; i < obj.length; i++) {
+
+                        trStr += '<tr>\n';
+                        trStr += '       <td>' + obj[i].classMajor + '</td>\n';
+                        trStr += '       <td>' + obj[i].number + '</td>\n';
+                        trStr += '       <td>' + obj[i].name + '</td>\n';
+                        trStr += '       <td>' + obj[i].type + '</td>\n';
+                        trStr += '       <td>' + obj[i].awardName + '</td>\n';
+                        trStr += '       <td>' + obj[i].score + '</td>\n';
+
+                        var path = '/support/' + obj[i].classMajor + '/' + obj[i].awardName + '-' + obj[i].name + '.jpg';
+
+                        trStr += '       <td><img src=' + path + '  / height="116.2px" width="350px"></td>\n';
+
+                        var info = obj[i].name + "-" + obj[i].awardName ;
+
+                        trStr += '       <td><button id=' + info + ' onclick="accept(this)">通过</button>';
+                        trStr += '<button id=' + info + ' onclick="refuse(this)">不通过</button></td>\n';
+                    }
+                    document.getElementById("test").innerHTML = trStr;
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        })
+
+        function accept(element) {
+            var info = element.id.split('-');
+            var name = info[0];
+            var awardName = info[1];
+            $.ajax({
+                async: true,
+                url: "/judgeMaterials?name=" + name + "&awardName=" + awardName + "&flag=true",
+                type: "get",
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        }
+
+        function refuse(element) {
+            var info = element.id.split('-');
+            var name = info[0];
+            var awardName = info[1];
+            var reason = info[2];
+            
+            $(".alert-box").css("display","block");
+            $('#submit').on('click',function(){
+            	$(".alert-box").css('display','none');
+            })
+           
+            $.ajax({
+                async: true,
+                url: "/judgeMaterials?name=" + name + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
+                type: "get",
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+
+<div class="layui-form">
+
+    <table class="layui-table">
+    	<colgroup>
+            <col width="120">
+            <col width="120">
+            <col width="120">
+            <col width="200">
+            <col width="200">
+            <col width="200">
+            <col width="300">
+            <col width="200" />
+        </colgroup>
+        <thead>
+        <tr>
+            <th>班级</th>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>申请类型</th>
+            <th>申请奖项</th>
+            <th>加分数</th>
+            <th>佐证材料</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="test"></tbody>
+    </table>
+</div>
+
+<div class="alert-box" style="display: none;">
+	<div class="alert">
+	<textarea placeholder="请输入理由" rows="8" cols="35" id="reason" ></textarea>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<input type="submit" id="submit" value="提交" class="layui-btn" onclick="sub()"/>
+		</div>
+	</div>
+	</div>
+</div>
+
+</body>
+</html>

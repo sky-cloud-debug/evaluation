@@ -3,6 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>审核材料展示</title>
+    <script src="/lay/modules/jquery.js"></script>
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/class",
+                data: "application/json",
+                asnyc: false,
+                success: function (result) {
+
+                    var obj = result;
+                    var trStr = '';
+                    for (var i = 0; i < obj.length; i++) {
+
+                        trStr += '<tr>\n';
+
+                        trStr += '       <td>' + obj[i].classMajor + '</td>\n';
+                        trStr += '       <td>' + obj[i].number + '</td>\n';
+                        trStr += '       <td>' + obj[i].name + '</td>\n';
+                        trStr += '       <td><input type="text" name="moral"></td>\n';
+                        trStr += '       <td><input type="text" name="heart"></td>\n';
+                        trStr += '       <td><input type="text" name="technology"></td>\n';
+
+                        trStr += '</td>\n';
+                    }
+
+                    document.getElementById("test").innerHTML = trStr;
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        })
+
+
+
+    </script>
 </head>
 <body>
 <table>
@@ -10,22 +49,11 @@
         <th>班级</th>
         <th>学号</th>
         <th>姓名</th>
-        <th>申请奖项</th>
-        <th>佐证材料</th>
-        <th>加分数</th>
-        <th>是否批准</th>
-        <th>驳回理由</th>
+        <th>德育成绩</th>
+        <th>身心成绩</th>
+        <th>科技人文成绩</th>
     </tr>
-    <tr th:each="a:${awardTemp}">
-        <td th:text="${a.classMajor}"></td>
-        <td th:text="${a.number}"></td>
-        <td th:text="${a.name}"></td>
-        <td th:text="${a.awardName}"></td>
-        <td>此处显示路径下照片</td>
-        <td th:text="${a.score}"></td>
-        <td th:text="${a.judge}"></td>
-        <td th:text="${a.reason}"></td>
-    </tr>
+    <tbody id="test"></tbody>
 </table>
 </body>
 </html>
