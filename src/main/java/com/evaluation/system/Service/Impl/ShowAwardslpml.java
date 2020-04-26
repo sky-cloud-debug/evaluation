@@ -59,4 +59,9 @@ public class ShowAwardslpml implements ShowAwards {
             return list;
         }
     }
+
+    @Override
+    public List<qtScholarship> findPersonAllByNumber(String number) {
+        return qtScholarshipRepository.findByNumber(number);
+    }
 }

@@ -63,11 +63,10 @@ public class BasicController {
     //这是查询个人的获奖情况不知道是否用的到，随手写上了
     @GetMapping("personaward")
     public String showawards(Model model, HttpServletRequest request){
-
         String number=(String)request.getSession().getAttribute("number");
-        qtScholarship qtawards=null;
+        List<qtScholarship> allqtaward=null;
         yxScholarship yxaward=null;
-        qtawards = showAwardslpml.Showqtawards(number);
+        allqtaward = showAwardslpml.findPersonAllByNumber(number);
         yxaward = showAwardslpml.Showyxawards(number);
         return "perAward";//返回个人的获奖情况
     }

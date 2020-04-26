@@ -42,8 +42,8 @@ public class MainConterllor {
         String number=request.getParameter("username");
         String password=request.getParameter("password");
         System.out.println(number+password);
-        String str=loginService.login(number,password);
-        if(str.equals("密码错误")){
+        boolean str=loginService.login(number,password);
+        if(!str){
             model.addAttribute("msg","用户名或密码错误");
             return "login/Login";
         }

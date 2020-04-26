@@ -16,4 +16,6 @@ public interface ShowAwards {
 
     public List<AllxyAwards> findAllyxAwards();
 
+    public List<qtScholarship> findPersonAllByNumber(String number);
+
 }
