@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +19,18 @@ public interface BasicRepository extends JpaRepository<basic, String> {
 
     public ArrayList<basic> findByClassMajorOrderByNumber(String classMajor);
 
-    @Transactional
     public String removeByNumber(String number);
 
     //这是从quality与basic两个表中查询的数据，实体类是ShowStu
-    @Query(value = "select new com.evaluation.system.domain.ShowStu(a.number,a.name,a.sex,a.classMajor,b.moral,b.wisdom,b.heart,b.technology,b.totalCount) from basic a,quality b  where a.number = b.number")
+    @Query(value = "select new com.evaluation.system.domain.ShowStu(a.number,a.name,a.sex,a.classMajor,b.moral,b.wisdom,b.heart,b.technology,b.totalCount) from basic a,quality b  where a.number = b.number order by a.number")
     public List<ShowStu> ShowScore();
 
     //这是从basic与qtscholarship查找的除奖学金的奖项
-    @Query(value = "select new com.evaluation.system.domain.AllqtAwards(a.number,a.name,a.classMajor,b.bonus_name) from basic a,qtScholarship b  where a.number = b.number")
+    @Query(value = "select new com.evaluation.system.domain.AllqtAwards(a.number,a.name,a.classMajor,b.bonus_name) from basic a,qtScholarship b  where a.number = b.number order by a.number")
     public List<AllqtAwards> FindqtAward();
 
     //这里是查询的奖学金等级
-    @Query(value = "select new com.evaluation.system.domain.AllxyAwards(a.number,a.name,a.classMajor,b.scholarshipLevel) from basic a,yxScholarship b  where a.number = b.number")
+    @Query(value = "select new com.evaluation.system.domain.AllxyAwards(a.number,a.name,a.classMajor,b.scholarshipLevel) from basic a,yxScholarship b  where a.number = b.number order by a.number")
     public List<AllxyAwards> FindyxAward();
 }
 

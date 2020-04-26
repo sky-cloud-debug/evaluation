@@ -75,7 +75,7 @@ public class UserController {
    // @PutMapping("/resetpassword")
     public String resetpassword(@RequestBody(required=false)String num,HttpServletRequest request){
         String number=request.getParameter("number");
-        System.out.print(number);
+        System.out.println(number);
         String s = userservicelmpl.resetuser(number);
         return s;
     }

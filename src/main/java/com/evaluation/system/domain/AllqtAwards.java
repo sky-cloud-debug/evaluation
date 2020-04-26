@@ -2,6 +2,7 @@ package com.evaluation.system.domain;
 
 import org.hibernate.annotations.Proxy;
 
+@Proxy(lazy = false)
 public class AllqtAwards {
     //学号
     private String number;

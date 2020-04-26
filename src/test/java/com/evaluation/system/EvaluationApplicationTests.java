@@ -34,8 +34,10 @@ class EvaluationApplicationTests {
     TempbasicServicelmpl tempbasicServicelmpl;
     @Test
     public void contextLoads() {
-        basic basic = basicServicelpml.findbynumber("2018212412");
-        System.out.println(basic);
+        List<AllqtAwards> list=showAwardslpml.findAllqtAwards();
+        for (int i=0;i<list.size();i++){
+            System.out.println(list.get(i));
+        }
     }
 
 }

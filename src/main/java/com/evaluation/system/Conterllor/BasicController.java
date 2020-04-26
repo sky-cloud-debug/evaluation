@@ -58,34 +58,17 @@ public class BasicController {
 
         }
         out.print("["+jstr+"]");
-
     }
 
     //这是查询个人的获奖情况不知道是否用的到，随手写上了
     @GetMapping("personaward")
     public String showawards(Model model, HttpServletRequest request){
-        String number=request.getParameter("number");
-        basic student=null;
+
+        String number=(String)request.getSession().getAttribute("number");
         qtScholarship qtawards=null;
         yxScholarship yxaward=null;
-        student = showAwardslpml.ShowStudent(number);
         qtawards = showAwardslpml.Showqtawards(number);
         yxaward = showAwardslpml.Showyxawards(number);
-        if(student!=null){
-            model.addAttribute("student",student);
-            if(qtawards==null&&yxaward==null){
-                model.addAttribute("msg","没有得奖");
-            }else {
-                if(qtawards!=null){
-                    model.addAttribute("qtawards",qtawards);
-                }
-                if(yxaward!=null){
-                    model.addAttribute("yxaward",yxaward);
-                }
-            }
-        }else {
-            model.addAttribute("msg","没有该用户");
-        }
         return "perAward";//返回个人的获奖情况
     }
 
@@ -93,7 +76,6 @@ public class BasicController {
     @RequestMapping(value="/BasicController/qtAward",method = RequestMethod.POST)
     @ResponseBody
     public void qtAward(@RequestBody(required=false) String name,HttpServletResponse response) throws IOException {
-
         List<AllqtAwards> list=new ArrayList<AllqtAwards>();
         list=showAwardslpml.findAllqtAwards();
         response.setCharacterEncoding("utf-8");
@@ -114,7 +96,6 @@ public class BasicController {
     @RequestMapping(value="/BasicController/yxAward",method = RequestMethod.POST)
     @ResponseBody
     public void yxAward(@RequestBody(required=false) String name,HttpServletResponse response) throws IOException {
-
         List<AllxyAwards> list=new ArrayList<AllxyAwards>();
         list=showAwardslpml.findAllyxAwards();
         response.setCharacterEncoding("utf-8");

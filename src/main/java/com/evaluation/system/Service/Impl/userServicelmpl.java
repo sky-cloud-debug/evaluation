@@ -29,12 +29,16 @@ public class userServicelmpl implements userService {
     public String resetuser(String number) {
 
         user us = userRepository.findByNumber(number);
-        Password password1=passwordReposity.findById(us.getPasswordId()).orElse(null);
-        password1.setPassword(number);
-        passwordReposity.save(password1);
-        us.setPermissions(1);
-        userRepository.save(us);
-        return "重置成功";
+        if(us!=null){
+            Password password1=passwordReposity.findById(us.getPasswordId()).orElse(null);
+            password1.setPassword(number);
+            passwordReposity.save(password1);
+            us.setPermissions(1);
+            userRepository.save(us);
+            return "重置成功";
+        }else {
+            return "账号错误";
+        }
     }
 
 }
