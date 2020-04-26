@@ -1,5 +1,7 @@
 package com.evaluation.system.Service;
 
+import org.springframework.ui.Model;
+
 public interface loginService {
-    public String login(String username,String password);
+    public boolean login(String number, String password);
 }
