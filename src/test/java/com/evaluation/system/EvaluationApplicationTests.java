@@ -34,10 +34,13 @@ class EvaluationApplicationTests {
     TempbasicServicelmpl tempbasicServicelmpl;
     @Test
     public void contextLoads() {
-        List<qtScholarship> personAllByNumber = showAwardslpml.findPersonAllByNumber("2018212435");
-        for (int i=0;i<personAllByNumber.size();i++){
-            System.out.println(personAllByNumber.get(i));
-        }
+//        List<qtScholarship> personAllByNumber = showAwardslpml.findPersonAllByNumber("2018212435");
+//        String number="2018212435";
+//        for (int i=0;i<personAllByNumber.size();i++){
+//            System.out.println(personAllByNumber.get(i));
+//        }
+        yxScholarship showyxawards = showAwardslpml.findyxByNumber("2018212435");
+        System.out.println(showyxawards);
     }
 
 }

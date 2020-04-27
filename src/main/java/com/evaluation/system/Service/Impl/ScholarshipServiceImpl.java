@@ -66,14 +66,6 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         }else {
             return "删除失败";
         }
-
     }
-
-    @Override
-    public qtScholarship findBynumberAndbonus_name(String number,String Bonus_name) {
-
-        return qtScholarshipRepository.findByNumberAndBonus_name(number,Bonus_name);
-    }
-
 
 }

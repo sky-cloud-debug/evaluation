@@ -67,7 +67,7 @@ public class BasicController {
         List<qtScholarship> allqtaward=null;
         yxScholarship yxaward=null;
         allqtaward = showAwardslpml.findPersonAllByNumber(number);
-        yxaward = showAwardslpml.Showyxawards(number);
+        yxaward = showAwardslpml.findyxByNumber(number);
         return "perAward";//返回个人的获奖情况
     }
 

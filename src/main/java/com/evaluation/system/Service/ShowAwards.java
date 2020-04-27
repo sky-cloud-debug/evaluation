@@ -6,9 +6,8 @@ import java.util.List;
 
 public interface ShowAwards {
 
-    public yxScholarship Showyxawards(String num);
 
-    public qtScholarship Showqtawards(String num);
+    //public qtScholarship Showqtawards(String num);
 
     public basic ShowStudent(String num);
 
@@ -18,4 +17,5 @@ public interface ShowAwards {
 
     public List<qtScholarship> findPersonAllByNumber(String number);
 
+    public yxScholarship findyxByNumber(String number);
 }
