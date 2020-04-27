@@ -12,5 +12,4 @@ public interface ScholarshipService {
 
     public String delete_qt(String number,String Bonus_name);
 
-    public qtScholarship findBynumberAndbonus_name(String number,String Bonus_name);
 }

@@ -19,4 +19,6 @@ public interface QtScholarshipRepository extends JpaRepository<qtScholarship,Str
 
     @Query(value = "select new com.evaluation.system.domain.qtScholarship(a.number,a.bonus_name,a.card_number,a.state,a.reason) from qtScholarship a where a.number=?1")
     public List<qtScholarship> findByNumber(String number);
+
+
 }

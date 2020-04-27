@@ -23,15 +23,13 @@ public class ShowAwardslpml implements ShowAwards {
     @Autowired
     yxScholarshipRepository yxScholarshipRepository;
 
-    @Override
-    public yxScholarship Showyxawards(String num) {
-        return yxScholarshipRepository.getOne(num);
-    }
 
-    @Override
-    public qtScholarship Showqtawards(String num) {
-        return qtScholarshipRepository.getOne(num);
-    }
+//    @Override
+//    public qtScholarship Showqtawards(String num) {
+//        qtScholarship one =null;
+//        one=qtScholarshipRepository.getOne(num);
+//        return one;
+//    }
 
     @Override
     public basic ShowStudent(String num) {
@@ -63,5 +61,10 @@ public class ShowAwardslpml implements ShowAwards {
     @Override
     public List<qtScholarship> findPersonAllByNumber(String number) {
         return qtScholarshipRepository.findByNumber(number);
+    }
+
+    @Override
+    public yxScholarship findyxByNumber(String number) {
+        return yxScholarshipRepository.findyxByNumber(number);
     }
 }
