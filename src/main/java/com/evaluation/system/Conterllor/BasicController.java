@@ -60,6 +60,42 @@ public class BasicController {
         out.print("["+jstr+"]");
     }
 
+    @RequestMapping(value="/BasicController/showawards",method = RequestMethod.POST)
+    @ResponseBody
+    public void showawards(@RequestBody(required=false) Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String number=(String)request.getSession().getAttribute("number");
+       // String number="2018212440";
+        List<qtScholarship> allqtaward=null;
+        yxScholarship yxaward=null;
+        allqtaward = showAwardslpml.findPersonAllByNumber(number);
+        yxaward = showAwardslpml.findyxByNumber(number);
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ yxaward.getNumber()+"\""+ ","
+                + "\""+"card"+"\""+":"+ "\""+ yxaward.getCardNumber()+"\""+ ","
+                + "\""+"scholarshipLevel"+"\""+":"+ "\""+ yxaward.getScholarshipLevel()+"\""+ ","
+                + "\""+"state"+"\""+":"+ "\""+yxaward.getState() +"\""+ ","
+                + "\""+"reason"+"\""+":"+ "\""+yxaward.getReason() +"\""
+                +"}";
+        for(qtScholarship i : allqtaward){
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
+                    + "\""+"card"+"\""+":"+ "\""+ i.getCard_number()+"\""+ ","
+                    + "\""+"bonus_name"+"\""+":"+ "\""+ i.getBonus_name()+"\""+ ","
+                    + "\""+"state"+"\""+":"+ "\""+i.getState() +"\""+ ","
+                    + "\""+"reason"+"\""+":"+ "\""+i.getReason() +"\""
+                    +"}";
+        }
+
+
+
+
+
+        out.print("["+jstr+"]");
+       // out.println(allqtaward);
+     // System.out.println(yxaward);
+    }
+
     //这是查询个人的获奖情况不知道是否用的到，随手写上了
     @GetMapping("personaward")
     public String showawards(Model model, HttpServletRequest request){
