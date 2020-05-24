@@ -14,7 +14,7 @@
       "wealth": 82830700,
       "classify": "作家",
       "score": 57,
-      "scholarship-type": "优秀学生奖学金"
+      "scholarshipType": "优秀学生奖学金"
     },
     {
       "id": 10001,
@@ -27,7 +27,7 @@
       "wealth": 64928690,
       "classify": "词人",
       "score": 27,
-      "scholarship-type": "创新创业奖学金"
+      "scholarshipType": "创新创业奖学金"
     },
     {
       "id": 10002,
@@ -40,7 +40,7 @@
       "wealth": 6298078,
       "classify": "酱油",
       "score": 31,
-      "scholarship-type": "单项奖学金"
+      "scholarshipType": "单项奖学金"
     },
     {
       "id": 10003,
@@ -53,7 +53,7 @@
       "wealth": 37117017,
       "classify": "诗人",
       "score": 68,
-      "scholarship-type": "三好学生"
+      "scholarshipType": "三好学生"
     },
     {
       "id": 10004,
@@ -66,7 +66,7 @@
       "wealth": 76263262,
       "classify": "作家",
       "score": 6,
-      "scholarship-type": "优秀学生干部"
+      "scholarshipType": "优秀学生干部"
     },
     {
       "id": 10005,
@@ -79,7 +79,7 @@
       "wealth": 60344147,
       "classify": "作家",
       "score": 87,
-      "scholarship-type": "优秀学生团干部"
+      "scholarshipType": "优秀学生团干部"
     }
   ]
 }

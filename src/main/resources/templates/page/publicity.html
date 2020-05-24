@@ -19,7 +19,7 @@
 <form class="layui-form" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">奖项类型</label>
-        <div class="layui-input-inline" style="width: 74%">
+        <div class="layui-input-inline" style="width: 74%" id="demoReload">
              <select name="prize" lay-verify="required">
                  <option value="">请选择奖项类型</option>
                  <option value="优秀学生奖学金">优秀学生奖学金</option>
@@ -53,8 +53,8 @@
                 <option value="17-1网络">17-1网络</option>
             </select>
         </div>
-                <button class="layui-btn" lay-filter="formDemo">立即查找</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <button class="layui-btn" lay-filter="formDemo">立即查找</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
     <br>
 </form>
@@ -91,18 +91,42 @@
                 {field: 'class',  title: '班级',align: 'center'},
                 {field: 'id',  title: '学号', sort: true,align: 'center'},
                 {field: 'username',  title: '姓名',align: 'center'},
-                {field: 'scholarship-type',  title: '奖学金类型', align: 'center'},
+                {field: 'scholarshipType',  title: '奖学金类型', align: 'center'},
                 {field: 'prize-type',  title: '奖项类型', align: 'center'},
                 {field: 'scholarship',  title: '奖学金申请结果', align: 'center'},
                 {field: 'prize',  title: '奖项申请结果', align: 'center'},
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 10,
-            page: true
+            page: true,
+            id:'textReach'
         });
-    });
 
-    //Demo
+        //数据表格重载
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoReload = $('#demoReload');
+
+                //执行重载
+                table.reload('textReach', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            scholarshipType: demoReload.val()
+                        }
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.layui-form-item .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });//数据表格重载结束
+
     layui.use('form', function(){
         var form = layui.form;
 
