@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import java.io.Serializable;
 
+/**
+ * author:江宇轩
+ */
 @Entity
 @Data
 @IdClass(AwardPK.class)
@@ -25,16 +28,19 @@ public class AwardTemp implements Serializable {
     // 获奖类型
     private String type;
 
+    // 获奖等级
+    private String level;
+
     // 奖项名称，复合主键
     @Id
-    @Column(name="awardName")
+    @Column(name = "awardName")
     private String awardName;
 
     // 加分数
     private int score;
 
-    // 审核结果
-    private String judge;
+    // 判断进行到的状态，0未审批，1班长审批通过，2管理员审批通过，-1班长拒绝，-2管理员拒绝
+    private int flag;
 
     // 驳回理由
     private String reason;
@@ -45,22 +51,14 @@ public class AwardTemp implements Serializable {
     public AwardTemp() {
     }
 
-    public AwardTemp(String number, String name, String type, String awardName, int score, String classMajor) {
+    public AwardTemp(String number, String name, String type, String level, String awardName, int score, int flag, String reason, String classMajor) {
         this.number = number;
         this.name = name;
         this.type = type;
+        this.level = level;
         this.awardName = awardName;
         this.score = score;
-        this.classMajor = classMajor;
-    }
-
-    public AwardTemp(String number, String name, String type, String awardName, int score, String judge, String reason, String classMajor) {
-        this.number = number;
-        this.name = name;
-        this.type = type;
-        this.awardName = awardName;
-        this.score = score;
-        this.judge = judge;
+        this.flag = flag;
         this.reason = reason;
         this.classMajor = classMajor;
     }
@@ -89,6 +87,14 @@ public class AwardTemp implements Serializable {
         this.type = type;
     }
 
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
     public String getAwardName() {
         return awardName;
     }
@@ -105,12 +111,12 @@ public class AwardTemp implements Serializable {
         this.score = score;
     }
 
-    public String getJudge() {
-        return judge;
+    public int getFlag() {
+        return flag;
     }
 
-    public void setJudge(String judge) {
-        this.judge = judge;
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 
     public String getReason() {
@@ -135,9 +141,10 @@ public class AwardTemp implements Serializable {
                 "number='" + number + '\'' +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", level='" + level + '\'' +
                 ", awardName='" + awardName + '\'' +
                 ", score=" + score +
-                ", judge='" + judge + '\'' +
+                ", flag=" + flag +
                 ", reason='" + reason + '\'' +
                 ", classMajor='" + classMajor + '\'' +
                 '}';

@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import java.io.Serializable;
 
+/**
+ * author:江宇轩
+ */
 @Entity
 @Data
 @IdClass(AwardPK.class)
@@ -25,6 +28,9 @@ public class Award implements Serializable {
     // 获奖类型
     private String type;
 
+    // 获奖等级
+    private String level;
+
     // 奖项名称，复合主键
     @Id
     @Column(name = "awardName")
@@ -39,10 +45,11 @@ public class Award implements Serializable {
     public Award() {
     }
 
-    public Award(String number, String name, String type, String awardName, int score, String classMajor) {
+    public Award(String number, String name, String type, String level, String awardName, int score, String classMajor) {
         this.number = number;
         this.name = name;
         this.type = type;
+        this.level = level;
         this.awardName = awardName;
         this.score = score;
         this.classMajor = classMajor;
@@ -72,6 +79,14 @@ public class Award implements Serializable {
         this.type = type;
     }
 
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
     public String getAwardName() {
         return awardName;
     }
@@ -98,10 +113,11 @@ public class Award implements Serializable {
 
     @Override
     public String toString() {
-        return "AwardTemp{" +
+        return "Award{" +
                 "number='" + number + '\'' +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", level='" + level + '\'' +
                 ", awardName='" + awardName + '\'' +
                 ", score=" + score +
                 ", classMajor='" + classMajor + '\'' +

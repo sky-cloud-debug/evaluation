@@ -10,27 +10,45 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * author:JYuXuAN
+ */
 @Controller
 public class ScoreController {
 
     @Autowired
     ScoreServiceImpl scoreService;
+    
 
-    // 展示前台
+    /**
+     * 展示前台
+     *
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/class")
-    public String ClassInfo(HttpServletRequest request, Model model) {
+    @ResponseBody
+    public ArrayList<basic> ClassInfo(HttpServletRequest request, Model model) {
         String classMajor = "计算机18-4"; // 后期Shiro框架传入
         ArrayList<basic> basicArrayList = scoreService.getClassInfo(classMajor);
-        model.addAttribute("basiclist", basicArrayList);
-        return "scoring/studentlist";
+//        model.addAttribute("basiclist", basicArrayList);
+////        return "scoring/studentlist";
+        return basicArrayList;
     }
 
-    // 注入班级成员
+    /**
+     * 注入班级成员
+     *
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/setClassMember")
     public String setClassMember() throws IOException {
         String classMajor = "计算机18-4";
@@ -44,7 +62,11 @@ public class ScoreController {
         return "index";
     }
 
-    // 注入测评小组成员
+    /**
+     * 注入测评小组成员
+     *
+     * @return
+     */
     @GetMapping("/setTeamMember")
     public String setTestMember() {
         String classMajor = "计算机18-4";
@@ -59,7 +81,11 @@ public class ScoreController {
         return "index";
     }
 
-    // 测评小组打分 德育成绩
+    /**
+     * 测评小组打分 德育成绩
+     *
+     * @return
+     */
     @RequestMapping("/submitMoral")
     public String submitMoralScore() {
         String classMajor = "计算机18-4"; // 班级
@@ -96,7 +122,11 @@ public class ScoreController {
         return "index";
     }
 
-    // 测评小组打分 身心成绩
+    /**
+     * 测评小组打分 身心成绩
+     *
+     * @return
+     */
     @GetMapping("/submitHeart")
     public String submitHeartScore() {
         String classMajor = "计算机18-4"; // 班级
@@ -133,7 +163,11 @@ public class ScoreController {
         return "index";
     }
 
-    // 测评小组打分 科技人文成绩
+    /**
+     * 测评小组打分 科技人文成绩
+     *
+     * @return
+     */
     @GetMapping("/submitTechnology")
     public String submitTechnologyScore() {
         String classMajor = "计算机18-4"; // 班级
@@ -170,7 +204,11 @@ public class ScoreController {
         return "index";
     }
 
-    // 计算学生成绩
+    /**
+     * 计算学生成绩
+     *
+     * @return
+     */
     @GetMapping("/Calculation")
     public String Calculation() {
         String classMajor = "计算机18-4";

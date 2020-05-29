@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 /**
- * author 江宇轩
+ * author:江宇轩
  */
 @Controller
 public class ExamineController {
@@ -38,26 +38,42 @@ public class ExamineController {
         String name = "江宇轩";
         // Shiro传入结束
         String type = request.getParameter("type");
+        String level = request.getParameter("level");
         String awardName = request.getParameter("awardName");
         String sc = request.getParameter("score");
         int score = Integer.parseInt(sc);
-        AwardTemp awardTemp = new AwardTemp(number, name, type, awardName, score, "未审批", "", classMajor);
+        AwardTemp awardTemp = new AwardTemp(number, name, type, level, awardName, score, 0, "", classMajor);
         String info = examineService.insertAwardTemp(awardTemp, file);
         return "index";
     }
 
     /**
-     * 审核材料->展示前台
+     * 管理员：审核材料->展示前台
      *
      * @param request
      * @return
      */
-    @GetMapping("/showMaterials")
+    @GetMapping("/showMaterials_admin")
     @ResponseBody
-    public ArrayList<AwardTemp> showMaterials(HttpServletRequest request) {
+    public ArrayList<AwardTemp> showMaterials_admin(HttpServletRequest request) {
         String classMajor = "计算机18-4"; // 后期前端传入
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
-        awardTemps = examineService.getAwardTempInfo(classMajor, "未审批");
+        awardTemps = examineService.getAwardTempInfo(classMajor, 1);
+        return awardTemps;
+    }
+
+    /**
+     * 班长：审核材料->展示前台
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/showMaterials_monitor")
+    @ResponseBody
+    public ArrayList<AwardTemp> showMaterials_monitor(HttpServletRequest request) {
+        String classMajor = "计算机18-4"; // 后期前端传入
+        ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
+        awardTemps = examineService.getAwardTempInfo(classMajor, 0);
         return awardTemps;
     }
 
@@ -66,36 +82,45 @@ public class ExamineController {
      *
      * @return
      */
-    @GetMapping("/judgeMaterials")
-    public String judgeMaterials(HttpServletRequest request) {
+    @GetMapping("/judgeMaterials_amin")
+    public String judgeMaterials_admin(HttpServletRequest request) {
         String name = request.getParameter("name");
         String awardName = request.getParameter("awardName");
-        String flag = request.getParameter("flag");
+        String FLAG = request.getParameter("flag");
         String reason = request.getParameter("reason");
-        boolean judge;
-        if (flag.equals("true")) {
-            judge = true;
+        int flag = 0;
+        if (FLAG == "true") {
+            flag = 2;
         } else {
-            judge = false;
+            flag = -2;
         }
-        String result = examineService.judgeMaterials(name, awardName, judge, reason);
+        String result = examineService.judgeMaterials_admin(name, awardName, flag, reason);
         System.out.println(result);
         return result;
     }
 
     /**
-     * 展示所有驳回的加分项
+     * 班长审核
      *
-     * @param request
-     * @param model
      * @return
      */
-    @GetMapping("/showReject")
-    public String showReject(HttpServletRequest request, Model model) {
-        ArrayList<AwardTemp> awardTemps = examineService.getAwardTempRejectInfo("驳回 ");
-        model.addAttribute("awardTemp", awardTemps);
-        return "scoring/materials";
+    @GetMapping("/judgeMaterials_monitor")
+    public String judgeMaterials_monitor(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        String awardName = request.getParameter("awardName");
+        String FLAG = request.getParameter("flag");
+        String reason = request.getParameter("reason");
+        int flag = 0;
+        if (FLAG == "true") {
+            flag = 1;
+        } else {
+            flag = -1;
+        }
+        String result = examineService.judgeMaterials_monitor(name, awardName, flag, reason);
+        System.out.println(result);
+        return result;
     }
+
 
     /**
      * 学生端显示是否通过
@@ -111,6 +136,37 @@ public class ExamineController {
         awardTemps = examineService.getJudgeResult(number);
         model.addAttribute("awardTemp", awardTemps);
         return "scoring/materials";
+    }
+
+    /**
+     * 通过条件查找所有未审批的awardTemp
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/findAwardTemp")
+    @ResponseBody
+    public ArrayList<AwardTemp> showAwardTemp(HttpServletRequest request) {
+        ArrayList<AwardTemp> awardTemps = new ArrayList<>();
+        String classMajor = null; // 班级查询
+        String type = null; // 类型查询
+        String level = null; // 等级查询
+        String flag= null;
+        try {
+            classMajor = request.getParameter("classMajor");
+            type = request.getParameter("type");
+            level = request.getParameter("level");
+            flag = request.getParameter("flag");
+            if (flag == null) {
+                awardTemps = examineService.findAwardTemp(classMajor, type, level);
+            } else {
+                int fg = Integer.parseInt(flag);
+                awardTemps = examineService.findAwardTemp(classMajor, type, level, fg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return awardTemps;
     }
 
 }

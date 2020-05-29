@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * author:江宇轩
+ */
 @Service
 public class ExamineServiceImpl implements ExamineService {
 
@@ -33,23 +36,12 @@ public class ExamineServiceImpl implements ExamineService {
      * @param classMajor
      * @return
      */
-    public ArrayList<AwardTemp> getAwardTempInfo(String classMajor, String judge) {
+    public ArrayList<AwardTemp> getAwardTempInfo(String classMajor, int flag) {
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
-        awardTemps = awardTempRepository.findByClassMajorAndJudge(classMajor, judge);
+        awardTemps = awardTempRepository.findByClassMajorAndFlag(classMajor, flag);
         return awardTemps;
     }
 
-    /**
-     * 返回现存的驳回加分项
-     *
-     * @param judge
-     * @return
-     */
-    public ArrayList<AwardTemp> getAwardTempRejectInfo(String judge) {
-        ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
-        awardTemps = awardTempRepository.findByJudge(judge);
-        return awardTemps;
-    }
 
     /**
      * 加分项审核表导入数据库，保存照片
@@ -74,27 +66,26 @@ public class ExamineServiceImpl implements ExamineService {
      *
      * @param name
      * @param awardName
-     * @param judge
+     * @param flag
      * @param reason
      * @return
      */
-    public String judgeMaterials(String name, String awardName, boolean judge, String reason) {
+    public String judgeMaterials_admin(String name, String awardName, int flag, String reason) {
         AwardTemp awardTemp;
-        if (judge == true) {
-            awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
-            awardTemp.setJudge("已通过");
+        awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
+        awardTemp.setFlag(2);
+        if (flag == 2) {
             awardTemp.setReason("");
         } else {
-            awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
-            awardTemp.setJudge("驳回");
             awardTemp.setReason(reason);
         }
         awardTempRepository.save(awardTemp); // 更新中间库
-        if (judge) {
+        if (flag == 2) {
             Award award = new Award();
             award.setNumber(awardTemp.getNumber());
             award.setName(awardTemp.getName());
             award.setType(awardTemp.getType());
+            award.setLevel(awardTemp.getLevel());
             award.setAwardName(awardTemp.getAwardName());
             award.setScore(awardTemp.getScore());
             award.setClassMajor(awardTemp.getClassMajor());
@@ -103,8 +94,8 @@ public class ExamineServiceImpl implements ExamineService {
             String filePath = supportPath + awardTemp.getClassMajor() + "/" + awardTemp.getAwardName() + "-" + awardTemp.getName() + ".jpg";
             File file = new File(filePath);
             try {
-                boolean flag = file.delete(); // 如果驳回，删除照片
-                if (flag) {
+                boolean flag2 = file.delete(); // 如果驳回，删除照片
+                if (flag2) {
                     return "删除成功";
                 } else {
                     return "删除失败！";
@@ -114,7 +105,44 @@ public class ExamineServiceImpl implements ExamineService {
                 return "图片不存在或其他异常！";
             }
         }
-        return "审核通过";
+        return "管理员审核通过";
+    }
+
+    /**
+     * 班长审核加分项
+     *
+     * @param name
+     * @param awardName
+     * @param flag
+     * @param reason
+     * @return
+     */
+    public String judgeMaterials_monitor(String name, String awardName, int flag, String reason) {
+        AwardTemp awardTemp;
+        awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
+        awardTemp.setFlag(1);
+        if (flag == 1) {
+            awardTemp.setReason("");
+        } else {
+            awardTemp.setReason(reason);
+        }
+        awardTempRepository.save(awardTemp); // 更新中间库
+        if (flag != 1) {
+            String filePath = supportPath + awardTemp.getClassMajor() + "/" + awardTemp.getAwardName() + "-" + awardTemp.getName() + ".jpg";
+            File file = new File(filePath);
+            try {
+                boolean flag2 = file.delete(); // 如果驳回，删除照片
+                if (flag2) {
+                    return "删除成功";
+                } else {
+                    return "删除失败！";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "图片不存在或其他异常！";
+            }
+        }
+        return "班长审核通过";
     }
 
     /**
@@ -129,5 +157,62 @@ public class ExamineServiceImpl implements ExamineService {
         return awardTemps;
     }
 
+    /**
+     * 通过某个条件查询未审批的奖状
+     *
+     * @param classMajor
+     * @param type
+     * @param level
+     * @return
+     */
+    public ArrayList<AwardTemp> findAwardTemp(String classMajor, String type, String level) {
+        ArrayList<AwardTemp> awardTemps = new ArrayList<>();
+        if (classMajor != null) {
+            awardTemps = awardTempRepository.findByClassMajor(classMajor);
+            return awardTemps;
+        } else if (type != null) {
+            awardTemps = awardTempRepository.findByType(type);
+            return awardTemps;
+        } else if (level != null) {
+            awardTemps = awardTempRepository.findByLevel(level);
+            return awardTemps;
+        } else
+            return null;
+    }
 
+    /**
+     * 通过某个条件查询未审批的奖状
+     *
+     * @param classMajor
+     * @param type
+     * @param level
+     * @param flag
+     * @return
+     */
+    public ArrayList<AwardTemp> findAwardTemp(String classMajor, String type, String level, int flag) {
+        ArrayList<AwardTemp> awardTemps = new ArrayList<>();
+        if (classMajor != null) {
+            if (flag == -1) { // 不需要按照审批状态查询
+                awardTemps = awardTempRepository.findByClassMajor(classMajor);
+            } else { // 需要按照审批状态查询
+                awardTemps = awardTempRepository.findByClassMajorAndFlag(classMajor, flag);
+            }
+            return awardTemps;
+        } else if (type != null) {
+            if (flag == -1) { // 不需要按照审批状态查询
+                awardTemps = awardTempRepository.findByType(type);
+            } else { // 需要按照审批状态查询
+                awardTemps = awardTempRepository.findByTypeAndFlag(type, flag);
+            }
+            return awardTemps;
+        } else if (level != null) {
+            if (flag == -1) { // 不需要按照审批状态查询
+                awardTemps = awardTempRepository.findByLevel(level);
+            } else { // 需要按照审批状态查询
+                awardTemps = awardTempRepository.findByLevelAndFlag(level, flag);
+            }
+            return awardTemps;
+        } else
+            return null;
+    }
 }

@@ -2,7 +2,9 @@ package com.evaluation.system.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
-
+/**
+ * author:江宇轩
+ */
 public class AwardPK implements Serializable {
 
     private String number;

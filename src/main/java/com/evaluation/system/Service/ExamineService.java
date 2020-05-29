@@ -8,14 +8,6 @@ import java.util.ArrayList;
 public interface ExamineService {
 
 
-    public ArrayList<AwardTemp> getAwardTempInfo(String classMajor, String judge);
 
-    public ArrayList<AwardTemp> getAwardTempRejectInfo(String judge);
-
-    public String insertAwardTemp(AwardTemp awardTemp, MultipartFile file);
-
-    public String judgeMaterials(String name, String awardName, boolean judge, String reason);
-
-    public ArrayList<AwardTemp> getJudgeResult(String number);
 
 }
