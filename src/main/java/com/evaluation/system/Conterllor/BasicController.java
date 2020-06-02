@@ -153,7 +153,7 @@ public class BasicController {
     public void toEditPage(@RequestBody(required=false) Model model,HttpServletRequest request,HttpServletResponse response) throws IOException
     {
         String number=(String)request.getSession().getAttribute("number");
-        System.out.println(number);
+       // System.out.println(number);
         response.setCharacterEncoding("utf-8");
         basic ba=basicServicelpml.findbynumber(number);
 

@@ -5,7 +5,7 @@
   "homeInfo": {
     "title": "首页",
     "icon": "fa fa-home",
-    "href": "page/welcome-1.html?mpi=m-p-i-0"
+    "href": "page/userInfoshow.html"
   },
   "logoInfo": {
     "title": "素质评价系统",
@@ -25,7 +25,7 @@
           "child": [
             {
               "title": "基础分成绩",
-              "href": "page/welcome-1.html",
+              "href": "scoring/stu.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             },
@@ -39,10 +39,30 @@
         },
 
         {
-          "title": "获奖名单",
+          "title": "获奖信息",
           "href": "page/table.html",
           "icon": "fa fa-file-text",
-          "target": "_self"
+          "target": "_self",
+          "child": [
+            {
+              "title": "奖学金查询",
+              "href": "scholarship/showyx.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "单项奖查询",
+              "href": "scholarship/showqt.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "个人获奖情况",
+              "href": "scholarship/idScholarship.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
         },
         {
           "title": "加分项申报",
@@ -120,7 +140,7 @@
         },
         {
           "title": "重置密码",
-          "href": "page/rest.html",
+          "href": "admin/ResetPwd.html",
           "icon": "fa fa-refresh",
           "target": ""
         },
