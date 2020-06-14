@@ -81,6 +81,12 @@
               "href": "extra/add.html",
               "icon": "fa fa-navicon",
               "target": "_self"
+            },
+            {
+              "title": "上传加分项",
+              "href": "scoring/submit2.html",
+              "icon": "fa fa-navicon",
+              "target": "_self"
             }
           ]
         },
