@@ -63,8 +63,8 @@
                     }
                     document.getElementById("test").innerHTML = trStr;
                 },
-                error: function (error) {
-                    console.log(data);
+                error: function (e) {
+                    console.log(e);
                 }
             });
         })
@@ -75,6 +75,9 @@
             var awardName = info[1];
             $.ajax({
                 async: true,
+              //  data:{"name":$("#test").val()},
+                data: {"name": name, "awardName": awardName},
+                dataType: "json",
                 url: "/judgeMaterials_admin?name=" + name + "&awardName=" + awardName + "&flag=true",
                 type: "get",
                 success: function (data) {
@@ -88,13 +91,15 @@
             var info = element.id.split('-');
             var name = info[0];
             var awardName = info[1];
-            var reason = info[2];
+            var reason = document.getElementById("reason").value;
 
             $(".alert-box").css("display","block");
             $('#submit').on('click',function(){
                 $(".alert-box").css('display','none');
                 $.ajax({
                     type:"get",
+                    data: {"name":name,"awardName":awardName,"reason":reason},
+                    dataType: "json",
                     url:"/judgeMaterials_admin?name=" + name + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
                     success:function(data){
                         console.log(data);
