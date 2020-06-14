@@ -126,13 +126,13 @@
           "child": [
             {
               "title": "班长审核",
-              "href": "scoring/bonus2(3).html",
+              "href": "xywjyx/bonusmonitor.html",
               "icon": "fa fa-snowflake-o",
               "target": "_self"
             },
             {
               "title": "管理员审核",
-              "href": "scoring/bonus2(2).html",
+              "href": "xywjyx/bonusadmin.html",
               "icon": "fa fa-shield",
               "target": "_self"
             }

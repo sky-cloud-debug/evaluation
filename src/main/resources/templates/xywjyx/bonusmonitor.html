@@ -91,13 +91,13 @@
         }
 
         function refuse(element) {
-            var info = element.id.split('-');
-            var name = info[0];
-            var awardName = info[1];
-            var reason = document.getElementById("reason").value;
 
             $(".alert-box").css("display", "block");
             $('#submit').on('click', function () {
+                var info = element.id.split('-');
+                var name = info[0];
+                var awardName = info[1];
+                var reason = document.getElementById("reason").value;
                 $(".alert-box").css('display', 'none');
                 $.ajax({
                     type: "get",
@@ -107,9 +107,13 @@
                     success: function (data) {
                         console.log(data);
                         alert("提交成功");
+                    },
+                    error:function (e) {
+                        console.log(e);
                     }
                 })
             })
+
 
             // $.ajax({
             //     async: true,
@@ -120,6 +124,7 @@
             //     }
             // });
         }
+
 
 
     </script>
@@ -160,7 +165,7 @@
         <textarea placeholder="请输入理由" rows="8" cols="35" id="reason"></textarea>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <input type="submit" id="submit" value="提交" class="layui-btn"/>
+                <input type="button" id="submit" value="提交" class="layui-btn"/>
             </div>
         </div>
     </div>
