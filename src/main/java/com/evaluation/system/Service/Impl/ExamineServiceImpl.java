@@ -73,7 +73,7 @@ public class ExamineServiceImpl implements ExamineService {
     public String judgeMaterials_admin(String name, String awardName, int flag, String reason) {
         AwardTemp awardTemp;
         awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
-        awardTemp.setFlag(2);
+        awardTemp.setFlag(flag);
         if (flag == 2) {
             awardTemp.setReason("");
         } else {
@@ -96,9 +96,9 @@ public class ExamineServiceImpl implements ExamineService {
             try {
                 boolean flag2 = file.delete(); // 如果驳回，删除照片
                 if (flag2) {
-                    return "删除成功";
+                    return "删除图片成功";
                 } else {
-                    return "删除失败！";
+                    return "删除图片失败！";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -120,7 +120,7 @@ public class ExamineServiceImpl implements ExamineService {
     public String judgeMaterials_monitor(String name, String awardName, int flag, String reason) {
         AwardTemp awardTemp;
         awardTemp = awardTempRepository.findByNameAndAwardName(name, awardName);
-        awardTemp.setFlag(1);
+        awardTemp.setFlag(flag);
         if (flag == 1) {
             awardTemp.setReason("");
         } else {
@@ -133,9 +133,9 @@ public class ExamineServiceImpl implements ExamineService {
             try {
                 boolean flag2 = file.delete(); // 如果驳回，删除照片
                 if (flag2) {
-                    return "删除成功";
+                    return "删除图片成功";
                 } else {
-                    return "删除失败！";
+                    return "删除图片失败！";
                 }
             } catch (Exception e) {
                 e.printStackTrace();

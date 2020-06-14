@@ -82,14 +82,14 @@ public class ExamineController {
      *
      * @return
      */
-    @GetMapping("/judgeMaterials_amin")
+    @GetMapping("/judgeMaterials_admin")
     public String judgeMaterials_admin(HttpServletRequest request) {
         String name = request.getParameter("name");
         String awardName = request.getParameter("awardName");
         String FLAG = request.getParameter("flag");
         String reason = request.getParameter("reason");
         int flag = 0;
-        if (FLAG == "true") {
+        if (FLAG.equals("true")) {
             flag = 2;
         } else {
             flag = -2;
@@ -111,7 +111,7 @@ public class ExamineController {
         String FLAG = request.getParameter("flag");
         String reason = request.getParameter("reason");
         int flag = 0;
-        if (FLAG == "true") {
+        if (FLAG.equals("true")) {
             flag = 1;
         } else {
             flag = -1;

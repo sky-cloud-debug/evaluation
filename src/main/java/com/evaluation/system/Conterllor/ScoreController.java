@@ -24,7 +24,7 @@ public class ScoreController {
 
     @Autowired
     ScoreServiceImpl scoreService;
-    
+
 
     /**
      * 展示前台
