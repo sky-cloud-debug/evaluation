@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>班长审核学生奖项加分</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="referrer" content="no-referrer"/>
     <link rel="stylesheet" href="/css/layui.css">
     <script src="/layui.all.js"></script>
     <script src="/layui.js"></script>
@@ -54,9 +53,9 @@
                         trStr += '       <td>' + obj[i].awardName + '</td>\n';
                         trStr += '       <td>' + obj[i].score + '</td>\n';
                         // TODO 图片路径
-                        var path = '/support/' + obj[i].classMajor + '/' + obj[i].awardName + '-' + obj[i].name + '.jpg';
+                        var path = '../support/' + obj[i].classMajor + '/' + obj[i].awardName + '-' + obj[i].name + '.jpg';
 
-                        trStr += '       <td><img src=' + path + '  / height="116.2px" width="350px" alt=""></td>\n';
+                        trStr += '       <td><img src=' + path + '  / height="116.2px" width="350px" alt=""/></td>\n';
 
                         var info = obj[i].name + "-" + obj[i].awardName;
 
