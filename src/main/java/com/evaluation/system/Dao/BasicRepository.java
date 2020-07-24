@@ -22,8 +22,12 @@ public interface BasicRepository extends JpaRepository<basic, String> {
     public String removeByNumber(String number);
 
     //这是从quality与basic两个表中查询的数据，实体类是ShowStu
-    @Query(value = "select new com.evaluation.system.domain.ShowStu(a.number,a.name,a.sex,a.classMajor,b.moral,b.wisdom,b.heart,b.technology,b.totalCount) from basic a,quality b  where a.number = b.number order by a.number")
-    public List<ShowStu> ShowScore();
+    @Query(value = "select new com.evaluation.system.domain.ShowStu(a.number,a.name,a.sex,a.classMajor,b.moral,b.wisdom,b.heart,b.technology,b.totalCount) from basic a,quality b where a.number = b.number and a.classMajor=?1 order by a.number")
+    public List<ShowStu> ShowScore(String classmajor);
+
+    //这是从quality与basic两个表中查询的数据，实体类是ShowStu,模糊查询
+    @Query(value = "select new com.evaluation.system.domain.ShowStu(a.number,a.name,a.sex,a.classMajor,b.moral,b.wisdom,b.heart,b.technology,b.totalCount) from basic a,quality b where a.number = b.number and a.classMajor like ?1 order by a.number")
+    public List<ShowStu> ShowScoreLike(String classmajor);
 
     //这是从basic与qtscholarship查找的除奖学金的奖项
     @Query(value = "select new com.evaluation.system.domain.AllqtAwards(a.number,a.name,a.classMajor,b.bonus_name) from basic a,qtScholarship b  where a.number = b.number order by a.number")

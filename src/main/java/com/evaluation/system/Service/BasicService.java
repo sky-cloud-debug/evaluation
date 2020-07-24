@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BasicService {
 
-    public List<ShowStu> ShowScore();
+    public List<ShowStu> ShowScore(String classmajor);
 
     public basic findbynumber(String number);
 

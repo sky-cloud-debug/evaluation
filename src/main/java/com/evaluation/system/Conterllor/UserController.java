@@ -37,13 +37,8 @@ public class UserController {
 
     @RequestMapping(value="/UserController/findtoEdituser",method = RequestMethod.POST)
     @ResponseBody
-   // @PutMapping("/finduser")
     public  String findtoEdituser(@RequestBody(required=false)ChangePwd pwd,HttpServletRequest request){
 
-//        System.out.println(pwd.getOldpassword());
-//        System.out.println(pwd.getNewpassword1());
-//        System.out.println(pwd.getNewpassword2());
-//        return null;
         String oldpassword=pwd.getOldpassword();
         String newpassword1=pwd.getNewpassword1();
         String newpassword2=pwd.getNewpassword2();

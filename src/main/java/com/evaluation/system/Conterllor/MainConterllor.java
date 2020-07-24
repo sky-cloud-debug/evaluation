@@ -1,7 +1,9 @@
 package com.evaluation.system.Conterllor;
 
+import com.evaluation.system.Service.Impl.BasicServicelpml;
 import com.evaluation.system.Service.fileService;
 import com.evaluation.system.Service.loginService;
+import com.evaluation.system.domain.basic;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ public class MainConterllor {
 
     @Autowired
     loginService loginService;
+    @Autowired
+    BasicServicelpml basicServicelpml;
 
     @Autowired
     fileService fileService;
@@ -41,7 +45,6 @@ public class MainConterllor {
     public String Login(Model model,HttpServletRequest request){
         String number=request.getParameter("username");
         String password=request.getParameter("password");
-        System.out.println(number+password);
         boolean str= loginService.login(number,password);
         if(!str){
             model.addAttribute("msg","用户名或密码错误");
@@ -49,6 +52,16 @@ public class MainConterllor {
         }
         HttpSession session=request.getSession();
         session.setAttribute("number",number);
+        basic b = basicServicelpml.findbynumber(number);
+        String s=b.getClassMajor();
+        String[] s1=s.split("\\d");
+        int i=s1[0].length();
+        String classMajorLike = null;
+        classMajorLike=s.substring(0,i);
+        System.out.println("cvccccccccccccc"+s);
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa"+classMajorLike);
+        session.setAttribute("classMajor",s);
+        session.setAttribute("classMajorlike",classMajorLike);
         return "redirect:/index.html";
     }
 

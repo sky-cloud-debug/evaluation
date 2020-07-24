@@ -1,5 +1,6 @@
 package com.evaluation.system.Conterllor;
 
+import com.evaluation.system.Dao.BasicRepository;
 import com.evaluation.system.Service.Impl.BasicServicelpml;
 import com.evaluation.system.Service.Impl.ShowAwardslpml;
 import com.evaluation.system.Service.Impl.TempbasicServicelmpl;
@@ -25,6 +26,9 @@ import java.util.List;
 public class BasicController {
 
     @Autowired
+    BasicRepository basicRepository;
+
+    @Autowired
     private BasicServicelpml basicServicelpml;
 
     @Autowired
@@ -33,13 +37,13 @@ public class BasicController {
     @Autowired
     TempbasicServicelmpl tempbasicServicelmpl;
 
-
+    //这里是精准查询，查询全班的，需要删去智育成绩，和总分。
     @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
     @ResponseBody
-    public void insertUserInfo(@RequestBody(required=false) String name,HttpServletResponse response) throws IOException {
-
+    public void insertUserInfo(@RequestBody(required=false)Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String classMajor=(String)request.getSession().getAttribute("classMajor");
         List<ShowStu> list=new ArrayList<ShowStu>();
-        list=basicServicelpml.ShowScore();
+        list=basicServicelpml.ShowScore(classMajor);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
@@ -59,6 +63,33 @@ public class BasicController {
         }
         out.print("["+jstr+"]");
     }
+
+    //这里是模糊查询，查询全专业，信息全展示出来
+//    @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
+//    @ResponseBody
+//    public void insertUserInfo1(@RequestBody(required=false)Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
+//        String classMajorlike=(String)request.getSession().getAttribute("classMajorlike");
+//        List<ShowStu> list=new ArrayList<ShowStu>();
+//        list=basicRepository.ShowScoreLike(classMajorlike);
+//        response.setCharacterEncoding("utf-8");
+//        PrintWriter out=response.getWriter();
+//        String jstr = "{}";
+//        for(ShowStu st : list){
+//
+//            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+//                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+//                    + "\""+"sex"+"\""+":"+ "\""+ st.getSex()+"\""+ ","
+//                    + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
+//                    + "\""+"moral"+"\""+":"+ "\""+ st.getMoral()+"\""+ ","
+//                    + "\""+"wisdom"+"\""+":"+ "\""+ st.getWisdom()+"\""+ ","
+//                    + "\""+"heart"+"\""+":"+ "\""+ st.getHeart()+"\""+ ","
+//                    + "\""+"technology"+"\""+":"+ "\""+ st.getTechnology()+"\""+ ","
+//                    + "\""+"total_count"+"\""+":"+ "\""+ st.getTotal_count()+"\""
+//                    +"}";
+//
+//        }
+//        out.print("["+jstr+"]");
+//    }
 
     @RequestMapping(value="/BasicController/showawards",method = RequestMethod.POST)
     @ResponseBody
@@ -86,10 +117,6 @@ public class BasicController {
                     + "\""+"reason"+"\""+":"+ "\""+i.getReason() +"\""
                     +"}";
         }
-
-
-
-
 
         out.print("["+jstr+"]");
        // out.println(allqtaward);
@@ -153,7 +180,7 @@ public class BasicController {
     public void toEditPage(@RequestBody(required=false) Model model,HttpServletRequest request,HttpServletResponse response) throws IOException
     {
         String number=(String)request.getSession().getAttribute("number");
-       // System.out.println(number);
+        System.out.println("我来到这里了。。。。。。。。。。。。");
         response.setCharacterEncoding("utf-8");
         basic ba=basicServicelpml.findbynumber(number);
 

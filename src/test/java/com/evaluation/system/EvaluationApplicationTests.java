@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,13 +35,9 @@ class EvaluationApplicationTests {
     TempbasicServicelmpl tempbasicServicelmpl;
     @Test
     public void contextLoads() {
-//        List<qtScholarship> personAllByNumber = showAwardslpml.findPersonAllByNumber("2018212435");
-//        String number="2018212435";
-//        for (int i=0;i<personAllByNumber.size();i++){
-//            System.out.println(personAllByNumber.get(i));
-//        }
-        yxScholarship showyxawards = showAwardslpml.findyxByNumber("2018212435");
-        System.out.println(showyxawards);
+        //ArrayList<ShowStu> list= (ArrayList<ShowStu>) basicRepository.ShowScoreLike("%计开发%");
+        basic b=basicServicelpml.findbynumber("2018212459");
+            System.out.println(b);
     }
 
 }

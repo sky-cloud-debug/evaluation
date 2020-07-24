@@ -15,8 +15,8 @@ public class BasicServicelpml implements BasicService {
     private BasicRepository basicRepository;
 
     @Override
-    public List<ShowStu> ShowScore() {
-        return basicRepository.ShowScore();
+    public List<ShowStu> ShowScore(String classmajor) {
+        return basicRepository.ShowScore(classmajor);
     }
 
     @Override
