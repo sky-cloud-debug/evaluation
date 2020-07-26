@@ -36,25 +36,33 @@
                 </div>
             </div>
             <div class="layui-form-item" style="margin-left: 68px">
-                <div class="layui-inline">
-                    <label class="layui-form-label">奖学金等级</label>
-                    <div class="layui-input-inline">
-                        <input id="Scholarship" type="tel" name="scholarship"  disabled class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">审核情况</label>
-                    <div class="layui-input-inline">
-                        <input id="State" type="text" name="state" disabled class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">审核理由</label>
-                    <div class="layui-input-inline">
-                        <input id="Reason" type="text" name="reason" disabled class="layui-input" style="width: 660px">
-                    </div>
-                </div>
+
             </div>
+
+            <div style="width: 1400px; margin-left: 86px" >
+                <table class="layui-table" >
+                    <colgroup>
+                        <col width="200">
+                        <col width="150">
+                        <col width="800">
+                    </colgroup>
+                    <thead>
+                    <tr >
+                        <th style="margin-left: 100px">奖学金等级</th>
+                        <th>审核情况</th>
+                        <th>审核理由</th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="yx">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="layui-form-item" style="margin-left: 68px">
+
+            </div>
+
             <div style="width: 1400px; margin-left: 86px" >
                 <table class="layui-table" >
                     <colgroup>
@@ -104,9 +112,14 @@
                             if(k<1){}else {
                                 $('#Sno').val(v.number);
                                 $('#Card').val(v.card);
-                                $('#Scholarship').val(v.scholarshipLevel);
-                                $('#State').val(v.state);
-                                $('#Reason').val(v.reason);
+
+                                var str="<tr >\n" +
+                                    "            <td>"+v.scholarshipLevel+"</td>\n" +
+                                    "            <td>"+v.state+"</td>\n" +
+                                    "            <td>"+v.reason+"</td>\n" +
+                                    "        </tr>"
+                                $('#yx').append(str);
+
                             }
 
                         }else{

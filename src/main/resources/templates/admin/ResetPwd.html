@@ -33,20 +33,23 @@
 <script>
     $(function () {
         $('#layerDemo').click(function () {
-            var data=$('#Sno').val();
-            $.ajax({
-                type: "POST",
-                url: "/UserController/resetpassword",
-                data:"number="+data,
-                //contentType : "application/json",
-                //   "\"number\"="+jdata.number+",\"name\"="+jdata.name+",\"sex\"="+jdata.sex+",\"political\"="+jdata.political+",\"duty\"="+jdata.duty+",\"classMajor\"="+jdata.classMajor,
-                success:function (data) {
-                    alert(data);
-                },
-                error:function (e) {
-                    console.log(e);
-                }
-            });
+
+           if(confirm("是否确定重置该密码？")) {
+               var data=$('#Sno').val();
+               $.ajax({
+                   type: "POST",
+                   url: "/UserController/resetpassword",
+                   data:"number="+data,
+                   //contentType : "application/json",
+                   //   "\"number\"="+jdata.number+",\"name\"="+jdata.name+",\"sex\"="+jdata.sex+",\"political\"="+jdata.political+",\"duty\"="+jdata.duty+",\"classMajor\"="+jdata.classMajor,
+                   success:function (data) {
+                       alert(data);
+                   },
+                   error:function (e) {
+                       console.log(e);
+                   }
+               });
+            }
         })
     })
 </script>

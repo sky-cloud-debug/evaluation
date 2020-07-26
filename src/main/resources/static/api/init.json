@@ -25,13 +25,13 @@
           "child": [
             {
               "title": "基础分成绩",
-              "href": "scoring/stu.html",
+              "href": "scoring/totalGrade.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             },
             {
               "title": "总成绩",
-              "href": "page/welcome-2.html",
+              "href": "scoring/stu.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }
@@ -147,6 +147,12 @@
         {
           "title": "重置密码",
           "href": "admin/ResetPwd.html",
+          "icon": "fa fa-refresh",
+          "target": ""
+        },
+        {
+          "title": "管理员审核信息",
+          "href": "admin/check.html",
           "icon": "fa fa-refresh",
           "target": ""
         },
