@@ -36,7 +36,7 @@ class EvaluationApplicationTests {
     @Test
     public void contextLoads() {
         //ArrayList<ShowStu> list= (ArrayList<ShowStu>) basicRepository.ShowScoreLike("%计开发%");
-        basic b=basicServicelpml.findbynumber("2018212459");
+        basic b=basicServicelpml.findbynumber("2018212405");
             System.out.println(b);
     }
 
