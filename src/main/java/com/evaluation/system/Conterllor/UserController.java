@@ -1,19 +1,15 @@
 package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Dao.PasswordReposity;
+import com.evaluation.system.Dao.UserRepository;
 import com.evaluation.system.Service.Impl.userServicelmpl;
 import com.evaluation.system.domain.ChangePwd;
-import com.evaluation.system.domain.Password;
 import com.evaluation.system.domain.user;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -24,6 +20,8 @@ public class UserController {
     @Autowired
     PasswordReposity passwordReposity;
 
+    @Autowired
+    UserRepository userRepository;
     //查找用户
     public user finduserbynumber(String number){
         user us=null;
@@ -38,29 +36,29 @@ public class UserController {
     @RequestMapping(value="/UserController/findtoEdituser",method = RequestMethod.POST)
     @ResponseBody
     public  String findtoEdituser(@RequestBody(required=false)ChangePwd pwd,HttpServletRequest request){
-
         String oldpassword=pwd.getOldpassword();
         String newpassword1=pwd.getNewpassword1();
         String newpassword2=pwd.getNewpassword2();
-
-        String usernumber=(String)request.getSession().getAttribute("number");
-        user us=finduserbynumber(usernumber);
-        Password password1=passwordReposity.findById(us.getPasswordId()).orElse(null);
-        if(!password1.getPassword().equals(oldpassword)){
-            return "旧密码错误";
-        }
         if(!newpassword1.equals(newpassword2)){
-            return "新密码输入不同";
+            return "新密码输入不同！";
         }
-
+        String usernumber=(String)request.getSession().getAttribute("number");
+        Md5Hash md5Hash=new Md5Hash(oldpassword,usernumber,1024);
+        oldpassword=md5Hash.toHex();
+        user us=finduserbynumber(usernumber);
+        if(!us.getPassword().equals(oldpassword)){
+            return "旧密码错误！";
+        }
         Integer permissions=us.getPermissions();
         if(permissions==1){
             us.setPermissions(0);
-            password1.setPassword(newpassword1);
-            passwordReposity.save(password1);
-            return "修改成功";
+            Md5Hash md5Hash1=new Md5Hash(newpassword1,usernumber,1024);
+            newpassword1=md5Hash1.toHex();
+            us.setPassword(newpassword1);
+            userRepository.save(us);
+            return "修改成功！";
         }else {
-            return "修改失败";
+            return "无权限修改密码！";
         }
     }
 
@@ -68,7 +66,7 @@ public class UserController {
     @RequestMapping(value="/UserController/resetpassword",method = RequestMethod.POST)
     @ResponseBody
    // @PutMapping("/resetpassword")
-    public String resetpassword(@RequestBody(required=false)String num,HttpServletRequest request){
+    public String resetpassword(@RequestBody(required=false)HttpServletRequest request){
         String number=request.getParameter("number");
         System.out.println(number);
         String s = userservicelmpl.resetuser(number);

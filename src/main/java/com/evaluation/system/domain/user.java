@@ -1,12 +1,15 @@
 package com.evaluation.system.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-
+@Setter
 @Entity
 @Data
+@Getter
 public class user {
 
 
@@ -16,49 +19,17 @@ public class user {
 
     private String number;
 
-    private Integer passwordId;
+    private String password;
 
     private Integer permissions;
 
-    public user(String number, Integer passwordId, Integer permissions) {
+    public user(String number, String password, Integer permissions) {
         this.number = number;
-        this.passwordId = passwordId;
+        this.password = password;
         this.permissions = permissions;
     }
 
     public user() {
-    }
-
-    public Integer getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Integer permissions) {
-        this.permissions = permissions;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public Integer getPasswordId() {
-        return passwordId;
-    }
-
-    public void setPasswordId(Integer passwordId) {
-        this.passwordId = passwordId;
     }
 
     @Override
@@ -66,7 +37,7 @@ public class user {
         return "user{" +
                 "id=" + id +
                 ", number='" + number + '\'' +
-                ", passwordId=" + passwordId +
+                ", passwordId=" + password +
                 ", permissions=" + permissions +
                 '}';
     }
