@@ -48,6 +48,15 @@ public class quality {
         this.classMajor = classMajor;
     }
 
+    public quality(String number, Double moral, Double heart, Double technology, Double totalCount, String classMajor) {
+        this.number = number;
+        this.moral = moral;
+        this.heart = heart;
+        this.technology = technology;
+        this.totalCount = totalCount;
+        this.classMajor = classMajor;
+    }
+
     public quality() {
     }
 

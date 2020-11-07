@@ -1,20 +1,25 @@
 package com.evaluation.system.Conterllor;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.evaluation.system.Service.Impl.ScoreServiceImpl;
 import com.evaluation.system.domain.basic;
 import com.evaluation.system.domain.testGroup;
-import com.evaluation.system.util.ExcelUtils.ExcelUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * author:JYuXuAN
@@ -79,6 +84,38 @@ public class ScoreController {
         }
         scoreService.setTestMember(classMajor, nameList);
         return "index";
+    }
+
+    @RequestMapping("/submitScore")
+    public String submitScore() {
+        String classMajor = "计算机18-4"; // 班级
+        String name = "江宇轩"; // 测评小组打分人名
+        ArrayList<Integer> moralList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        ArrayList<Integer> heartList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        ArrayList<Integer> technologyList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        scoreService.submitScore(classMajor, name, "Moral", moralList);
+        scoreService.submitScore(classMajor, name, "Heart", heartList);
+        scoreService.submitScore(classMajor, name, "Technology", technologyList);
+        return "";
+    }
+
+    @RequestMapping("/submittest")
+    public String test(@RequestBody Map<String, Map<String, String>> res) {
+        String classMajor = "计算机18-4"; // 班级
+        String name = "瞿庆敏"; // 测评小组打分人名
+        ArrayList<Integer> moralList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        ArrayList<Integer> heartList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        ArrayList<Integer> technologyList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
+        for (Map.Entry<String, Map<String, String>> enTry : res.entrySet()) {
+            Map<String, String> map = enTry.getValue();
+            moralList.add(Integer.parseInt(map.get("moral")));
+            heartList.add(Integer.parseInt(map.get("health")));
+            technologyList.add(Integer.parseInt(map.get("technology")));
+        }
+        scoreService.submitScore(classMajor, name, "Moral", moralList);
+        scoreService.submitScore(classMajor, name, "Heart", heartList);
+        scoreService.submitScore(classMajor, name, "Technology", technologyList);
+        return "";
     }
 
     /**

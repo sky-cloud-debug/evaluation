@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>测评小组打分</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="/layui.all.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $.ajax({
+                type:"get",
+                url:"/class",
+                data: "application/json",
+
+                success:function(data){
+
+                    var obj = eval(data);
+                    var tbody = $('<tbody></tbody>');
+                    $.each(obj,function(index){
+                        var val = obj[index];
+                        var tr = $('<tr></tr>');
+                        tr.append(
+                            '<td>'+val.number + '</td>'
+                            + '<td>' + val.classMajor + '</td>'
+                            + '<td>' + val.name + '</td>'
+                            + '<td>' + val.moral + '</td>'
+                            + '<td>' + val.health + '</td>'
+                            + '<td>' + val.tech + '</td>'
+                            + '<td>' + val.reason + '</td>'
+                        )
+                        tbody.append(tr);
+
+                    });
+
+                    $('#table1 tbody').replaceWith(tbody);
+
+
+
+                    function get_table(){
+
+
+                    }
+
+
+
+
+                    // layui.use(['laypage','layer','table'],function(){
+                    // 	var laypage = layui.laypage
+                    // 	    , layer = layui.layer
+                    // 	    , $ = layui.jQuery;
+                    //
+                    // 	laypage.render({
+                    // 		elem:'demo7'
+                    // 		, page:true
+                    // 		, limit:15
+                    // 		, layout: ['prev', 'page', 'next','limit','refresh','skip','count']
+                    // 		, jump: function(e, first) { //触发分页后的回调
+                    // 			if (!first) { //一定要加此判断,否则初始时会无限刷新
+                    // 				for (var i = (e.curr - 1) * 15; i < e.curr * 15; i++) {
+                    // 					$("#table").append(obj[i]);
+                    // 				}
+                    // 			}
+                    // 		}
+                    //
+                    // 	});
+                    //
+                    // });
+                },
+                error:function (e) {
+                    console.log(e);
+                }
+
+            })
+        });
+    </script>
+
+</head>
+<body>
+<div>
+    <table id="table1" class="layui-table">
+        <colgroup>
+            <col width="150" />
+            <col width="150" />
+            <col width="150" />
+            <col width="150" />
+            <col width="150" />
+            <col width="150" />
+            <col width="150" />
+        </colgroup>
+        <thead>
+        <tr>
+            <th>学号</th>
+            <th>班级</th>
+            <th>姓名</th>
+            <th class="moral" >德育成绩</th>
+            <th class="health">身心素质成绩</th>
+            <th class="tech" >科技人文成绩</th>
+            <th lay-data="{edit: 'text'}">理由</th>
+        </tr>
+        </thead>
+        <tbody id="table"></tbody>
+    </table>
+    <div  style="float: right; margin-right: 50px;"><button id ="submit" class="layui-btn">立即提交</button></div>
+
+    <script>
+        $(function(){
+            $('#submit').on("click",function(){
+                // var moral = obj[3];
+                // var health = obj[4];
+                // var tech = obj[5];
+                var $tr=$('#table1 tr');
+                var res={};
+                for(var i=0;i<$tr.length;i++){
+                    var tds=$($tr[i]).find('td');
+                    if(tds.length>0){
+                        res[$(tds[0]).html()]=
+                            {
+                                "number":$(tds[0]).html(),
+                                "classMajor":$(tds[1]).html(),
+                                "name":$(tds[2]).html(),
+                                "moral":$(tds[3]).html(),
+                                "health":$(tds[4]).html(),
+                                "technology":$(tds[5]).html(),
+                                "reason":$(tds[6]).html()
+                            };
+                    }
+                }
+                console.log(res);
+
+                $.ajax({
+                    type:"post",
+                    contentType : "application/json",
+                    url:  "/submittest",
+                    dataType: "json",
+                    data:JSON.stringify(res),
+                    success:function(data){
+                        console.log(data);
+                        alert("提交成功");
+                    }
+                });
+
+            });
+        })
+
+    </script>
+</div>
+<div id="demo7"></div>
+<div  style="color: red; float: left;margin-left: 20px;">备注：若打基本合格，理由必填。</div>
+<script>
+
+    //dom创建文本框
+    var input = document.createElement("input");
+    input.type="text" ;
+    //得到当前的单元格
+    var currentCell ;
+    function editCell(event)
+    {
+        if(event==null)
+        {
+            currentCell=window.event.srcElement;
+        }
+        else
+        {
+            currentCell=event.target;
+        }
+
+        if(currentCell.tagName=="TD"){
+
+            //用单元格的值来填充文本框的值
+            input.value=currentCell.innerHTML;
+            //当文本框丢失焦点时调用last
+            input.onblur=last;
+            input.ondblclick=last;
+            currentCell.innerHTML="";
+            //把文本框加到当前单元格上.
+            currentCell.appendChild(input);
+
+            input.focus();
+
+        }
+
+    }
+
+    function last()
+    {
+        //充文本框的值给当前单元格
+        currentCell.innerHTML = input.value;
+    }
+    //最后为表格绑定处理方法.
+    document.getElementById("table1").ondblclick=editCell;
+
+</script>
+</body>
+</html>
