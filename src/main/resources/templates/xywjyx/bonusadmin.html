@@ -95,7 +95,7 @@
                 var info = element.id.split('-');
                 var name = info[0];
                 var awardName = info[1];
-                var reason = document.getElementById("reason").value;
+                var reason = $('#reason').val();
                 $(".alert-box").css('display','none');
                 $.ajax({
                     type:"get",
@@ -155,13 +155,21 @@
 <div class="alert-box" style="display: none;">
     <div class="alert">
         <textarea placeholder="请输入理由" rows="8" cols="35" id="reason" ></textarea>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
+        <div class="layui-form-item" >
+            <div class="layui-input-block" style="margin-left: 50px">
                 <input type="submit" id="submit" value="提交" class="layui-btn"/>
+                <input type="submit" id="reset" value="提交" class="layui-btn"/>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(function(){
+        $('#reset').click(function () {
+            $('.alert-box').css('display','none');
+        })
+    })
 
+</script>
 </body>
 </html>

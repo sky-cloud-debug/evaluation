@@ -37,23 +37,14 @@
 
     					$('#table1 tbody').replaceWith(tbody);
 
-    					$('#submit').on("click",function(){
-    						var moral = obj[3];
-    						var health = obj[4];
-    						var tech = obj[5];
 
 
-    						$.ajax({
-    							type:"get",
-    							url:  "/submitMoral="+ moral + "&/submitHeart="+ health + "&/submitTechnology="+ tech ,
-    							data:{"name":$("#table").val()},
-    							success:function(data){
-    								console.log(data);
-    								alert("提交成功");
-    							}
-    						});
+						function get_table(){
 
-    					});
+
+						}
+
+
 
 
     					// layui.use(['laypage','layer','table'],function(){
@@ -113,6 +104,47 @@
 				<tbody id="table"></tbody>
 			</table>
 			<div  style="float: right; margin-right: 50px;"><button id ="submit" class="layui-btn">立即提交</button></div>
+
+			<script>
+				$(function(){
+					$('#submit').on("click",function(){
+						// var moral = obj[3];
+						// var health = obj[4];
+						// var tech = obj[5];
+						var $tr=$('#table1 tr');
+						var res={};
+						for(var i=0;i<$tr.length;i++){
+							var tds=$($tr[i]).find('td');
+							if(tds.length>0){
+								res[$(tds[0]).html()]=
+										{
+											"number":$(tds[0]).html(),
+											"classMajor":$(tds[1]).html(),
+											"name":$(tds[2]).html(),
+											"moral":$(tds[3]).html(),
+											"health":$(tds[4]).html(),
+											"tech":$(tds[5]).html(),
+											"reason":$(tds[6]).html()
+										};
+							}
+						}
+						console.log(res);
+						var Jres=JSON.parse(res);
+
+						$.ajax({
+							type:"get",
+							url:  "" ,
+							data:Jres,
+							success:function(data){
+								console.log(data);
+								alert("提交成功");
+							}
+						});
+
+					});
+				})
+
+			</script>
 		</div>
 		<div id="demo7"></div>
 		<div  style="color: red; float: left;margin-left: 20px;">备注：若打基本合格，理由必填。</div>

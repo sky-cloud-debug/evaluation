@@ -79,7 +79,6 @@
             $.ajax({
                 async: true,
                 data: {"name": name, "awardName": awardName},
-                dataType: "json",
                 url: "/judgeMaterials_monitor?name=" + name + "&awardName=" + awardName + "&flag=true" + "&reason=" + reason,
                 type: "get",
                 success: function (data) {
@@ -96,12 +95,12 @@
                 var info = element.id.split('-');
                 var name = info[0];
                 var awardName = info[1];
-                var reason = document.getElementById("reason").value;
+                var reason = $('#reason').val();
                 $(".alert-box").css('display', 'none');
+                console.log(reason);
                 $.ajax({
                     type: "get",
                     data: {"name": name, "awardName": awardName,"reason":reason},
-                    dataType: "json",
                     url: "/judgeMaterials_monitor?name=" + name + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
                     success: function (data) {
                         console.log(data);
@@ -162,13 +161,21 @@
 <div class="alert-box" style="display: none;">
     <div class="alert">
         <textarea placeholder="请输入理由" rows="8" cols="35" id="reason"></textarea>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <input type="button" id="submit" value="提交" class="layui-btn"/>
-            </div>
+        <div class="layui-form-item" style="margin-left: 50px;">
+
+                <input type="button" id="submit" value="提交" class="layui-btn" />
+            <input type="button" id="reset" value="取消" class="layui-btn layui-btn-primary" />
         </div>
+
     </div>
 </div>
+<script>
+    $(function(){
+        $('#reset').click(function () {
+            $('.alert-box').css('display','none');
+        })
+    })
 
+</script>
 </body>
 </html>
