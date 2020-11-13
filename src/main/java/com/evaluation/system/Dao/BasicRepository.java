@@ -37,7 +37,3 @@ public interface BasicRepository extends JpaRepository<basic, String> {
     @Query(value = "select new com.evaluation.system.domain.AllxyAwards(a.number,a.name,a.classMajor,b.scholarshipLevel) from basic a,yxScholarship b  where a.number = b.number order by a.number")
     public List<AllxyAwards> FindyxAward();
 }
-
-//push在哪来着
-
-//在上边hhh

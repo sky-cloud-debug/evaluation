@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class BasicServicelpml implements BasicService {
+public class BasicServicelmpl implements BasicService {
 
     @Autowired
     private BasicRepository basicRepository;

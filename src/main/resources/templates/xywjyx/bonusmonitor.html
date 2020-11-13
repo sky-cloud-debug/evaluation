@@ -52,12 +52,9 @@
                         trStr += '       <td>' + obj[i].type + '</td>\n';
                         trStr += '       <td>' + obj[i].awardName + '</td>\n';
                         trStr += '       <td>' + obj[i].score + '</td>\n';
-                        // TODO 图片路径
-                        var path = '../support/' + obj[i].classMajor + '/' + obj[i].awardName + '-' + obj[i].name + '.jpg';
+                        trStr += '       <td><img src=' + obj[i].route + '  / height="116.2px" width="350px" alt=""/></td>\n';
 
-                        trStr += '       <td><img src=' + path + '  / height="116.2px" width="350px" alt=""/></td>\n';
-
-                        var info = obj[i].name + "-" + obj[i].awardName;
+                        var info = obj[i].number + "-" + obj[i].awardName;
 
                         trStr += '       <td><button class="layui-btn layui-btn-sm" id=' + info + ' onclick="accept(this)" >通过</button>' + '&nbsp;&nbsp;';
                         trStr += '<button class="layui-btn layui-btn-sm layui-btn-danger" id=' + info + ' onclick="refuse(this)">不通过</button></td>\n';
@@ -72,14 +69,14 @@
 
         function accept(element) {
             var info = element.id.split('-');
-            var name = info[0];
+            var number = info[0];
             var awardName = info[1];
             var reason = "";
 
             $.ajax({
                 async: true,
-                data: {"name": name, "awardName": awardName},
-                url: "/judgeMaterials_monitor?name=" + name + "&awardName=" + awardName + "&flag=true" + "&reason=" + reason,
+                data: {"number": number, "awardName": awardName},
+                url: "/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=true" + "&reason=" + reason,
                 type: "get",
                 success: function (data) {
                     console.log(data);
@@ -93,15 +90,15 @@
             $(".alert-box").css("display", "block");
             $('#submit').on('click', function () {
                 var info = element.id.split('-');
-                var name = info[0];
+                var number = info[0];
                 var awardName = info[1];
                 var reason = $('#reason').val();
                 $(".alert-box").css('display', 'none');
                 console.log(reason);
                 $.ajax({
                     type: "get",
-                    data: {"name": name, "awardName": awardName,"reason":reason},
-                    url: "/judgeMaterials_monitor?name=" + name + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
+                    data: {"number": number, "awardName": awardName,"reason":reason},
+                    url: "/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
                     success: function (data) {
                         console.log(data);
                         alert("提交成功");
@@ -111,16 +108,6 @@
                     }
                 })
             })
-
-
-            // $.ajax({
-            //     async: true,
-            //     url: "/judgeMaterials_monitor",
-            //     type: "get",
-            //     success: function (data) {
-            //         console.log(data);
-            //     }
-            // });
         }
 
 

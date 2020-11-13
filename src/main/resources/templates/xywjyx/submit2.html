@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
     <title>上传加分项</title>
@@ -59,6 +59,7 @@
     <div class="layui-form-item">
         <div class="layui-input-block">
             <input type="submit" value="提交" class="layui-btn"  />
+            <label th:text="${mes}" style="color: red;width: 200px;position: inherit" ></label>
         </div>
     </div>
 </form>

@@ -24,6 +24,6 @@ public interface AwardTempRepository extends JpaRepository<AwardTemp, String> {
 
     public ArrayList<AwardTemp> findByNumber(String number);
 
-    public AwardTemp findByNameAndAwardName(String name, String awardName);
+    public AwardTemp findByNumberAndAwardName(String number, String awardName);
 
 }

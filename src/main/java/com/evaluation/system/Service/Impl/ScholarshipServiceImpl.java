@@ -24,7 +24,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
     public String add_yx(String level,String card) {
 
         yxScholarship yxScholarship=new yxScholarship();
-        if(card.equals(null)||card.equals("")){
+        if(card==null||card.equals("")){
             return "卡号错误";
         }
         int Card=Integer.parseInt(card);

@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +26,8 @@ public class ExamineController {
     @Autowired
     ExamineServiceImpl examineService;
 
+    @GetMapping("/tosubmit")
+    public String login(){return "/xywjyx/submit2";}
     /**
      * 提交加分项材料，保存照片，保存数据库
      *
@@ -30,21 +35,30 @@ public class ExamineController {
      * @param request
      * @return
      */
+
     @PostMapping("/subMaterials")
-    public String subMaterials(@RequestParam(value = "materials") MultipartFile file, HttpServletRequest request) {
+    public String subMaterials(@RequestParam(value = "materials") MultipartFile file, HttpServletRequest request,RedirectAttributesModelMap model) {
         // Shiro传入开始
-        String classMajor = "计算机18-4";
-        String number = "2018212602";
-        String name = "江宇轩";
+        HttpSession session=request.getSession();
+        String classMajor = session.getAttribute("classMajor").toString();
+        String number = session.getAttribute("number").toString();
+        String name = session.getAttribute("name").toString();
+        System.out.println(classMajor+number+name);
         // Shiro传入结束
         String type = request.getParameter("type");
         String level = request.getParameter("level");
         String awardName = request.getParameter("awardName");
         String sc = request.getParameter("score");
         int score = Integer.parseInt(sc);
-        AwardTemp awardTemp = new AwardTemp(number, name, type, level, awardName, score, 0, "", classMajor);
-        String info = examineService.insertAwardTemp(awardTemp, file);
-        return "index";
+        AwardTemp awardTemp = new AwardTemp(number, name, type, level, awardName, "time",score, 0, "", classMajor,"route");
+        String info=null;
+        try {
+            info = examineService.insertAwardTemp(awardTemp, file,request);
+            model.addFlashAttribute("mes",info);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/tosubmit";
     }
 
     /**
@@ -56,7 +70,8 @@ public class ExamineController {
     @GetMapping("/showMaterials_admin")
     @ResponseBody
     public ArrayList<AwardTemp> showMaterials_admin(HttpServletRequest request) {
-        String classMajor = "计算机18-4"; // 后期前端传入
+        HttpSession session=request.getSession();
+        String classMajor = session.getAttribute("classMajor").toString(); // 后期前端传入
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, 1);
         return awardTemps;
@@ -71,7 +86,8 @@ public class ExamineController {
     @GetMapping("/showMaterials_monitor")
     @ResponseBody
     public ArrayList<AwardTemp> showMaterials_monitor(HttpServletRequest request) {
-        String classMajor = "计算机18-4"; // 后期前端传入
+        HttpSession session=request.getSession();
+        String classMajor = session.getAttribute("classMajor").toString();
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, 0);
         return awardTemps;
@@ -84,7 +100,7 @@ public class ExamineController {
      */
     @GetMapping("/judgeMaterials_admin")
     public String judgeMaterials_admin(HttpServletRequest request) {
-        String name = request.getParameter("name");
+        String number = request.getParameter("number");
         String awardName = request.getParameter("awardName");
         String FLAG = request.getParameter("flag");
         String reason = request.getParameter("reason");
@@ -94,8 +110,7 @@ public class ExamineController {
         } else {
             flag = -2;
         }
-        String result = examineService.judgeMaterials_admin(name, awardName, flag, reason);
-        System.out.println(result);
+        String result = examineService.judgeMaterials_admin(number, awardName, flag, reason);
         return result;
     }
 
@@ -106,7 +121,7 @@ public class ExamineController {
      */
     @GetMapping("/judgeMaterials_monitor")
     public String judgeMaterials_monitor(HttpServletRequest request) {
-        String name = request.getParameter("name");
+        String name = request.getParameter("number");
         String awardName = request.getParameter("awardName");
         String FLAG = request.getParameter("flag");
         String reason = request.getParameter("reason");
@@ -116,7 +131,7 @@ public class ExamineController {
         } else {
             flag = -1;
         }
-        String result = examineService.judgeMaterials_monitor(name, awardName, flag, reason);
+        String result = examineService.judgeMaterials_monitor(name, awardName, flag, reason,request);
         System.out.println(result);
         return result;
     }
@@ -131,7 +146,8 @@ public class ExamineController {
      */
     @GetMapping("/judgeResult")
     public String judgeResult(HttpServletRequest request, Model model) {
-        String number = "2018212602"; // Shiro 传入
+        HttpSession session=request.getSession();
+        String number = session.getAttribute("number").toString();; // Shiro 传入
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getJudgeResult(number);
         model.addAttribute("awardTemp", awardTemps);

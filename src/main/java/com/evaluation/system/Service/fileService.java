@@ -23,4 +23,6 @@ public interface fileService {
 
     //判断file格式
     public Workbook getWorkbook(InputStream in,String filename) throws Exception;
+
+    public String deletephoto(String route);
 }

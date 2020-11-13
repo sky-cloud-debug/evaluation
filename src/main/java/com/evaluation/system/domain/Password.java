@@ -10,7 +10,6 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@ToString
 public class Password {
 
 

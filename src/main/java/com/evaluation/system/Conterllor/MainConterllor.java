@@ -1,6 +1,6 @@
 package com.evaluation.system.Conterllor;
 
-import com.evaluation.system.Service.Impl.BasicServicelpml;
+import com.evaluation.system.Service.Impl.BasicServicelmpl;
 import com.evaluation.system.Service.fileService;
 import com.evaluation.system.Service.loginService;
 import com.evaluation.system.domain.basic;
@@ -9,17 +9,14 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +31,7 @@ public class MainConterllor {
     @Autowired
     loginService loginService;
     @Autowired
-    BasicServicelpml basicServicelpml;
+    BasicServicelmpl basicServicelmpl;
 
     @Autowired
     fileService fileService;
@@ -65,16 +62,16 @@ public class MainConterllor {
             subject.login(new UsernamePasswordToken(number,password));
             HttpSession session=request.getSession();
             session.setAttribute("number",number);
-            basic b = basicServicelpml.findbynumber(number);
+            basic b = basicServicelmpl.findbynumber(number);
             String s=b.getClassMajor();
             String[] s1=s.split("\\d");
             int i=s1[0].length();
             String classMajorLike = null;
             classMajorLike=s.substring(0,i);
             session.setAttribute("classMajor",s);
+            session.setAttribute("number",number);
+            session.setAttribute("name",b.getName());
             session.setAttribute("classMajorlike",classMajorLike);
-            System.out.println(b.getName());
-            model.addFlashAttribute("names",b.getName());
             return "redirect:/index.html";
         }catch (UnknownAccountException e){
             e.printStackTrace();

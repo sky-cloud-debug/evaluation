@@ -3,16 +3,17 @@ package com.evaluation.system.domain;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 @Entity
-@ToString
 @Data
 public class quality {
 
     //学号
     @Id
-    @Column(name="number")
     private String number;
 
     //排名

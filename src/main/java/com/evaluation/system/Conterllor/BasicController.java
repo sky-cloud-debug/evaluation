@@ -1,7 +1,7 @@
 package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Dao.BasicRepository;
-import com.evaluation.system.Service.Impl.BasicServicelpml;
+import com.evaluation.system.Service.Impl.BasicServicelmpl;
 import com.evaluation.system.Service.Impl.ShowAwardslpml;
 import com.evaluation.system.Service.Impl.TempbasicServicelmpl;
 import com.evaluation.system.domain.*;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.monitor.MonitorSettingException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,7 +27,7 @@ public class BasicController {
     BasicRepository basicRepository;
 
     @Autowired
-    private BasicServicelpml basicServicelpml;
+    private BasicServicelmpl basicServicelmpl;
 
     @Autowired
     ShowAwardslpml showAwardslpml;
@@ -43,7 +41,8 @@ public class BasicController {
     public void insertUserInfo(@RequestBody(required=false)Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
         String classMajor=(String)request.getSession().getAttribute("classMajor");
         List<ShowStu> list=new ArrayList<ShowStu>();
-        list=basicServicelpml.ShowScore(classMajor);
+        list= basicServicelmpl.ShowScore(classMajor);
+        System.out.println("班级人数："+list.size());
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
@@ -182,7 +181,7 @@ public class BasicController {
         String number=(String)request.getSession().getAttribute("number");
         System.out.println("我来到这里了。。。。。。。。。。。。");
         response.setCharacterEncoding("utf-8");
-        basic ba=basicServicelpml.findbynumber(number);
+        basic ba= basicServicelmpl.findbynumber(number);
 
         PrintWriter out=response.getWriter();
         out.print(ba);
@@ -233,7 +232,7 @@ public class BasicController {
         System.out.println(te);
         if(allow.equals("1")){//同意的话就修改
             basic ba=new basic(te.getNumber(),te.getName(),te.getSex(),te.getPolitical(),te.getDuty(),te.getClassMajor());
-            basicServicelpml.updatabasic(ba,te.getNumber());
+            basicServicelmpl.updatabasic(ba,te.getNumber());
         }
         tempbasicServicelmpl.deleteByNumber(te.getNumber());
     }

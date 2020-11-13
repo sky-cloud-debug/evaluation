@@ -6,6 +6,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,6 +44,31 @@ public class fileServiceImpl implements fileService {
         return workbook;
     }
 
+    @Override
+    public String deletephoto(String route) {
+        String projectPath=null;
+        Resource resource=new ClassPathResource("");
+        try {
+            projectPath=resource.getFile().getAbsolutePath()+"\\static";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        route=projectPath+route.substring(2);
+        System.out.println("最终得错数据为："+route);
+        File file = new File(route);
+        try {
+            boolean flag2 = file.delete(); // 如果驳回，删除照片
+            if (flag2) {
+                return "删除图片成功";
+            } else {
+                return "删除图片失败！";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "图片不存在或其他异常！";
+        }
+    }
+
     /**
      * 提取excel数据
      * @create song
@@ -73,7 +100,6 @@ public class fileServiceImpl implements fileService {
                 if(row==null||row.getFirstCellNum()==j){
                     continue;
                 }
-
                 List<Object> li=new ArrayList<>();
                 for(int y=row.getFirstCellNum();y<row.getLastCellNum();y++){
                     cell=row.getCell(y);
