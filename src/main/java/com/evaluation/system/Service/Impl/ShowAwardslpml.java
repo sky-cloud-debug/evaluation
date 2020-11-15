@@ -5,12 +5,15 @@ import com.evaluation.system.Dao.QtScholarshipRepository;
 import com.evaluation.system.Dao.yxScholarshipRepository;
 import com.evaluation.system.Service.ShowAwards;
 import com.evaluation.system.domain.*;
+import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
+import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-
+@Transactional
 @Service
 public class ShowAwardslpml implements ShowAwards {
 
@@ -22,14 +25,6 @@ public class ShowAwardslpml implements ShowAwards {
 
     @Autowired
     yxScholarshipRepository yxScholarshipRepository;
-
-
-//    @Override
-//    public qtScholarship Showqtawards(String num) {
-//        qtScholarship one =null;
-//        one=qtScholarshipRepository.getOne(num);
-//        return one;
-//    }
 
     @Override
     public basic ShowStudent(String num) {
@@ -64,7 +59,18 @@ public class ShowAwardslpml implements ShowAwards {
     }
 
     @Override
-    public yxScholarship findyxByNumber(String number) {
-        return yxScholarshipRepository.findyxByNumber(number);
+    public List<yxScholarship> findyxByNumber(String number) {
+        return yxScholarshipRepository.findByNumber(number);
+    }
+
+    @Override
+    public List<AllqtAwards> findAllqtAwardsByClass(String classma) {
+        return null;
+    }
+
+
+    @Override
+    public List<AllxyAwards> findAllyxAwardsByClass(String classmajor) {
+        return null;
     }
 }

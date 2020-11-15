@@ -1,4 +1,4 @@
-package com.evaluation.system.domain;
+package com.evaluation.system.domain.ExtraEntity;
 
 import lombok.Data;
 import lombok.ToString;
@@ -10,7 +10,6 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@ToString
 public class ChangePwd {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

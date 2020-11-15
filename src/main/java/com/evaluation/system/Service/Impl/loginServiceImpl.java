@@ -1,6 +1,5 @@
 package com.evaluation.system.Service.Impl;
 
-import com.evaluation.system.Dao.PasswordReposity;
 import com.evaluation.system.Dao.UserRepository;
 import com.evaluation.system.Service.loginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 @Service
 public class loginServiceImpl implements loginService {
 
-    @Autowired
-    private PasswordReposity passwordReposity;
 
     @Autowired
     private UserRepository userRepository;

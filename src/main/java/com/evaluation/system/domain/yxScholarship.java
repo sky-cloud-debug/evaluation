@@ -1,7 +1,6 @@
 package com.evaluation.system.domain;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Column;
@@ -10,69 +9,27 @@ import javax.persistence.Id;
 @Proxy(lazy = false)
 @Entity
 @Data
+@Setter
+@Getter
 public class yxScholarship {
 
-
     @Id
-    @Column(name="number")
-    String number;  //学号
-
-    String scholarshipLevel; //奖学金等级
-
-    Integer cardNumber;  //卡号
-
-    String state; //审核状态
-
+    private int id;
+    private String number;  //学号
+    private int scholarshipLevel; //奖学金等级
+    private String cardNumber;  //卡号
+    private String year;
+    private int state; //审核状态
     String reason; //驳回原因
-
-    public yxScholarship(String number, String scholarshipLevel, Integer cardNumber, String state, String reason) {
-        this.number = number;
-        this.scholarshipLevel = scholarshipLevel;
-        this.cardNumber = cardNumber;
-        this.state = state;
-        this.reason = reason;
-    }
-
     public yxScholarship() {
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
+    public yxScholarship(String number, int scholarshipLevel, String cardNumber, String year, int state, String reason) {
         this.number = number;
-    }
-
-    public String getScholarshipLevel() {
-        return scholarshipLevel;
-    }
-
-    public void setScholarshipLevel(String scholarshipLevel) {
         this.scholarshipLevel = scholarshipLevel;
-    }
-
-    public Integer getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(Integer cardNumber) {
         this.cardNumber = cardNumber;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
+        this.year = year;
         this.state = state;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
         this.reason = reason;
     }
 

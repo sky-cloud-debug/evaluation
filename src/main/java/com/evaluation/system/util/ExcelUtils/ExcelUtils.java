@@ -128,7 +128,7 @@ public class ExcelUtils {
         FileInputStream fis = null;
         File f = new File(filePath);
         try {
-            if (f != null) {
+            if (f.exists()) {
                 fis = new FileInputStream(f);
                 wb = new XSSFWorkbook(fis);
             }

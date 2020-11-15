@@ -1,15 +1,32 @@
 package com.evaluation.system.Service;
 
+import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
+import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
 import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
 
+import java.util.List;
+
 public interface ScholarshipService {
-    public String add_yx(String level,String card);
+    public boolean add_yx(yxScholarship yxScholarship);
 
-    public String add_qt(String bonusName,String card);
+    public boolean add_qt(qtScholarship qtScholarship);
 
-    public String updata_qt(qtScholarship qt);
+    public boolean updata_qt(qtScholarship qt);
 
-    public String delete_qt(String number,String Bonus_name);
+    public boolean updata_yx(yxScholarship yxScholarship);
+
+    public boolean delete_qt(String number,String Bonus_name,String year);
+
+    public boolean delete_xy(String numbre,int level,String year);
+
+    //查询个人所有的奖项
+    public List<qtScholarship> findqtByNumber(String number);
+    public List<yxScholarship> findyxByNumber(String number);
+    //班级展示所有的奖项
+    public List<AllqtAwards> findqtByYearAndClassMajor(String year, String classmajor);
+    public List<AllxyAwards> findyxByYearAndClassMajor(String year, String classmajor);
+    //查询单个奖项
+    public qtScholarship findByNumberAndBonus_name(String number,String Bonus_name);
 
 }

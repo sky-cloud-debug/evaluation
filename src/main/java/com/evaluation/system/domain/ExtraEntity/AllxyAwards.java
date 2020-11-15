@@ -1,23 +1,19 @@
-package com.evaluation.system.domain;
+package com.evaluation.system.domain.ExtraEntity;
 
 public class AllxyAwards {
     //学号
     private String number;
-
     //姓名
     private String name;
-    //专业年级班级
-    private String class_major;
     //奖学金等级
-    private String scholarshipLevel;
+    private int scholarshipLevel;
 
     public AllxyAwards() {
     }
 
-    public AllxyAwards(String number, String name, String class_major, String scholarshipLevel) {
+    public AllxyAwards(String number, String name,int scholarshipLevel) {
         this.number = number;
         this.name = name;
-        this.class_major = class_major;
         this.scholarshipLevel = scholarshipLevel;
     }
 
@@ -37,19 +33,11 @@ public class AllxyAwards {
         this.name = name;
     }
 
-    public String getClass_major() {
-        return class_major;
-    }
-
-    public void setClass_major(String class_major) {
-        this.class_major = class_major;
-    }
-
-    public String getScholarshipLevel() {
+    public int getScholarshipLevel() {
         return scholarshipLevel;
     }
 
-    public void setScholarshipLevel(String scholarshipLevel) {
+    public void setScholarshipLevel(int scholarshipLevel) {
         this.scholarshipLevel = scholarshipLevel;
     }
 
@@ -58,7 +46,6 @@ public class AllxyAwards {
         return "AllxyAwards{" +
                 "number='" + number + '\'' +
                 ", name='" + name + '\'' +
-                ", class_major='" + class_major + '\'' +
                 ", scholarshipLevel='" + scholarshipLevel + '\'' +
                 '}';
     }

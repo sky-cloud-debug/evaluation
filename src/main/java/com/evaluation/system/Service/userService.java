@@ -7,6 +7,7 @@ public interface userService {
     public user findByNumber(String number);
 
     public String resetuser(String number);
-    public String adduser(user us);
+
+    public boolean adduser(user us);
 
 }

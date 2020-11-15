@@ -1,4 +1,4 @@
-package com.evaluation.system.domain;
+package com.evaluation.system.domain.ExtraEntity;
 
 import lombok.Data;
 import org.hibernate.annotations.Proxy;

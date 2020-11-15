@@ -2,13 +2,13 @@ package com.evaluation.system.Service.Impl;
 
 import com.evaluation.system.Dao.temporarybasicRepository;
 import com.evaluation.system.Service.TembasicService;
-import com.evaluation.system.domain.basic;
-import com.evaluation.system.domain.temporarybasic;
+import com.evaluation.system.domain.ExtraEntity.temporarybasic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-
+@Transactional
 @Service
 public class TempbasicServicelmpl implements TembasicService {
 
@@ -16,9 +16,9 @@ public class TempbasicServicelmpl implements TembasicService {
     temporarybasicRepository Repository;
 
     @Override
-    public String addtemporarybasic(temporarybasic te) {
-        Repository.save(te);
-        return "添加成功";
+    public boolean addtemporarybasic(temporarybasic te) {
+        temporarybasic save = Repository.save(te);
+        return save!=null;
     }
 
     @Override
@@ -27,9 +27,9 @@ public class TempbasicServicelmpl implements TembasicService {
     }
 
     @Override
-    public String deleteByNumber(String number) {
-        Repository.deleteByNumber(number);
-        return "删除成功";
+    public boolean deleteByNumber(String number) {
+        int i= Repository.deleteByNumber(number);
+        return i==1;
     }
 
     @Override

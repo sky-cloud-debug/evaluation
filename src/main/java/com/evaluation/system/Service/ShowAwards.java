@@ -1,6 +1,8 @@
 package com.evaluation.system.Service;
 
 import com.evaluation.system.domain.*;
+import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
+import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
 
 import java.util.List;
 
@@ -17,5 +19,9 @@ public interface ShowAwards {
 
     public List<qtScholarship> findPersonAllByNumber(String number);
 
-    public yxScholarship findyxByNumber(String number);
+    public List<yxScholarship> findyxByNumber(String number);
+
+    public List<AllqtAwards> findAllqtAwardsByClass(String classmajor);
+
+    public List<AllxyAwards> findAllyxAwardsByClass(String classmajor);
 }

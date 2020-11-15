@@ -1,18 +1,17 @@
 package com.evaluation.system.Service;
 
 
-import com.evaluation.system.domain.basic;
-import com.evaluation.system.domain.temporarybasic;
+import com.evaluation.system.domain.ExtraEntity.temporarybasic;
 
 import java.util.List;
 
 public interface TembasicService {
 
-    public String addtemporarybasic(temporarybasic tem);
+    public boolean addtemporarybasic(temporarybasic tem);
 
     public temporarybasic findtemporarybasic(String number);
 
-    public String deleteByNumber(String number);
+    public boolean deleteByNumber(String number);
 
     public List<temporarybasic> findall();
 }

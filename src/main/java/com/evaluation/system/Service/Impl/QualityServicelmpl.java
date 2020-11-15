@@ -2,14 +2,16 @@ package com.evaluation.system.Service.Impl;
 
 import com.evaluation.system.Dao.QualityRepository;
 import com.evaluation.system.Service.QuailtyService;
+import com.evaluation.system.domain.ExtraEntity.exportquality;
 import com.evaluation.system.domain.quality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
-public class Qualitylmpl implements QuailtyService {
+public class QualityServicelmpl implements QuailtyService {
 
     @Autowired
     QualityRepository qualityRepository;
@@ -60,5 +62,10 @@ public class Qualitylmpl implements QuailtyService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public List<exportquality> exportquality() {
+        return qualityRepository.exportquality();
     }
 }

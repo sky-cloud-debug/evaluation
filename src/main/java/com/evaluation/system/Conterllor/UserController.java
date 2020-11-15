@@ -1,9 +1,8 @@
 package com.evaluation.system.Conterllor;
 
-import com.evaluation.system.Dao.PasswordReposity;
 import com.evaluation.system.Dao.UserRepository;
 import com.evaluation.system.Service.Impl.userServicelmpl;
-import com.evaluation.system.domain.ChangePwd;
+import com.evaluation.system.domain.ExtraEntity.ChangePwd;
 import com.evaluation.system.domain.user;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,6 @@ public class UserController {
     @Autowired
     userServicelmpl userservicelmpl;
 
-    @Autowired
-    PasswordReposity passwordReposity;
 
     @Autowired
     UserRepository userRepository;
@@ -38,10 +35,6 @@ public class UserController {
     public  String findtoEdituser(@RequestBody(required=false)ChangePwd pwd,HttpServletRequest request){
         String oldpassword=pwd.getOldpassword();
         String newpassword1=pwd.getNewpassword1();
-        String newpassword2=pwd.getNewpassword2();
-        if(!newpassword1.equals(newpassword2)){
-            return "新密码输入不同！";
-        }
         String usernumber=(String)request.getSession().getAttribute("number");
         Md5Hash md5Hash=new Md5Hash(oldpassword,usernumber,1024);
         oldpassword=md5Hash.toHex();

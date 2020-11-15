@@ -1,14 +1,26 @@
 package com.evaluation.system.Dao;
 
+import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
+import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
 import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-public interface yxScholarshipRepository extends JpaRepository<yxScholarship,String> {
-    //String number, String scholarshipLevel, Integer cardNumber, String state, String reason) {
-    @Query(value = "select new com.evaluation.system.domain.yxScholarship(a.number,a.scholarshipLevel,a.cardNumber,a.state,a.reason) from yxScholarship a where a.number=?1")
-    public yxScholarship findyxByNumber(String number);
+import java.util.List;
 
+public interface yxScholarshipRepository extends JpaRepository<yxScholarship,String> {
+
+//    @Query(value = "select new com.evaluation.system.domain.yxScholarship(a.number,a.scholarshipLevel,a.cardNumber,a.state,a.reason) from yxScholarship a where a.number=?1")
+//    public List<yxScholarship> findyxByNumber(String number);
+
+    public List<yxScholarship> findByNumber(String number);
+
+    @Query(value = "select new com.evaluation.system.domain.ExtraEntity.AllxyAwards(a.number,b.name,a.scholarshipLevel) from yxScholarship a,basic b where a.number=b.number and a.year=?1 and b.classMajor=?2")
+    public List<AllxyAwards> findByYearAndClassMajor(String year, String classmajor);
+
+    @Modifying
+    public int deleteByNumberAndScholarshipLevelAndYear(String number,int level,String year);
 }

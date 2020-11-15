@@ -1,4 +1,4 @@
-package com.evaluation.system.domain;
+package com.evaluation.system.domain.ExtraEntity;
 
 public class ShowStu {
     //学号

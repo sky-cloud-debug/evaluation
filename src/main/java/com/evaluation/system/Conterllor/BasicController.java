@@ -1,10 +1,17 @@
 package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Dao.BasicRepository;
+import com.evaluation.system.Service.BasicService;
 import com.evaluation.system.Service.Impl.BasicServicelmpl;
 import com.evaluation.system.Service.Impl.ShowAwardslpml;
 import com.evaluation.system.Service.Impl.TempbasicServicelmpl;
+import com.evaluation.system.Service.ScholarshipService;
+import com.evaluation.system.Service.TembasicService;
 import com.evaluation.system.domain.*;
+import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
+import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
+import com.evaluation.system.domain.ExtraEntity.ShowStu;
+import com.evaluation.system.domain.ExtraEntity.temporarybasic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -24,25 +32,20 @@ import java.util.List;
 public class BasicController {
 
     @Autowired
-    BasicRepository basicRepository;
+    BasicService basicService;
 
     @Autowired
-    private BasicServicelmpl basicServicelmpl;
+    ScholarshipService scholarshipService;
 
     @Autowired
-    ShowAwardslpml showAwardslpml;
-
-    @Autowired
-    TempbasicServicelmpl tempbasicServicelmpl;
+    TembasicService tembasicService;
 
     //这里是精准查询，查询全班的，需要删去智育成绩，和总分。
     @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public void insertUserInfo(@RequestBody(required=false)Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
         String classMajor=(String)request.getSession().getAttribute("classMajor");
-        List<ShowStu> list=new ArrayList<ShowStu>();
-        list= basicServicelmpl.ShowScore(classMajor);
-        System.out.println("班级人数："+list.size());
+        List<ShowStu> list= basicService.ShowScore(classMajor);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
@@ -63,82 +66,59 @@ public class BasicController {
         out.print("["+jstr+"]");
     }
 
-    //这里是模糊查询，查询全专业，信息全展示出来
-//    @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
-//    @ResponseBody
-//    public void insertUserInfo1(@RequestBody(required=false)Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
-//        String classMajorlike=(String)request.getSession().getAttribute("classMajorlike");
-//        List<ShowStu> list=new ArrayList<ShowStu>();
-//        list=basicRepository.ShowScoreLike(classMajorlike);
-//        response.setCharacterEncoding("utf-8");
-//        PrintWriter out=response.getWriter();
-//        String jstr = "{}";
-//        for(ShowStu st : list){
-//
-//            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
-//                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
-//                    + "\""+"sex"+"\""+":"+ "\""+ st.getSex()+"\""+ ","
-//                    + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
-//                    + "\""+"moral"+"\""+":"+ "\""+ st.getMoral()+"\""+ ","
-//                    + "\""+"wisdom"+"\""+":"+ "\""+ st.getWisdom()+"\""+ ","
-//                    + "\""+"heart"+"\""+":"+ "\""+ st.getHeart()+"\""+ ","
-//                    + "\""+"technology"+"\""+":"+ "\""+ st.getTechnology()+"\""+ ","
-//                    + "\""+"total_count"+"\""+":"+ "\""+ st.getTotal_count()+"\""
-//                    +"}";
-//
-//        }
-//        out.print("["+jstr+"]");
-//    }
-
     @RequestMapping(value="/BasicController/showawards",method = RequestMethod.POST)
     @ResponseBody
     public void showawards(@RequestBody(required=false) Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
         String number=(String)request.getSession().getAttribute("number");
-       // String number="2018212440";
-        List<qtScholarship> allqtaward=null;
-        yxScholarship yxaward=null;
-        allqtaward = showAwardslpml.findPersonAllByNumber(number);
-        yxaward = showAwardslpml.findyxByNumber(number);
+        List<qtScholarship> allqtaward=scholarshipService.findqtByNumber(number);
+        List<yxScholarship> allyxaward=scholarshipService.findyxByNumber(number);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
-        jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ yxaward.getNumber()+"\""+ ","
-                + "\""+"card"+"\""+":"+ "\""+ yxaward.getCardNumber()+"\""+ ","
-                + "\""+"scholarshipLevel"+"\""+":"+ "\""+ yxaward.getScholarshipLevel()+"\""+ ","
-                + "\""+"state"+"\""+":"+ "\""+yxaward.getState() +"\""+ ","
-                + "\""+"reason"+"\""+":"+ "\""+yxaward.getReason() +"\""
-                +"}";
+        for(yxScholarship i : allyxaward){
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
+                    + "\""+"card"+"\""+":"+ "\""+ i.getCardNumber()+"\""+ ","
+                    + "\""+"scholarshipLevel"+"\""+":"+ "\""+ i.getScholarshipLevel()+"\""+ ","
+                    + "\""+"state"+"\""+":"+ "\""+PanDuan(i.getState()) +"\""+ ","
+                    + "\""+"year"+"\""+":"+ "\""+i.getYear() +"\""+ ","
+                    + "\""+"reason"+"\""+":"+ "\""+i.getReason() +"\""
+                    +"}";
+        }
         for(qtScholarship i : allqtaward){
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
                     + "\""+"card"+"\""+":"+ "\""+ i.getCard_number()+"\""+ ","
                     + "\""+"bonus_name"+"\""+":"+ "\""+ i.getBonus_name()+"\""+ ","
-                    + "\""+"state"+"\""+":"+ "\""+i.getState() +"\""+ ","
+                    + "\""+"state"+"\""+":"+ "\""+PanDuan(i.getState() )+"\""+ ","
+                    + "\""+"year"+"\""+":"+ "\""+i.getYear() +"\""+ ","
                     + "\""+"reason"+"\""+":"+ "\""+i.getReason() +"\""
                     +"}";
         }
 
         out.print("["+jstr+"]");
-       // out.println(allqtaward);
-     // System.out.println(yxaward);
     }
 
-    //这是查询个人的获奖情况不知道是否用的到，随手写上了
-    @GetMapping("personaward")
-    public String showawards(Model model, HttpServletRequest request){
-        String number=(String)request.getSession().getAttribute("number");
-        List<qtScholarship> allqtaward=null;
-        yxScholarship yxaward=null;
-        allqtaward = showAwardslpml.findPersonAllByNumber(number);
-        yxaward = showAwardslpml.findyxByNumber(number);
-        return "perAward";//返回个人的获奖情况
+    private String PanDuan(int i){
+        String states=null;
+        if(i==0){
+            states="未审核";
+        }else if(i==1){
+            states="班长审核通过";
+        }else if(i==-1){
+            states="班长审核未通过";
+        }else if(i==2){
+            states="审核通过";
+        }else {
+            states="管理员审核未通过";
+        }
+        return states;
     }
-
-
     @RequestMapping(value="/BasicController/qtAward",method = RequestMethod.POST)
     @ResponseBody
-    public void qtAward(@RequestBody(required=false) String name,HttpServletResponse response) throws IOException {
-        List<AllqtAwards> list=new ArrayList<AllqtAwards>();
-        list=showAwardslpml.findAllqtAwards();
+    public void qtAward(@RequestBody(required=false)HttpServletResponse response,HttpServletRequest request) throws IOException {
+        HttpSession session=request.getSession();
+        String classmajor=session.getAttribute("classMajor").toString();
+        String year=request.getParameter("year");
+        List<AllqtAwards> list= scholarshipService.findqtByYearAndClassMajor(year,classmajor);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
@@ -146,27 +126,27 @@ public class BasicController {
 
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
                     + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
-                    + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
                     + "\""+"bonus_name"+"\""+":"+ "\""+ st.getBonus_name()+"\""
                     +"}";
-
         }
         out.print("["+jstr+"]");
     }
 
     @RequestMapping(value="/BasicController/yxAward",method = RequestMethod.POST)
     @ResponseBody
-    public void yxAward(@RequestBody(required=false) String name,HttpServletResponse response) throws IOException {
-        List<AllxyAwards> list=new ArrayList<AllxyAwards>();
-        list=showAwardslpml.findAllyxAwards();
+    public void yxAward(@RequestBody(required=false) HttpServletResponse response,HttpServletRequest request) throws IOException {
+        HttpSession session=request.getSession();
+        String classmajor=session.getAttribute("classMajor").toString();
+        //String year=request.getParameter("year");
+        System.out.println("---------------"+classmajor);
+        List<AllxyAwards> list=scholarshipService.findyxByYearAndClassMajor("第一学年",classmajor);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
         for(AllxyAwards st : list){
-
+            System.out.println(st);
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
                     + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
-                    + "\""+"class_major"+"\""+":"+ "\""+ st.getClass_major()+"\""+ ","
                     + "\""+"scholarshipLevel"+"\""+":"+ "\""+ st.getScholarshipLevel()+"\""
                     +"}";
         }
@@ -179,23 +159,24 @@ public class BasicController {
     public void toEditPage(@RequestBody(required=false) Model model,HttpServletRequest request,HttpServletResponse response) throws IOException
     {
         String number=(String)request.getSession().getAttribute("number");
-        System.out.println("我来到这里了。。。。。。。。。。。。");
         response.setCharacterEncoding("utf-8");
-        basic ba= basicServicelmpl.findbynumber(number);
-
+        basic ba= basicService.findByNumber(number);
         PrintWriter out=response.getWriter();
         out.print(ba);
     }
 
     //修改后basic信息先保存到temporary等待管理员确定
-
     @RequestMapping(value="/BasicController/addtemporary",method = RequestMethod.POST)
     @ResponseBody
-    public void addtemporary(@RequestBody(required=false) basic s)
+    public String addtemporary(@RequestBody(required=false) basic s)
     {
         temporarybasic te=new temporarybasic(s.getNumber(),s.getName(),s.getSex(),s.getPolitical(),s.getDuty(),s.getClassMajor());
-        String s1 = tempbasicServicelmpl.addtemporarybasic(te);
-        System.out.println(s1);
+        boolean s1 = tembasicService.addtemporarybasic(te);
+        if(s1){
+            return "申请已经提交";
+        }else {
+            return "申请失败";
+        }
     }
 
     //这里是管理员页面，所有用户想要修改的信息在页面显示出来，等待管理员确定或者否决
@@ -203,13 +184,11 @@ public class BasicController {
     @RequestMapping(value="/BasicController/getalltemporary",method = RequestMethod.POST)
     @ResponseBody
     public void getalltemporary(@RequestBody(required=false) HttpServletRequest request,HttpServletResponse response) throws IOException{
-        List<temporarybasic> list=new ArrayList<>();
-        list = tempbasicServicelmpl.findall();//查询所有需要修改的用户到页面，管理员确定则修改，否决则删除
+        List<temporarybasic> list = tembasicService.findall();
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
         for(temporarybasic st : list){
-
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
                     + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
                     + "\""+"sex"+"\""+":"+ "\""+ st.getSex()+"\""+ ","
@@ -225,16 +204,12 @@ public class BasicController {
     @ResponseBody
     public void toEditbasicPage(@RequestBody(required=false) String a,temporarybasic te, HttpServletRequest request,HttpServletResponse response) throws IOException
     {
-
         String allow=request.getParameter("boolean");
         response.setCharacterEncoding("utf-8");
-        System.out.print(allow);
-        System.out.println(te);
         if(allow.equals("1")){//同意的话就修改
             basic ba=new basic(te.getNumber(),te.getName(),te.getSex(),te.getPolitical(),te.getDuty(),te.getClassMajor());
-            basicServicelmpl.updatabasic(ba,te.getNumber());
+            basicService.updatebasic(ba);
         }
-        tempbasicServicelmpl.deleteByNumber(te.getNumber());
+        tembasicService.deleteByNumber(te.getNumber());
     }
-
 }

@@ -1,6 +1,6 @@
 package com.evaluation.system.domain;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Column;
@@ -8,70 +8,40 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 @Entity
 @Data
+@Setter
+@Getter
+@ToString
 @Proxy(lazy = false)
 public class qtScholarship {
 
     @Id
-    @Column(name="number")
-
-    String number; //学号
-
-    String bonus_name; //奖学金名称
-
-    Integer card_number; //卡号
-
-    String state;  //审核状态
-
-    String reason;  //驳回原因
-
-    public qtScholarship(String number, String bonus_name, Integer card_number, String state, String reason) {
-        this.number = number;
-        this.bonus_name = bonus_name;
-        this.card_number = card_number;
-        this.state = state;
-        this.reason = reason;
-    }
+    private int id;
+    private String number; //学号
+    private String bonus_name; //奖学金名称
+    private String card_number; //卡号
+    private String year;
+    private int state;  //审核状态
+    private String reason;  //驳回原因
 
     public qtScholarship() {
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
+    public qtScholarship(String number, String bonus_name, String card_number, String year, int state, String reason) {
         this.number = number;
-    }
-
-    public String getBonus_name() {
-        return bonus_name;
-    }
-
-    public void setBonus_name(String bonus_name) {
         this.bonus_name = bonus_name;
-    }
-
-    public Integer getCard_number() {
-        return card_number;
-    }
-
-    public void setCard_number(Integer card_number) {
         this.card_number = card_number;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
+        this.year = year;
         this.state = state;
+        this.reason = reason;
     }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
+    public qtScholarship(int id, String number, String bonus_name, String card_number, String year, int state, String reason) {
+        this.id = id;
+        this.number = number;
+        this.bonus_name = bonus_name;
+        this.card_number = card_number;
+        this.year = year;
+        this.state = state;
         this.reason = reason;
     }
 }

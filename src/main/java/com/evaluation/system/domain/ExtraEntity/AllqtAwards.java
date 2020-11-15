@@ -1,4 +1,4 @@
-package com.evaluation.system.domain;
+package com.evaluation.system.domain.ExtraEntity;
 
 import org.hibernate.annotations.Proxy;
 
@@ -6,18 +6,14 @@ import org.hibernate.annotations.Proxy;
 public class AllqtAwards {
     //学号
     private String number;
-
     //姓名
     private String name;
-    //专业年级班级
-    private String class_major;
     //奖学金名称
     private String bonus_name;
 
-    public AllqtAwards(String number, String name, String class_major, String bonus_name) {
+    public AllqtAwards(String number, String name, String bonus_name) {
         this.number = number;
         this.name = name;
-        this.class_major = class_major;
         this.bonus_name = bonus_name;
     }
 
@@ -40,13 +36,7 @@ public class AllqtAwards {
         this.name = name;
     }
 
-    public String getClass_major() {
-        return class_major;
-    }
 
-    public void setClass_major(String class_major) {
-        this.class_major = class_major;
-    }
 
     public String getBonus_name() {
         return bonus_name;
@@ -61,7 +51,6 @@ public class AllqtAwards {
         return "AllqtAwards{" +
                 "number='" + number + '\'' +
                 ", name='" + name + '\'' +
-                ", class_major='" + class_major + '\'' +
                 ", bonus_name='" + bonus_name + '\'' +
                 '}';
     }
