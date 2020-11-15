@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * author:江宇轩
@@ -42,10 +43,17 @@ public class Award implements Serializable {
     // 班级
     private String classMajor;
 
+    // 图片路径
+    private String router;
+
+    // 上传时间
+    @Column(name = "update_time")
+    private Date updateTime;
+
     public Award() {
     }
 
-    public Award(String number, String name, String type, String level, String awardName, int score, String classMajor) {
+    public Award(String number, String name, String type, String level, String awardName, int score, String classMajor, String router, Date updateTime) {
         this.number = number;
         this.name = name;
         this.type = type;
@@ -53,6 +61,8 @@ public class Award implements Serializable {
         this.awardName = awardName;
         this.score = score;
         this.classMajor = classMajor;
+        this.router = router;
+        this.updateTime = updateTime;
     }
 
     public String getNumber() {
@@ -111,6 +121,22 @@ public class Award implements Serializable {
         this.classMajor = classMajor;
     }
 
+    public String getRouter() {
+        return router;
+    }
+
+    public void setRouter(String router) {
+        this.router = router;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "Award{" +
@@ -121,6 +147,8 @@ public class Award implements Serializable {
                 ", awardName='" + awardName + '\'' +
                 ", score=" + score +
                 ", classMajor='" + classMajor + '\'' +
+                ", router='" + router + '\'' +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

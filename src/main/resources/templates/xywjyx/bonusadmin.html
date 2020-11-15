@@ -23,7 +23,8 @@
             z-index: 9999;
             background: rgba(0, 0, 0, 0.5);
         }
-        .alert{
+
+        .alert {
             width: 200px;
             height: 200px;
             margin: 200px auto;
@@ -35,7 +36,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: "/showMaterials_admin",
+                url: "/examine/showMaterials_admin",
                 data: "application/json",
                 asnyc: false,
                 success: function (result) {
@@ -51,11 +52,11 @@
                         trStr += '       <td>' + obj[i].type + '</td>\n';
                         trStr += '       <td>' + obj[i].awardName + '</td>\n';
                         trStr += '       <td>' + obj[i].score + '</td>\n';
-                        trStr += '       <td><img src=' + obj[i].route + '  / height="116.2px" width="350px"></td>\n';
+                        trStr += '       <td><img src=' + obj[i].router + '  / height="116.2px" width="550px" alt=""/></td>\n';
 
-                        var info = obj[i].number + "-" + obj[i].awardName ;
+                        var info = obj[i].number + "-" + obj[i].awardName;
 
-                        trStr += '       <td><button class="layui-btn layui-btn-sm" id=' + info + ' onclick="accept(this)" >通过</button>'+'&nbsp;&nbsp;';
+                        trStr += '       <td><button class="layui-btn layui-btn-sm" id=' + info + ' onclick="accept(this)" >通过</button>' + '&nbsp;&nbsp;';
                         trStr += '<button class="layui-btn layui-btn-sm layui-btn-danger" id=' + info + ' onclick="refuse(this)">不通过</button></td>\n';
                     }
                     document.getElementById("test").innerHTML = trStr;
@@ -72,10 +73,10 @@
             var awardName = info[1];
             $.ajax({
                 async: true,
-              //  data:{"name":$("#test").val()},
-                data: {"number": number, "awardName": awardName},
+                //  data:{"name":$("#test").val()},
+                //   data: {"number": number, "awardName": awardName},
                 dataType: "json",
-                url: "/judgeMaterials_admin?number=" + number + "&awardName=" + awardName + "&flag=true",
+                url: "/examine/judgeMaterials_admin?number=" + number + "&awardName=" + awardName + "&flag=true",
                 type: "get",
                 success: function (data) {
                     console.log(data);
@@ -87,19 +88,19 @@
         function refuse(element) {
 
 
-            $(".alert-box").css("display","block");
-            $('#submit').on('click',function(){
+            $(".alert-box").css("display", "block");
+            $('#submit').on('click', function () {
                 var info = element.id.split('-');
                 var number = info[0];
                 var awardName = info[1];
                 var reason = $('#reason').val();
-                $(".alert-box").css('display','none');
+                $(".alert-box").css('display', 'none');
                 $.ajax({
-                    type:"get",
-                    data: {"number":number,"awardName":awardName,"reason":reason},
+                    type: "get",
+                    // data: {"number":number,"awardName":awardName,"reason":reason},
                     dataType: "json",
-                    url:"/judgeMaterials_admin?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
-                    success:function(data){
+                    url: "/examine/judgeMaterials_admin?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
+                    success: function (data) {
                         console.log(data);
                     }
                 })
@@ -122,7 +123,7 @@
             <col width="200">
             <col width="200">
             <col width="300">
-            <col width="200" />
+            <col width="200"/>
         </colgroup>
         <thead>
         <tr>
@@ -142,8 +143,8 @@
 
 <div class="alert-box" style="display: none;">
     <div class="alert">
-        <textarea placeholder="请输入理由" rows="8" cols="35" id="reason" ></textarea>
-        <div class="layui-form-item" >
+        <textarea placeholder="请输入理由" rows="8" cols="35" id="reason"></textarea>
+        <div class="layui-form-item">
             <div class="layui-input-block" style="margin-left: 50px">
                 <input type="submit" id="submit" value="提交" class="layui-btn"/>
                 <input type="submit" id="reset" value="提交" class="layui-btn"/>
@@ -152,9 +153,9 @@
     </div>
 </div>
 <script>
-    $(function(){
+    $(function () {
         $('#reset').click(function () {
-            $('.alert-box').css('display','none');
+            $('.alert-box').css('display', 'none');
         })
     })
 

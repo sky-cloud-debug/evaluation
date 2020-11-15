@@ -36,7 +36,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: "/showMaterials_monitor",
+                url: "/examine/showMaterials_monitor",
                 data: "application/json",
                 asnyc: false,
                 success: function (result) {
@@ -52,7 +52,8 @@
                         trStr += '       <td>' + obj[i].type + '</td>\n';
                         trStr += '       <td>' + obj[i].awardName + '</td>\n';
                         trStr += '       <td>' + obj[i].score + '</td>\n';
-                        trStr += '       <td><img src=' + obj[i].route + '  / height="116.2px" width="350px" alt=""/></td>\n';
+                        trStr += '       <td><img src=' + obj[i].router + '  / height="116.2px" width="550px" alt=""/></td>\n';
+
 
                         var info = obj[i].number + "-" + obj[i].awardName;
 
@@ -75,8 +76,8 @@
 
             $.ajax({
                 async: true,
-                data: {"number": number, "awardName": awardName},
-                url: "/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=true" + "&reason=" + reason,
+                // data: {"number": number, "awardName": awardName},
+                url: "/examine/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=true" + "&reason=" + reason,
                 type: "get",
                 success: function (data) {
                     console.log(data);
@@ -97,19 +98,18 @@
                 console.log(reason);
                 $.ajax({
                     type: "get",
-                    data: {"number": number, "awardName": awardName,"reason":reason},
-                    url: "/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
+                    // data: {"number": number, "awardName": awardName,"reason":reason},
+                    url: "/examine/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
                     success: function (data) {
                         console.log(data);
                         alert("提交成功");
                     },
-                    error:function (e) {
+                    error: function (e) {
                         console.log(e);
                     }
                 })
             })
         }
-
 
 
     </script>
@@ -150,16 +150,16 @@
         <textarea placeholder="请输入理由" rows="8" cols="35" id="reason"></textarea>
         <div class="layui-form-item" style="margin-left: 50px;">
 
-                <input type="button" id="submit" value="提交" class="layui-btn" />
-            <input type="button" id="reset" value="取消" class="layui-btn layui-btn-primary" />
+            <input type="button" id="submit" value="提交" class="layui-btn"/>
+            <input type="button" id="reset" value="取消" class="layui-btn layui-btn-primary"/>
         </div>
 
     </div>
 </div>
 <script>
-    $(function(){
+    $(function () {
         $('#reset').click(function () {
-            $('.alert-box').css('display','none');
+            $('.alert-box').css('display', 'none');
         })
     })
 

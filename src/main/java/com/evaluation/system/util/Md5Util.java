@@ -8,10 +8,20 @@ import java.security.NoSuchAlgorithmException;
 
 public class Md5Util {
 
-    public static String EncodeByMd5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        BASE64Encoder base64Encoder = new BASE64Encoder();
-        String newstr = base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
+    public static String EncodeByMd5(String str) {
+        String newstr = "";
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            BASE64Encoder base64Encoder = new BASE64Encoder();
+            newstr = base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return newstr;
     }
+
+    public static void main(String[] args) {
+        System.out.println(EncodeByMd5("123"));
+    }
+
 }

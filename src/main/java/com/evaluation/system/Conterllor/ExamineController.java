@@ -2,32 +2,43 @@ package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Service.Impl.ExamineServiceImpl;
 import com.evaluation.system.domain.AwardTemp;
+import com.evaluation.system.domain.user;
+import com.evaluation.system.util.DateUtils;
+import com.evaluation.system.util.RouterUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * author:江宇轩
  */
 @Controller
+@RequestMapping("/examine")
 public class ExamineController {
 
     @Autowired
     ExamineServiceImpl examineService;
 
-    @GetMapping("/tosubmit")
-    public String login(){return "/xywjyx/submit2";}
+    @GetMapping("/test")
+    public int test(HttpSession session) {
+        String number = (String) session.getAttribute("number"); // 获取当前登录用户
+        String classMajor = (String) session.getAttribute("classMajor");
+        String name = (String) session.getAttribute("name");
+        System.out.println(number + " " + classMajor + " " + name);
+        return 0;
+    }
+
+
     /**
      * 提交加分项材料，保存照片，保存数据库
      *
@@ -35,30 +46,27 @@ public class ExamineController {
      * @param request
      * @return
      */
-
     @PostMapping("/subMaterials")
-    public String subMaterials(@RequestParam(value = "materials") MultipartFile file, HttpServletRequest request,RedirectAttributesModelMap model) {
+    @ResponseBody
+    public String subMaterials(@RequestParam(value = "materials") MultipartFile file, HttpServletRequest request, HttpSession session) {
         // Shiro传入开始
-        HttpSession session=request.getSession();
-        String classMajor = session.getAttribute("classMajor").toString();
-        String number = session.getAttribute("number").toString();
-        String name = session.getAttribute("name").toString();
-        System.out.println(classMajor+number+name);
+        String number = (String) session.getAttribute("number"); // 获取当前登录用户
+        String classMajor = (String) session.getAttribute("classMajor");
+        String name = (String) session.getAttribute("name");
         // Shiro传入结束
         String type = request.getParameter("type");
         String level = request.getParameter("level");
         String awardName = request.getParameter("awardName");
         String sc = request.getParameter("score");
+
+        Date updateTime = DateUtils.getCurrentDate();
+        String uuid = RouterUtils.generateRandomString();
+        String router = number + '-' + uuid;
+
         int score = Integer.parseInt(sc);
-        AwardTemp awardTemp = new AwardTemp(number, name, type, level, awardName, "time",score, 0, "", classMajor,"route");
-        String info=null;
-        try {
-            info = examineService.insertAwardTemp(awardTemp, file,request);
-            model.addFlashAttribute("mes",info);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "redirect:/tosubmit";
+        AwardTemp awardTemp = new AwardTemp(number, name, type, level, awardName, score, 0, "", classMajor,router,updateTime);
+        String info = examineService.insertAwardTemp(awardTemp, file);
+        return info;
     }
 
     /**
@@ -69,9 +77,8 @@ public class ExamineController {
      */
     @GetMapping("/showMaterials_admin")
     @ResponseBody
-    public ArrayList<AwardTemp> showMaterials_admin(HttpServletRequest request) {
-        HttpSession session=request.getSession();
-        String classMajor = session.getAttribute("classMajor").toString(); // 后期前端传入
+    public ArrayList<AwardTemp> showMaterials_admin(HttpServletRequest request, HttpSession session) {
+        String classMajor = (String) session.getAttribute("classMajor");
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, 1);
         return awardTemps;
@@ -85,9 +92,8 @@ public class ExamineController {
      */
     @GetMapping("/showMaterials_monitor")
     @ResponseBody
-    public ArrayList<AwardTemp> showMaterials_monitor(HttpServletRequest request) {
-        HttpSession session=request.getSession();
-        String classMajor = session.getAttribute("classMajor").toString();
+    public ArrayList<AwardTemp> showMaterials_monitor(HttpServletRequest request, HttpSession session) {
+        String classMajor = (String) session.getAttribute("classMajor");
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, 0);
         return awardTemps;
@@ -99,6 +105,7 @@ public class ExamineController {
      * @return
      */
     @GetMapping("/judgeMaterials_admin")
+    @ResponseBody
     public String judgeMaterials_admin(HttpServletRequest request) {
         String number = request.getParameter("number");
         String awardName = request.getParameter("awardName");
@@ -111,6 +118,7 @@ public class ExamineController {
             flag = -2;
         }
         String result = examineService.judgeMaterials_admin(number, awardName, flag, reason);
+        System.out.println(result);
         return result;
     }
 
@@ -120,8 +128,9 @@ public class ExamineController {
      * @return
      */
     @GetMapping("/judgeMaterials_monitor")
+    @ResponseBody
     public String judgeMaterials_monitor(HttpServletRequest request) {
-        String name = request.getParameter("number");
+        String number = request.getParameter("number");
         String awardName = request.getParameter("awardName");
         String FLAG = request.getParameter("flag");
         String reason = request.getParameter("reason");
@@ -131,7 +140,7 @@ public class ExamineController {
         } else {
             flag = -1;
         }
-        String result = examineService.judgeMaterials_monitor(name, awardName, flag, reason,request);
+        String result = examineService.judgeMaterials_monitor(number, awardName, flag, reason);
         System.out.println(result);
         return result;
     }
@@ -145,9 +154,8 @@ public class ExamineController {
      * @return
      */
     @GetMapping("/judgeResult")
-    public String judgeResult(HttpServletRequest request, Model model) {
-        HttpSession session=request.getSession();
-        String number = session.getAttribute("number").toString();; // Shiro 传入
+    public String judgeResult(HttpServletRequest request, Model model, HttpSession session) {
+        String number = (String) session.getAttribute("number"); // 获取当前登录用户
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getJudgeResult(number);
         model.addAttribute("awardTemp", awardTemps);
@@ -167,7 +175,7 @@ public class ExamineController {
         String classMajor = null; // 班级查询
         String type = null; // 类型查询
         String level = null; // 等级查询
-        String flag= null;
+        String flag = null;
         try {
             classMajor = request.getParameter("classMajor");
             type = request.getParameter("type");
@@ -184,5 +192,19 @@ public class ExamineController {
         }
         return awardTemps;
     }
+
+    /**
+     * 管理员审核中的下拉框，获得所有班级
+     *
+     * @return
+     */
+    @GetMapping("/getAllClassMajor")
+    @ResponseBody
+    public List<String> showAllClassMajor() {
+        List<String> classMajors;
+        classMajors = examineService.getAllClassMajor();
+        return classMajors;
+    }
+
 
 }
