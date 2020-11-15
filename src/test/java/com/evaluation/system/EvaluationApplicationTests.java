@@ -8,6 +8,7 @@ import com.evaluation.system.Service.*;
 import com.evaluation.system.Service.Impl.*;
 import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
 import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
+import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
 import com.evaluation.system.domain.ExtraEntity.exportquality;
 import com.evaluation.system.domain.basic;
 import com.evaluation.system.domain.qtScholarship;
@@ -29,14 +30,11 @@ import java.util.List;
 class EvaluationApplicationTests {
 
     @Autowired
-    QtScholarshipRepository qtScholarshipRepository;
-
-    @Autowired
     ScholarshipService scholarshipService;
     @Test
     public void contextLoads() {
 
-        List<AllxyAwards> list=scholarshipService.findyxByYearAndClassMajor("第一学年","计算机18-4");
+        List<VerifyQtScholarship> list=scholarshipService.verifyQtscholarshipByClass("计算机18-4",1);
         for (int i=0;i<list.size();i++){
             System.out.println(list.get(i));
         }

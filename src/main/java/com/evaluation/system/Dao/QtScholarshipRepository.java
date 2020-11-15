@@ -1,6 +1,7 @@
 package com.evaluation.system.Dao;
 
 import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
+import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
 import com.evaluation.system.domain.qtScholarship;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,5 +26,9 @@ public interface QtScholarshipRepository extends JpaRepository<qtScholarship,Str
     @Query(value = "delete from qtScholarship a where a.number=?1 and a.bonus_name=?2 and a.year=?3")
     public int deleteByNumberAndBonus_nameAndYear(String number,String Bonus_name,String year);
 
+    @Query(value = "select new com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship(a.number,b.name,b.classMajor,a.bonus_name,a.card_number,a.year,a.reason) from qtScholarship a,basic b where a.number=b.number and a.state=?2 and b.classMajor=?1")
+    public List<VerifyQtScholarship> verifyQtscholarshipByClass(String classmajor,int state);
 
+    @Query(value = "update qtScholarship a set a.state=?1 where a.number=?2 and a.year=?3 and a.bonus_name=?4")
+    public int updateQtScholarshipState(int state,String number,String year,String name);
 }

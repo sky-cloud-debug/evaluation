@@ -5,6 +5,8 @@ import com.evaluation.system.Dao.yxScholarshipRepository;
 import com.evaluation.system.Service.ScholarshipService;
 import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
 import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
+import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
+import com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship;
 import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,26 @@ public class ScholarshipServiceImpl implements ScholarshipService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int updateQtScholarshipState(int state, String number, String year,String name) {
+        return qtScholarshipRepository.updateQtScholarshipState(1,number,year,name);
+    }
+
+    @Override
+    public int updateYxScholarshipState(int state, String number, String year) {
+        return yxScholarshipRepository.updateYxScholarshipState(state,number,year);
+    }
+
+    @Override
+    public List<VerifyYxScholarship> verifyYxscholarshipByClass(String classmajor, int state) {
+        return yxScholarshipRepository.verifyYxscholarshipByClass(classmajor,state);
+    }
+
+    @Override
+    public List<VerifyQtScholarship> verifyQtscholarshipByClass(String classmajor, int state) {
+        return qtScholarshipRepository.verifyQtscholarshipByClass(classmajor,state);
     }
 
     //查询个人

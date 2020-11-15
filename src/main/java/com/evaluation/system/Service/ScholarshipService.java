@@ -2,6 +2,8 @@ package com.evaluation.system.Service;
 
 import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
 import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
+import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
+import com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship;
 import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
 
@@ -20,6 +22,10 @@ public interface ScholarshipService {
 
     public boolean delete_xy(String numbre,int level,String year);
 
+    public int updateQtScholarshipState(int state,String number,String year,String name);
+    public int updateYxScholarshipState(int state,String number,String year);
+    public List<VerifyYxScholarship> verifyYxscholarshipByClass(String classmajor, int state);
+    public List<VerifyQtScholarship> verifyQtscholarshipByClass(String classmajor, int state);
     //查询个人所有的奖项
     public List<qtScholarship> findqtByNumber(String number);
     public List<yxScholarship> findyxByNumber(String number);

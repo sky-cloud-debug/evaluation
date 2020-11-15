@@ -2,6 +2,8 @@ package com.evaluation.system.Dao;
 
 import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
 import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
+import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
+import com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship;
 import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
 import org.springframework.context.annotation.Bean;
@@ -23,4 +25,10 @@ public interface yxScholarshipRepository extends JpaRepository<yxScholarship,Str
 
     @Modifying
     public int deleteByNumberAndScholarshipLevelAndYear(String number,int level,String year);
+
+    @Query(value = "select new com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship(a.number,b.name,b.classMajor,a.scholarshipLevel,a.cardNumber,a.year,a.reason) from yxScholarship a,basic b where a.number=b.number and a.state=?2 and b.classMajor=?1")
+    public List<VerifyYxScholarship> verifyYxscholarshipByClass(String classmajor, int state);
+
+    @Query(value = "update yxScholarship a set a.state=?1 where a.number=?2 and a.year=?3")
+    public int updateYxScholarshipState(int state,String number,String year);
 }

@@ -46,7 +46,6 @@ public class MainConterllor {
         return "redirect:/main/index";
     }
 
-
     @PostMapping("/Login")
     public String Login(HttpServletRequest request, RedirectAttributesModelMap model){
         String number=request.getParameter("username");
