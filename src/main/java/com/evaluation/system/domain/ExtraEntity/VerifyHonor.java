@@ -1,20 +1,15 @@
-package com.evaluation.system.domain;
+package com.evaluation.system.domain.ExtraEntity;
 
-import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.*;
-
-@Data
-@Entity
 @ToString
-public class honor {
+public class VerifyHonor {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private int id;
-    //学号
     private String number;
+
+    private String name;
+
+    private String classmajor;
 
     private String studentHonor;
 
@@ -24,27 +19,17 @@ public class honor {
     //姓名
     private String reason;
 
-    //学生荣誉
-    //团干部、三好学生等
-
-
-    public honor() {
+    public VerifyHonor() {
     }
 
-    public honor(String number, String studentHonor, String year, int state, String reason) {
+    public VerifyHonor(String number, String name, String classmajor, String studentHonor, String year, int state, String reason) {
         this.number = number;
+        this.name = name;
+        this.classmajor = classmajor;
         this.studentHonor = studentHonor;
         this.year = year;
         this.state = state;
         this.reason = reason;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNumber() {
@@ -53,6 +38,22 @@ public class honor {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getClassmajor() {
+        return classmajor;
+    }
+
+    public void setClassmajor(String classmajor) {
+        this.classmajor = classmajor;
     }
 
     public String getStudentHonor() {

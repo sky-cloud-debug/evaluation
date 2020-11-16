@@ -3,9 +3,8 @@ package com.evaluation.system.domain;
 import lombok.*;
 import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 @Entity
 @Data
 @Setter
@@ -14,6 +13,7 @@ import javax.persistence.Id;
 @Proxy(lazy = false)
 public class qtScholarship {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
     private String number; //学号

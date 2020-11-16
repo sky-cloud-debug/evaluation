@@ -104,7 +104,7 @@ public class ScholarshipConterllor {
         return UpdateQtState(number,year,state,bonusname);
     }
     //管理员审核Qt奖学金后修改状态
-    @PostMapping("/BanAfterVerifyQt")
+    @PostMapping("/GuanLiAfterVerifyQt")
     public String GuanAfterVerifyQt(HttpServletRequest request){
         String number=request.getAttribute("number").toString();
         String year=request.getAttribute("year").toString();
@@ -130,7 +130,7 @@ public class ScholarshipConterllor {
         return UpdateYxState(number,year,state);
     }
     //管理员审核Yx奖学金后修改状态
-    @PostMapping("/GuanAfterVerifyYx")
+    @PostMapping("/GuanLiAfterVerifyYx")
     public String GuanAfterVerifyYx(HttpServletRequest request){
         String number=request.getAttribute("number").toString();
         String year=request.getAttribute("year").toString();
@@ -144,13 +144,5 @@ public class ScholarshipConterllor {
         }else {
             return "审核不通过";
         }
-    }
-
-    //修改信息
-    @PutMapping("/modifyqt")
-    public String upqtscholarship(qtScholarship qt){
-//        qtScholarshipRepository.save(qt);
-//        return "redirect:/";//返回到查询奖项信息页或者成功页
-        return null;
     }
 }
