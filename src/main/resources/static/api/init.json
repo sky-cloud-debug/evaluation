@@ -96,6 +96,12 @@
               "href": "scholarship/qtform.html",
               "icon": "fa fa-viacoin",
               "target": "_self"
+            },
+            {
+              "title": "奖项申报",
+              "href": "xywjyx/submit2.html",
+              "icon": "fa fa-viacoin",
+              "target": "_self"
             }
           ]
         },

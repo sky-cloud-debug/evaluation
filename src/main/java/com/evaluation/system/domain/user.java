@@ -30,16 +30,6 @@ public class user {
     public user() {
     }
 
-    @Override
-    public String toString() {
-        return "user{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", passwordId=" + password +
-                ", permissions=" + permissions +
-                '}';
-    }
-
     public Integer getId() {
         return id;
     }
@@ -71,4 +61,15 @@ public class user {
     public void setPermissions(Integer permissions) {
         this.permissions = permissions;
     }
+
+    @Override
+    public String toString() {
+        return "user{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", passwordId=" + password +
+                ", permissions=" + permissions +
+                '}';
+    }
+
 }
