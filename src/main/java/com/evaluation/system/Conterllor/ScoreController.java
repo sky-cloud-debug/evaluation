@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Map;
  * author:JYuXuAN
  */
 @Controller
+@RequestMapping("/score")
 public class ScoreController {
 
     @Autowired
@@ -46,6 +48,21 @@ public class ScoreController {
 //        model.addAttribute("basiclist", basicArrayList);
 ////        return "scoring/studentlist";
         return basicArrayList;
+    }
+
+    /**
+     * 展示班级成员得分情况
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getClassScore")
+    @ResponseBody
+    public ArrayList<ArrayList<Double>> getClassScore(HttpServletRequest request) {
+        String classMajor = "计算机18-4"; // 后期Shiro框架传入
+        String name = "江宇轩";
+        ArrayList<ArrayList<Double>> scoreLists = scoreService.getClassScore(classMajor, name);
+        return scoreLists;
     }
 
     /**

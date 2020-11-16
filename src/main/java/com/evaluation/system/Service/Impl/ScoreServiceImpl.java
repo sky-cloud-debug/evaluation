@@ -7,8 +7,10 @@ import com.evaluation.system.Service.ScoreService;
 import com.evaluation.system.domain.basic;
 import com.evaluation.system.domain.quality;
 import com.evaluation.system.domain.testGroup;
+import com.evaluation.system.util.ExcelUtils.ExcelReadUtils;
 import com.evaluation.system.util.ExcelUtils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +32,14 @@ public class ScoreServiceImpl implements ScoreService {
     @Autowired
     TestGroupRepository testGroupRepository;
 
+    @Value("${excelPath}")
+    public String excelPath;
+
     ExcelUtils excelUtils = new ExcelUtils();
 
     /**
      * 得到班级成员信息
+     *
      * @param classMajor
      * @return
      */
@@ -44,7 +50,20 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     /**
+     * 获得该同学的打分情况
+     *
+     * @param classMajor
+     * @param name
+     * @return
+     */
+    public ArrayList<ArrayList<Double>> getClassScore(String classMajor, String name) {
+        ArrayList<ArrayList<Double>> scoreLists = ExcelReadUtils.getTestMemberScores(excelPath, classMajor, name);
+        return scoreLists;
+    }
+
+    /**
      * 得到测评小组成员信息
+     *
      * @param classMajor
      * @return
      */
@@ -56,6 +75,7 @@ public class ScoreServiceImpl implements ScoreService {
 
     /**
      * 为对应excel表格注入班级成员
+     *
      * @param classMajor
      * @param namelist
      * @return
@@ -70,6 +90,7 @@ public class ScoreServiceImpl implements ScoreService {
 
     /**
      * 为对应excel表格注入测评小组成员
+     *
      * @param classMajor
      * @param scoreList
      * @return
@@ -83,6 +104,7 @@ public class ScoreServiceImpl implements ScoreService {
 
     /**
      * 注入分数  班级--打分者姓名--打分项--成绩列表
+     *
      * @param classMajor
      * @param name
      * @param type
@@ -96,6 +118,7 @@ public class ScoreServiceImpl implements ScoreService {
 
     /**
      * 班级成员分数计算
+     *
      * @param classMajor
      * @return
      */

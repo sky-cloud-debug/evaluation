@@ -5,7 +5,7 @@ import com.evaluation.system.Dao.BasicRepository;
 import com.evaluation.system.Dao.QualityRepository;
 import com.evaluation.system.Service.Impl.*;
 import com.evaluation.system.Service.QuailtyService;
-import com.evaluation.system.Service.RoleService;
+//import com.evaluation.system.Service.RoleService;
 import com.evaluation.system.domain.*;
 import com.evaluation.system.util.DateUtils;
 import com.evaluation.system.util.RouterUtils;
@@ -42,8 +42,8 @@ class EvaluationApplicationTests {
     @Autowired
     TempbasicServicelmpl tempbasicServicelmpl;
 
-    @Autowired
-    RoleService service;
+//    @Autowired
+//    RoleService service;
 
     @Autowired
     ExamineServiceImpl examineService;
