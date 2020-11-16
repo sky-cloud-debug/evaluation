@@ -123,7 +123,7 @@ public class ExcelUtils {
     }
 
     // 得到一个已有的Excel工作簿的POI对象
-    private XSSFWorkbook returnWorkBookGivenFileHandle(String filePath) {
+    public static XSSFWorkbook returnWorkBookGivenFileHandle(String filePath) {
         XSSFWorkbook wb = null;
         FileInputStream fis = null;
         File f = new File(filePath);

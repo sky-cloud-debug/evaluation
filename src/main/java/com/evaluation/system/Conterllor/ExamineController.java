@@ -64,9 +64,24 @@ public class ExamineController {
         String router = number + '-' + uuid;
 
         int score = Integer.parseInt(sc);
-        AwardTemp awardTemp = new AwardTemp(number, name, type, level, awardName, score, 0, "", classMajor,router,updateTime);
+        AwardTemp awardTemp = new AwardTemp(number, name, type, level, awardName, score, 0, "", classMajor, router, updateTime);
         String info = examineService.insertAwardTemp(awardTemp, file);
         return info;
+    }
+
+    /**
+     * 管理员：展示所有已通过的材料
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/showApprovedMaterials_admin")
+    @ResponseBody
+    public ArrayList<AwardTemp> showApprovedMaterials_admin(HttpServletRequest request, HttpSession session) {
+        String classMajor = (String) session.getAttribute("classMajor");
+        ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
+        awardTemps = examineService.getAwardTempInfo(classMajor, 2);
+        return awardTemps;
     }
 
     /**
@@ -78,6 +93,7 @@ public class ExamineController {
     @GetMapping("/showMaterials_admin")
     @ResponseBody
     public ArrayList<AwardTemp> showMaterials_admin(HttpServletRequest request, HttpSession session) {
+        //TODO 自己选择班级
         String classMajor = (String) session.getAttribute("classMajor");
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, 1);
