@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface ShowAwards {
 
-
-    //public qtScholarship Showqtawards(String num);
-
     public basic ShowStudent(String num);
 
     public List<AllqtAwards> findAllqtAwards();

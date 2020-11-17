@@ -75,7 +75,7 @@ public class ScholarshipConterllor {
     @GetMapping("/verifyQtGuanLi")
     public String GuanLiVerifyQt(Model model,HttpServletRequest request){
         String classMajor=request.getAttribute("classmajor").toString();//页面传回
-        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass("计算机18-4",1);
+        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass("计算机18-4",1);//这里模糊
         return "scoring/verifyqt";
     }
     //班长审核Yx奖学金
@@ -90,7 +90,7 @@ public class ScholarshipConterllor {
     @GetMapping("/verifyYxGuanLi")
     public String GuanLiVerifyYx(Model model,HttpServletRequest request){
         String classMajor=request.getAttribute("classmajor").toString();//页面传回
-        List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classMajor,1);
+        List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classMajor,1);//模糊
         return "scoring/verifyqt";
     }
 

@@ -39,12 +39,12 @@ public abstract class EntityExcelUtil<T> {
         }
     }
 
-    public void exportExcel(List<T> list, String path, String sheetName) {
+    public boolean exportExcel(List<T> list, String path, String sheetName) {
         Workbook wb = null;
+        boolean flag=true;
         try {
             if (list.size() == 0 || path == null || path.equals("")) {
-                System.out.println("所需内容不完整");
-                return;
+                flag=false;
             }
 
             String[] p = path.split("\\.");
@@ -53,8 +53,7 @@ public abstract class EntityExcelUtil<T> {
             } else if (p[p.length - 1].equals("xls")) {
                 wb = new HSSFWorkbook();
             } else {
-                System.out.println("文件类型不符");
-                return;
+                flag=false;
             }
 
             Sheet sheet = wb.createSheet(sheetName);
@@ -77,6 +76,7 @@ public abstract class EntityExcelUtil<T> {
                 e.printStackTrace();
             }
         }
+        return flag;
     }
 
     public List<T> importExcel(String path) {

@@ -17,14 +17,19 @@ public class HonorServicelmpl implements HonorService {
     HonorRepository honorRepository;
 
     @Override
+    public List<honor> findByNumber(String number) {
+        return honorRepository.findByNumber(number);
+    }
+
+    @Override
     public boolean addHonor(honor honor) {
         honor save = honorRepository.save(honor);
         return save!=null;
     }
 
     @Override
-    public int deleteHonor(String number, String honor, String year) {
-        return honorRepository.deleteByNumberAndStudentHonorAndYear(number,honor,year);
+    public int deleteHonor(String number, String honor, String year,int state) {
+        return honorRepository.deleteByNumberAndStudentHonorAndYearAndState(number,honor,year,state);
     }
 
     @Override

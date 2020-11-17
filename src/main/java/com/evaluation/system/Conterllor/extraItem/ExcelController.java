@@ -1,12 +1,15 @@
 package com.evaluation.system.Conterllor.extraItem;
 
+import com.evaluation.system.Service.AwardService;
 import com.evaluation.system.Service.BasicService;
 import com.evaluation.system.Service.QuailtyService;
 import com.evaluation.system.Service.userService;
+import com.evaluation.system.domain.Award;
 import com.evaluation.system.domain.ExtraEntity.exportquality;
 import com.evaluation.system.domain.basic;
 import com.evaluation.system.domain.user;
 import com.evaluation.system.util.ExcelUtils.EntityExcelUtil;
+import com.evaluation.system.util.ExcelUtils.Excellmpl.awardExcelmpl;
 import com.evaluation.system.util.ExcelUtils.Excellmpl.basicExceImpl;
 import com.evaluation.system.util.ExcelUtils.Excellmpl.qualityExceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +32,12 @@ public class ExcelController {
 
     @Autowired
     BasicService basicService;
+
     @Autowired
     QuailtyService quailtyService;
+
+    @Autowired
+    AwardService awardService;
 
     @PostMapping("/importbasic")
     public String importbasic(HttpServletRequest request, RedirectAttributesModelMap modelMap){
@@ -56,14 +64,35 @@ public class ExcelController {
             return null;//需要返回的页面
         }
     }
+    //导出quality到Excel
     @PostMapping("/exportquality")
     public String exportquality(HttpServletRequest request){
         String path=request.getParameter("path");
         path+="\\quality.xlsx";
         EntityExcelUtil<exportquality> excelUtil=new qualityExceImpl();
         List<exportquality> all=quailtyService.exportquality();
-        excelUtil.exportExcel(all,path,"sheet1");
-        return "导出信息成功！";
+        boolean i=excelUtil.exportExcel(all,path,"sheet1");
+        if(i){
+            return "导出信息成功！";
+        }else {
+            return "导出信息失败！";
+        }
+    }
+    //导出Award到Excel
+    @PostMapping("/exportAward")
+    public String exportAward(HttpServletRequest request){
+        String path=request.getParameter("path");
+        HttpSession session=request.getSession();
+        String number=session.getAttribute("number").toString();
+        path+="\\award.xlsx";
+        EntityExcelUtil<Award> excelUtil=new awardExcelmpl();
+        List<Award> list=awardService.findByNumber(number);
+        boolean i=excelUtil.exportExcel(list,path,"sheet1");
+        if(i){
+            return "导出信息成功！";
+        }else {
+            return "导出信息失败！";
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,9 +33,31 @@ public class HonorController {
         return result;
     }
 
+    @RequestMapping(value = "/findHonor", method= RequestMethod.GET)
+    public List<honor> findHonor(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        String number=session.getAttribute("number").toString();
+        List<honor> list = honorService.findByNumber(number);//个人的所有获奖情况
+        //PanDuan(list.get(i).getState());在这里把状态转换一下
+        return list;
+    }
+    private String PanDuan(int state){
+        if(state==1){
+            return "班长审核通过";
+        }else if(state==-1){
+            return "班长审核失败";
+        }else if(state==2){
+            return "管理员审核通过";
+        }else {
+            return "管理员审核失败";
+        }
+    }
     @PostMapping("/deleteHonor")
-    public String deleteHonor(String number,String year,String honor){
-        int i=honorService.deleteHonor(number,honor,year);
+    public String deleteHonor(String number,String year,String honor,int state){
+        if(state<0){
+            return "只能删除被否决的申请！";
+        }
+        int i=honorService.deleteHonor(number,honor,year,state);
         if(i==1){
             return "删除成功";
         }else {
