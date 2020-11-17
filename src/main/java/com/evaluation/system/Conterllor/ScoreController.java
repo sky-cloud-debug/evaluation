@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,12 +44,35 @@ public class ScoreController {
      */
     @RequestMapping("/class")
     @ResponseBody
-    public ArrayList<basic> ClassInfo(HttpServletRequest request, Model model) {
-        String classMajor = "计算机18-4"; // 后期Shiro框架传入
+    public ArrayList<basic> ClassInfo(HttpSession session,HttpServletRequest request, Model model) {
+        String classMajor = (String) session.getAttribute("classMajor"); // 后期Shiro框架传入
         ArrayList<basic> basicArrayList = scoreService.getClassInfo(classMajor);
 //        model.addAttribute("basiclist", basicArrayList);
 ////        return "scoring/studentlist";
         return basicArrayList;
+    }
+
+    /**
+     * 获得班级成员所有信息
+     *
+     * @return
+     */
+    @RequestMapping("/getAllClassInfo")
+    @ResponseBody
+    public LinkedHashMap<basic, ArrayList<Double>> getAllInfo(HttpSession session) {
+        String classMajor = (String) session.getAttribute("classMajor");
+        String name = (String) session.getAttribute("name");
+        LinkedHashMap<basic, ArrayList<Double>> map = new LinkedHashMap<>();
+        ArrayList<basic> basicArrayList = scoreService.getClassInfo(classMajor);
+        ArrayList<ArrayList<Double>> scoreLists = scoreService.getClassScore(classMajor, name);
+        for (int i = 0; i < scoreLists.get(0).size(); ++i) {
+            ArrayList<Double> scoreList = new ArrayList<>();
+            scoreList.add(scoreLists.get(0).get(i));
+            scoreList.add(scoreLists.get(1).get(i));
+            scoreList.add(scoreLists.get(2).get(i));
+            map.put(basicArrayList.get(i), scoreList);
+        }
+        return map;
     }
 
     /**
@@ -58,9 +83,9 @@ public class ScoreController {
      */
     @RequestMapping("/getClassScore")
     @ResponseBody
-    public ArrayList<ArrayList<Double>> getClassScore(HttpServletRequest request) {
-        String classMajor = "计算机18-4"; // 后期Shiro框架传入
-        String name = "江宇轩";
+    public ArrayList<ArrayList<Double>> getClassScore(HttpSession session,HttpServletRequest request) {
+        String classMajor = (String) session.getAttribute("classMajor");
+        String name = (String) session.getAttribute("name");
         ArrayList<ArrayList<Double>> scoreLists = scoreService.getClassScore(classMajor, name);
         return scoreLists;
     }
@@ -72,8 +97,8 @@ public class ScoreController {
      * @throws IOException
      */
     @GetMapping("/setClassMember")
-    public String setClassMember() throws IOException {
-        String classMajor = "计算机18-4";
+    public String setClassMember(HttpSession session) throws IOException {
+        String classMajor = (String) session.getAttribute("classMajor");
         ArrayList<basic> basicList = new ArrayList<basic>();
         basicList = scoreService.getClassInfo(classMajor); // 还需要查询时候根据学号排序
         ArrayList<String> nameList = new ArrayList<String>();
@@ -104,9 +129,9 @@ public class ScoreController {
     }
 
     @RequestMapping("/submitScore")
-    public String submitScore() {
-        String classMajor = "计算机18-4"; // 班级
-        String name = "江宇轩"; // 测评小组打分人名
+    public String submitScore(HttpSession session) {
+        String classMajor = (String) session.getAttribute("classMajor");
+        String name = (String) session.getAttribute("name");
         ArrayList<Integer> moralList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
         ArrayList<Integer> heartList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
         ArrayList<Integer> technologyList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
@@ -117,9 +142,9 @@ public class ScoreController {
     }
 
     @RequestMapping("/submittest")
-    public String test(@RequestBody Map<String, Map<String, String>> res) {
-        String classMajor = "计算机18-4"; // 班级
-        String name = "瞿庆敏"; // 测评小组打分人名
+    public String test(@RequestBody Map<String, Map<String, String>> res,HttpSession session) {
+        String classMajor = (String) session.getAttribute("classMajor");
+        String name = (String) session.getAttribute("name");
         ArrayList<Integer> moralList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
         ArrayList<Integer> heartList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
         ArrayList<Integer> technologyList = new ArrayList<Integer>(); // 打的分数，务必与学号对应，从小到大！！
@@ -264,8 +289,8 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/Calculation")
-    public String Calculation() {
-        String classMajor = "计算机18-4";
+    public String Calculation(HttpSession session) {
+        String classMajor = (String) session.getAttribute("classMajor");
         scoreService.Calculate(classMajor);
         return "index";
     }
