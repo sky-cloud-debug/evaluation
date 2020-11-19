@@ -70,13 +70,13 @@ public class ScholarshipServiceImpl implements ScholarshipService {
     }
 
     @Override
-    public int updateQtScholarshipState(int state, String number, String year,String name) {
-        return qtScholarshipRepository.updateQtScholarshipState(1,number,year,name);
+    public int updateQtScholarshipState(int state, String number, String year,String name,String reason) {
+        return qtScholarshipRepository.updateQtScholarshipState(1,number,year,name,reason);
     }
 
     @Override
-    public int updateYxScholarshipState(int state, String number, String year) {
-        return yxScholarshipRepository.updateYxScholarshipState(state,number,year);
+    public int updateYxScholarshipState(int state, String number, String year,String reason) {
+        return yxScholarshipRepository.updateYxScholarshipState(state,number,year,reason);
     }
 
     @Override

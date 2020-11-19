@@ -6,6 +6,7 @@ import com.evaluation.system.Dao.QualityRepository;
 import com.evaluation.system.Service.Impl.*;
 import com.evaluation.system.Service.QuailtyService;
 //import com.evaluation.system.Service.RoleService;
+import com.evaluation.system.Service.ScholarshipService;
 import com.evaluation.system.domain.*;
 import com.evaluation.system.domain.ExtraEntity.exportquality;
 import com.evaluation.system.util.DateUtils;
@@ -30,44 +31,14 @@ import java.util.List;
 class EvaluationApplicationTests {
 
     @Autowired
-    ShowAwardslpml showAwardslpml;
+    ScholarshipService scholarshipService;
 
-    @Autowired
-    BasicServicelmpl basicServicelmpl;
-    @Autowired
-    ScholarshipServiceImpl scholarshipService;
-
-    @Autowired
-    userServicelmpl userServicelmpl;
-
-    @Autowired
-    BasicRepository basicRepository;
-
-    @Autowired
-    TempbasicServicelmpl tempbasicServicelmpl;
-
-//    @Autowired
-//    RoleService senarvice;
-
-    @Autowired
-    ExamineServiceImpl examineService;
-
-    @Autowired
-    QuailtyService qualityService;
-
-    @Autowired
-    QuailtyService quailtyService;
-    @Autowired
-    AwardTempRepository awardTempRepository;
 
     @Test
     public void contextLoads() {
-        String path="C:\\Users\\Lenovo\\Desktop\\student.xlsx";
-        EntityExcelUtil<exportquality> excelUtil=new qualityExceImpl();
-        List<exportquality> all=quailtyService.exportquality();
-        boolean i=excelUtil.exportExcel(all,path,"sheet1");
-
-        System.out.println(i);
+        //int state,String number,String year
+        int u = scholarshipService.updateYxScholarshipState(2, "2018212405", "第三学年"，"");
+        System.out.println(u);
     }
 
 }

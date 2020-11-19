@@ -37,21 +37,21 @@ public class ShiroConfig {
         //iltermap.put("/updata", "perms[updata]");
         //设置拦截
         // 这个必须在前面
-        filtermap.put("/", "anon");
-        filtermap.put("/api/**", "anon");
-        filtermap.put("/css/**", "anon");
-        filtermap.put("/excel/**", "anon");
-        filtermap.put("/font/**", "anon");
-        filtermap.put("/font-awesome-4.7.0/**", "anon");
-        filtermap.put("/images/**", "anon");
-        filtermap.put("/jq-module/**", "anon");
-        filtermap.put("/jquery-3.4.1/**", "anon");
-        filtermap.put("/js/**", "anon");
-        filtermap.put("/lay/**", "anon");
-        filtermap.put("/layui.all.js", "anon");
-        filtermap.put("/layui.js", "anon");
-        filtermap.put("/main/**", "anon");
-        filtermap.put("/login/Login", "anon");
+//        filtermap.put("/", "anon");
+//        filtermap.put("/api/**", "anon");
+//        filtermap.put("/css/**", "anon");
+//        filtermap.put("/excel/**", "anon");
+//        filtermap.put("/font/**", "anon");
+//        filtermap.put("/font-awesome-4.7.0/**", "anon");
+//        filtermap.put("/images/**", "anon");
+//        filtermap.put("/jq-module/**", "anon");
+//        filtermap.put("/jquery-3.4.1/**", "anon");
+//        filtermap.put("/js/**", "anon");
+//        filtermap.put("/lay/**", "anon");
+//        filtermap.put("/layui.all.js", "anon");
+//        filtermap.put("/layui.js", "anon");
+//        filtermap.put("/main/**", "anon");
+//        filtermap.put("/login/Login", "anon");
 //        filtermap.put("/**", "authc");
         shiroFilterFactoryBean.setUnauthorizedUrl("/power/nopower");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filtermap);

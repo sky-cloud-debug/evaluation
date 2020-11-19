@@ -29,6 +29,7 @@ public interface QtScholarshipRepository extends JpaRepository<qtScholarship,Str
     @Query(value = "select new com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship(a.number,b.name,b.classMajor,a.bonus_name,a.card_number,a.year,a.reason) from qtScholarship a,basic b where a.number=b.number and a.state=?2 and b.classMajor=?1")
     public List<VerifyQtScholarship> verifyQtscholarshipByClass(String classmajor,int state);
 
-    @Query(value = "update qtScholarship a set a.state=?1 where a.number=?2 and a.year=?3 and a.bonus_name=?4")
-    public int updateQtScholarshipState(int state,String number,String year,String name);
+    @Modifying
+    @Query(value = "update qtScholarship a set a.state=?1,a.reason=?4 where a.number=?2 and a.year=?3 and a.bonus_name=?4")
+    public int updateQtScholarshipState(int state,String number,String year,String name,String reason);
 }

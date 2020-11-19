@@ -29,6 +29,7 @@ public interface yxScholarshipRepository extends JpaRepository<yxScholarship,Str
     @Query(value = "select new com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship(a.number,b.name,b.classMajor,a.scholarshipLevel,a.cardNumber,a.year,a.reason) from yxScholarship a,basic b where a.number=b.number and a.state=?2 and b.classMajor=?1")
     public List<VerifyYxScholarship> verifyYxscholarshipByClass(String classmajor, int state);
 
-    @Query(value = "update yxScholarship a set a.state=?1 where a.number=?2 and a.year=?3")
-    public int updateYxScholarshipState(int state,String number,String year);
+    @Modifying
+    @Query(value = "update yxScholarship a set a.state=?1,a.reason=?4 where a.number=?2 and a.year=?3")
+    public int updateYxScholarshipState(int state,String number,String year,String reason);
 }
