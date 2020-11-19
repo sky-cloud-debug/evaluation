@@ -1,16 +1,13 @@
 package com.evaluation.system.domain;
 
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 @Proxy(lazy = false)
 @Entity
 @Data
-@Setter
-@Getter
 public class yxScholarship {
 
     @Id
@@ -30,6 +27,62 @@ public class yxScholarship {
         this.cardNumber = cardNumber;
         this.year = year;
         this.state = state;
+        this.reason = reason;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public int getScholarshipLevel() {
+        return scholarshipLevel;
+    }
+
+    public void setScholarshipLevel(int scholarshipLevel) {
+        this.scholarshipLevel = scholarshipLevel;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
         this.reason = reason;
     }
 

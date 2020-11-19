@@ -120,6 +120,26 @@
           ]
         },
         {
+          "title": "奖学金审核",
+          "href": "",
+          "icon": "fa fa-snowflake-o",
+          "target": "",
+          "child": [
+            {
+              "title": "班长审核",
+              "href": "captin/yxCheck.html",
+              "icon": "fa fa-snowflake-o",
+              "target": "_self"
+            },
+            {
+              "title": "管理员审核",
+              "href": "admin/yxCheck.html",
+              "icon": "fa fa-shield",
+              "target": "_self"
+            }
+          ]
+        },
+        {
           "title": "奖项加分审核",
           "href": "",
           "icon": "fa fa-snowflake-o",

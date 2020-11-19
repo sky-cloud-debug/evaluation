@@ -21,6 +21,23 @@
     </div>
 </div>
 
+
+<form class="layui-form"  style="float: right;">
+    <div class="layui-form-item">
+        <label class="layui-form-label"style="width: 100px;padding:5px;line-height: 28px;color: red">选择学年</label>
+        <div class="layui-input-block">
+            <select id="year" name="year" lay-verify="required" >
+                <option value="第一学年">第一学年</option>
+                <option value="第二学年">第二学年</option>
+                <option value="第三学年">第三学年</option>
+                <option value="第四学年">第四学年</option>
+
+            </select>
+        </div>
+    </div>
+</form>
+
+
 <div style="z-index: 1" class="layui-form">
     <table class="layui-table">
         <colgroup>
@@ -28,14 +45,14 @@
             <col width="150">
             <col width="150">
             <col width="150">
-            <col width="200">
+
             <col>
         </colgroup>
         <thead>
         <tr>
             <th>学号</th>
             <th>姓名</th>
-            <th>专业</th>
+
             <th>奖项</th>
         </tr>
         </thead>
@@ -48,33 +65,84 @@
     $(function () {
         var Sname="";
         var Snumber="";
-        var Smajor="";
         var Sbonus_name="";
         var err="输入学号有误！";
         var pg="";
         var arrdata=[];
         var Jdata;
+
+
+        var obj={}
+        obj.year="第一学年"
         $.ajax({
             type: "POST",
             url: "/BasicController/qtAward",
+            data:obj,
             success: function (data) {
-                 Jdata=JSON.parse(data);
+                Jdata=JSON.parse(data);
                 $.each(Jdata,function (i,v) {
                     if(i>=1){
                         var str="<tr id="+v.number+ ">\n" +
                             "            <td>"+v.number+"</td>\n" +
                             "            <td>"+v.name+"</td>\n" +
-                            "            <td>"+v.class_major+"</td>\n" +
                             "            <td>"+v.bonus_name+"</td>\n" +
                             "        </tr>"
                         arrdata.push(str);
-                       // $('div').append(str);
+                        // $('div').append(str);
                     }
                 })
-                layui.use(['laypage', 'layer'], function() {
+                layui.use(['laypage', 'layer','form'], function() {
                     var laypage = layui.laypage
                         , layer = layui.layer
-                        , $ = layui.jquery;
+                        , $ = layui.jquery,
+                        form=layui.form;
+
+                    layui.use('form', function(){
+                        form.render();   //表单渲染，得渲染才会有效果显示出来
+                    })
+
+                    form.on('select', function(data){
+                        var obj={}
+                        obj.year=data.value;
+                        $.ajax({
+                            url:'/BasicController/qtAward',
+                            type:'POST',
+                            data: obj,
+                            success(data){
+                                Jdata=JSON.parse(data);
+                                arrdata.splice(0,arrdata.length);
+                                $.each(Jdata,function (i,v) {
+                                    if(i>=1){
+                                        var str="<tr id="+v.number+ ">\n" +
+                                            "            <td>"+v.number+"</td>\n" +
+                                            "            <td>"+v.name+"</td>\n" +
+                                            "            <td>"+v.bonus_name+"</td>\n" +
+                                            "        </tr>"
+                                        arrdata.push(str);
+                                        //$('div').append(str);
+                                    }
+                                })
+
+                                laypage.render({
+                                    elem: 'demo7'
+                                    , count: arrdata.length
+                                    , limit: 15
+                                    , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                                    , jump: function (obj) {
+                                        $("#tb>tr").remove();
+                                        for (var i = (obj.curr - 1) * 15; i < obj.curr * 15; i++) {
+                                            $("#tb").append(arrdata[i]);
+                                        }
+                                    }
+                                });
+
+                            },error(e){
+                                console.log(e);
+                            }
+                        })
+
+                    });
+
                     var active = {
                         notice: function(){
                             //示范一个公告层
@@ -88,7 +156,7 @@
                                 ,btn: ['我知道了']
                                 ,btnAlign: 'c'
                                 ,moveType: 1 //拖拽模式，0或者1
-                                ,content: "<h2>"+err+"</h2>" +"<br>姓名："+ Sname+'<br>学号：'+Snumber+"<br>专业："+Smajor+"<br>奖项："+Sbonus_name+"<br>你的信息在第"+pg+"页"
+                                ,content: "<h2>"+err+"</h2>" +"<br>姓名："+ Sname+'<br>学号：'+Snumber+"<br>奖项："+Sbonus_name+"<br>你的信息在第"+pg+"页"
                                 ,success: function(layero){
                                     var btn = layero.find('.layui-layer-btn');
                                     btn.find('.layui-layer-btn0').attr({
@@ -110,6 +178,7 @@
                         , jump: function (obj) {
                             // console.log(obj.curr);
                             $("#tb>tr").remove();
+                            console.log(arrdata.length);
                             for (var i = (obj.curr - 1) * 15; i < obj.curr * 15; i++) {
                                 $("#tb").append(arrdata[i]);
                             }
@@ -126,7 +195,7 @@
             $('body').delegate('#Sno','propertychange input',function(){
                 //实时获取文本内容
                 var $Sno=$(this).val();
-               // console.log($Sno);
+                //console.log($Sno);
                 if($Sno.length==10) {
                     $(Jdata).each(function (index,item) {
                         if(index>0){
@@ -134,7 +203,6 @@
                                 pg=parseInt(index/15)+1;
                                 Sname=item.name;
                                 Snumber=item.number;
-                                Smajor=item.class_major;
                                 Sbonus_name=item.bonus_name;
 
                                 err="查询成功:";

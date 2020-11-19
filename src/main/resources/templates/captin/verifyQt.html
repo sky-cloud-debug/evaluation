@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>奖学金</title>
+    <title>社会工作奖</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="/css/layui.css" media="all">
@@ -10,35 +10,32 @@
     <script src="/layui.all.js"></script>
 </head>
 <body>
-<div class="layui-inline">
-    <div class="layui-input-inline">
-        <input id="Sno" type="tel"   class="layui-input" placeholder="请搜索学号">
-    </div>
-    <div class="layui-input-inline">
-        <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;">
-            <button data-method="notice" class="layui-btn">查 询</button>
-        </div>
-    </div>
-</div>
-
-<form class="layui-form"  style="float: right;">
-    <div class="layui-form-item">
-        <label class="layui-form-label"style="width: 100px;padding:5px;line-height: 28px;color: red">选择学年</label>
-        <div class="layui-input-block">
-            <select id="year" name="year" lay-verify="required" >
-                <option value="第一学年">第一学年</option>
-                <option value="第二学年">第二学年</option>
-                <option value="第三学年">第三学年</option>
-                <option value="第四学年">第四学年</option>
-
-            </select>
-        </div>
-    </div>
-</form>
+<!--<div class="layui-inline">-->
+<!--    <div class="layui-input-inline">-->
+<!--        <input id="Sno" type="tel"   class="layui-input" placeholder="请搜索学号">-->
+<!--    </div>-->
+<!--    <div class="layui-input-inline">-->
+<!--        <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;">-->
+<!--            <button data-method="notice" class="layui-btn">查 询</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
+<!--<form class="layui-form"  style="float: right;">-->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label"style="width: 100px;padding:5px;line-height: 28px;color: red">选择学年</label>-->
+<!--        <div class="layui-input-block">-->
+<!--            <select id="year" name="year" lay-verify="required" >-->
+<!--                <option value="第一学年">第一学年</option>-->
+<!--                <option value="第二学年">第二学年</option>-->
+<!--                <option value="第三学年">第三学年</option>-->
+<!--                <option value="第四学年">第四学年</option>-->
 
-
+<!--            </select>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
 
 
 <div style="z-index: 1" class="layui-form">
@@ -48,13 +45,20 @@
             <col width="150">
             <col width="150">
             <col width="150">
+            <col width="150">
+            <col width="350">
+            <col width="150">
             <col>
         </colgroup>
         <thead>
         <tr>
             <th>学号</th>
             <th>姓名</th>
-            <th>奖学金等级</th>
+            <th>专业</th>
+            <th>奖项</th>
+            <th>卡号</th>
+            <th>学年</th>
+            <th>理由</th>
         </tr>
         </thead>
         <tbody id="tb">
@@ -66,7 +70,7 @@
     $(function () {
         var Sname="";
         var Snumber="";
-        var SscholarshipLevel="";
+        var Sbonus_name="";
         var err="输入学号有误！";
         var pg="";
         var arrdata=[];
@@ -77,16 +81,21 @@
         obj.year="第一学年"
         $.ajax({
             type: "POST",
-            url: "/BasicController/yxAward",
-            data:obj,
+            url: "/verifyQtbanZhang",
+            //data:obj,
             success: function (data) {
+                console.log(data);
                 Jdata=JSON.parse(data);
                 $.each(Jdata,function (i,v) {
                     if(i>=1){
                         var str="<tr id="+v.number+ ">\n" +
                             "            <td>"+v.number+"</td>\n" +
                             "            <td>"+v.name+"</td>\n" +
-                            "            <td>"+v.scholarshipLevel+"</td>\n" +
+                            "            <td>"+v.classMajor+"</td>\n" +
+                            "            <td>"+v.bonus_name+"</td>\n" +
+                            "            <td>"+v.card_number+"</td>\n" +
+                            "            <td>"+v.year+"</td>\n" +
+                            "            <td>"+v.reason+"</td>\n" +
                             "        </tr>"
                         arrdata.push(str);
                         // $('div').append(str);
@@ -102,15 +111,15 @@
                         form.render();   //表单渲染，得渲染才会有效果显示出来
                     })
 
-
                     form.on('select', function(data){
                         var obj={}
                         obj.year=data.value;
                         $.ajax({
-                            url:'/BasicController/yxAward',
-                            type:'POST',
-                            data: obj,
+                            url:'/verifyQtbanZhang',
+                            type:'GET',
+                            //data: obj,
                             success(data){
+                                //console.log(data);
                                 Jdata=JSON.parse(data);
                                 arrdata.splice(0,arrdata.length);
                                 $.each(Jdata,function (i,v) {
@@ -118,10 +127,13 @@
                                         var str="<tr id="+v.number+ ">\n" +
                                             "            <td>"+v.number+"</td>\n" +
                                             "            <td>"+v.name+"</td>\n" +
-                                            "            <td>"+v.scholarshipLevel+"</td>\n" +
+                                            "            <td>"+v.classMajor+"</td>\n" +
+                                            "            <td>"+v.bonus_name+"</td>\n" +
+                                            "            <td>"+v.card_number+"</td>\n" +
+                                            "            <td>"+v.year+"</td>\n" +
+                                            "            <td>"+v.reason+"</td>\n" +
                                             "        </tr>"
-                                        arrdata.push(str);
-                                         //$('div').append(str);
+                                        //$('div').append(str);
                                     }
                                 })
 
@@ -131,7 +143,6 @@
                                     , limit: 15
                                     , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
                                     , jump: function (obj) {
-                                        // console.log(obj.curr);
                                         $("#tb>tr").remove();
                                         for (var i = (obj.curr - 1) * 15; i < obj.curr * 15; i++) {
                                             $("#tb").append(arrdata[i]);
@@ -139,10 +150,10 @@
                                     }
                                 });
 
-                            },error(){
-                                console.log("失败2");
+                            },error(e){
+                                console.log(e);
                             }
-                         })
+                        })
 
                     });
 
@@ -159,7 +170,7 @@
                                 ,btn: ['我知道了']
                                 ,btnAlign: 'c'
                                 ,moveType: 1 //拖拽模式，0或者1
-                                ,content: "<h2>"+err+"</h2>" +"<br>姓名："+ Sname+'<br>学号：'+Snumber+"<br>奖项："+SscholarshipLevel+"<br>你的信息在第"+pg+"页"
+                                ,content: "<h2>"+err+"</h2>" +"<br>姓名："+ Sname+'<br>学号：'+Snumber+"<br>奖项："+Sbonus_name+"<br>你的信息在第"+pg+"页"
                                 ,success: function(layero){
                                     var btn = layero.find('.layui-layer-btn');
                                     btn.find('.layui-layer-btn0').attr({
@@ -181,6 +192,7 @@
                         , jump: function (obj) {
                             // console.log(obj.curr);
                             $("#tb>tr").remove();
+                            console.log(arrdata.length);
                             for (var i = (obj.curr - 1) * 15; i < obj.curr * 15; i++) {
                                 $("#tb").append(arrdata[i]);
                             }
@@ -192,29 +204,29 @@
                 console.log(e);
             }
         })
-        info();
-        function info() {
-            $('body').delegate('#Sno','propertychange input',function(){
-                //实时获取文本内容
-                var $Sno=$(this).val();
-                //console.log($Sno);
-                if($Sno.length==10) {
-                    $(Jdata).each(function (index,item) {
-                        if(index>0){
-                            if(item.number==$Sno){
-                                pg=parseInt(index/15)+1;
-                                Sname=item.name;
-                                Snumber=item.number;
-                                Sbonus_name=item.scholarshipLevel;
-
-                                err="查询成功:";
-                            }
-                        }
-                    })
-                }
-                //  console.log(Sname);
-            });
-        }
+        // info();
+        // function info() {
+        //     $('body').delegate('#Sno','propertychange input',function(){
+        //         //实时获取文本内容
+        //         var $Sno=$(this).val();
+        //         //console.log($Sno);
+        //         if($Sno.length==10) {
+        //             $(Jdata).each(function (index,item) {
+        //                 if(index>0){
+        //                     if(item.number==$Sno){
+        //                         pg=parseInt(index/15)+1;
+        //                         Sname=item.name;
+        //                         Snumber=item.number;
+        //                         Sbonus_name=item.bonus_name;
+        //
+        //                         err="查询成功:";
+        //                     }
+        //                 }
+        //             })
+        //         }
+        //         //  console.log(Sname);
+        //     });
+        // }
     });
 </script>
 

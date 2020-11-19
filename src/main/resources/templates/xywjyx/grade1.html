@@ -12,30 +12,53 @@
 
     			$.ajax({
     				type:"get",
-    				url:"/class",
-					data: "application/json",
+    				url:"/score/getAllClassInfo",
+					//data: "application/json",
 
     				success:function(data){
 
-    					var obj = eval(data);
-    					var tbody = $('<tbody></tbody>');
-    					$.each(obj,function(index){
-    						var val = obj[index];
-    						var tr = $('<tr></tr>');
-    						tr.append(
-    								  '<td>'+val.number + '</td>'
-									+ '<td>' + val.classMajor + '</td>'
-									+ '<td>' + val.name + '</td>'
-									+ '<td>' + val.moral + '</td>'
-									+ '<td>' + val.health + '</td>'
-									+ '<td>' + val.tech + '</td>'
-									+ '<td>' + val.reason + '</td>'
+						var tbody = $('<tbody></tbody>');
+						//var obj=data.getJSONObject(0);
+						//console.log(obj);
+						//var ex=eval(data);
+
+						$.each(data,function (index) {
+							var val = data[index];
+							var tr = $('<tr></tr>');
+							//console.log(index);
+							var key=JSON.parse(index)
+							//console.log(key.name);
+							tr.append(
+									'<td>'+key.number + '</td>'
+									+ '<td>' + key.classMajor + '</td>'
+									+ '<td>' + key.name + '</td>'
+									+ '<td>' + val[0]+ '</td>'
+									+ '<td>' + val[1]+ '</td>'
+									+ '<td>' + val[2]+ '</td>'
+									+ '<td>' + "" + '</td>'
 							)
 							tbody.append(tr);
-
-    					});
-
-    					$('#table1 tbody').replaceWith(tbody);
+						})
+						$('#table1 tbody').replaceWith(tbody);
+						// var obj = eval(data);
+    					//
+    					// $.each(obj,function(index){
+    					// 	var val = obj[index];
+    					// 	var tr = $('<tr></tr>');
+    					// 	tr.append(
+    					// 			  '<td>'+val.number + '</td>'
+						// 			+ '<td>' + val.classMajor + '</td>'
+						// 			+ '<td>' + val.name + '</td>'
+						// 			+ '<td>' + ""+ '</td>'
+						// 			+ '<td>' + ""+ '</td>'
+						// 			+ '<td>' + ""+ '</td>'
+						// 			+ '<td>' + "" + '</td>'
+						// 	)
+						// 	tbody.append(tr);
+						//
+    					// });
+						//
+    					//
 
 
 

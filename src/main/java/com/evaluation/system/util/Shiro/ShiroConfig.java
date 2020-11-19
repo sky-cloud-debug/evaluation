@@ -52,7 +52,7 @@ public class ShiroConfig {
         filtermap.put("/layui.js", "anon");
         filtermap.put("/main/**", "anon");
         filtermap.put("/login/Login", "anon");
-        filtermap.put("/**", "authc");
+//        filtermap.put("/**", "authc");
         shiroFilterFactoryBean.setUnauthorizedUrl("/power/nopower");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filtermap);
 //        修改默认的跳转登陆页面

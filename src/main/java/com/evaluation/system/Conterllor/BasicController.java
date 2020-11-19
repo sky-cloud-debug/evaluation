@@ -1,31 +1,28 @@
 package com.evaluation.system.Conterllor;
 
-import com.evaluation.system.Dao.BasicRepository;
 import com.evaluation.system.Service.BasicService;
-import com.evaluation.system.Service.Impl.BasicServicelmpl;
-import com.evaluation.system.Service.Impl.ShowAwardslpml;
-import com.evaluation.system.Service.Impl.TempbasicServicelmpl;
 import com.evaluation.system.Service.ScholarshipService;
 import com.evaluation.system.Service.TembasicService;
-import com.evaluation.system.domain.*;
 import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
 import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
 import com.evaluation.system.domain.ExtraEntity.ShowStu;
 import com.evaluation.system.domain.ExtraEntity.temporarybasic;
+import com.evaluation.system.domain.basic;
+import com.evaluation.system.domain.qtScholarship;
+import com.evaluation.system.domain.yxScholarship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -114,16 +111,15 @@ public class BasicController {
     }
     @RequestMapping(value="/BasicController/qtAward",method = RequestMethod.POST)
     @ResponseBody
-    public void qtAward(@RequestBody(required=false)HttpServletResponse response,HttpServletRequest request) throws IOException {
+    public void qtAward(@RequestBody(required=false)String year,HttpServletResponse response,HttpServletRequest request) throws IOException {
         HttpSession session=request.getSession();
         String classmajor=session.getAttribute("classMajor").toString();
-        String year=request.getParameter("year");
-        List<AllqtAwards> list= scholarshipService.findqtByYearAndClassMajor(year,classmajor);
+        String term=request.getParameter("year");
+        List<AllqtAwards> list= scholarshipService.findqtByYearAndClassMajor(term,classmajor);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
         for(AllqtAwards st : list){
-
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
                     + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
                     + "\""+"bonus_name"+"\""+":"+ "\""+ st.getBonus_name()+"\""
@@ -134,23 +130,23 @@ public class BasicController {
 
     @RequestMapping(value="/BasicController/yxAward",method = RequestMethod.POST)
     @ResponseBody
-    public void yxAward(@RequestBody(required=false) HttpServletResponse response,HttpServletRequest request) throws IOException {
+    public void yxAward(@RequestBody(required=false)String year,HttpServletResponse response,HttpServletRequest request) throws IOException {
+        String term=request.getParameter("year");
         HttpSession session=request.getSession();
         String classmajor=session.getAttribute("classMajor").toString();
-        //String year=request.getParameter("year");
-        System.out.println("---------------"+classmajor);
-        List<AllxyAwards> list=scholarshipService.findyxByYearAndClassMajor("第一学年",classmajor);
+        List<AllxyAwards> list=scholarshipService.findyxByYearAndClassMajor(term,classmajor);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
         for(AllxyAwards st : list){
-            System.out.println(st);
+
             jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
                     + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
                     + "\""+"scholarshipLevel"+"\""+":"+ "\""+ st.getScholarshipLevel()+"\""
                     +"}";
+
         }
-        out.print("["+jstr+"]");
+        out.println("["+jstr+"]");
     }
 
     //下面是修改信息的部分

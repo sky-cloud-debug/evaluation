@@ -2,11 +2,8 @@ package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Service.Impl.ExamineServiceImpl;
 import com.evaluation.system.domain.AwardTemp;
-import com.evaluation.system.domain.user;
 import com.evaluation.system.util.DateUtils;
 import com.evaluation.system.util.RouterUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,9 +89,11 @@ public class ExamineController {
      */
     @GetMapping("/showMaterials_admin")
     @ResponseBody
-    public ArrayList<AwardTemp> showMaterials_admin(HttpServletRequest request, HttpSession session) {
+    public ArrayList<AwardTemp> showMaterials_admin(@RequestBody(required=false)String major,HttpServletRequest request, HttpSession session) {
         //TODO 自己选择班级
-        String classMajor = (String) session.getAttribute("classMajor");
+        String classMajor=request.getParameter("major");
+        System.out.println(classMajor);
+        //String classMajor = (String) session.getAttribute("classMajor");
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, 1);
         return awardTemps;

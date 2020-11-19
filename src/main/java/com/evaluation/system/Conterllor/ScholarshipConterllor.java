@@ -1,4 +1,5 @@
 package com.evaluation.system.Conterllor;
+
 import com.evaluation.system.Service.ScholarshipService;
 import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
 import com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship;
@@ -10,12 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
-@RequestMapping("/scholarship")
 public class ScholarshipConterllor {
 
     @Autowired
@@ -63,45 +65,124 @@ public class ScholarshipConterllor {
         return "scholarship/error";//可选
     }
 
+    @RequestMapping(value="/ScholarshipController/verifyQtGuanLi",method = RequestMethod.POST)
+    @ResponseBody
+    public void qtAward(@RequestBody(required=false)String year, HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        System.out.print("success!");
+    }
+
+
     //班长审核Qt奖学金
-    @GetMapping("/verifyQtbanZhang")
-    public String banZhangVerifyQt(HttpServletRequest request){
+    @RequestMapping(value="/verifyQtbanZhang",method = RequestMethod.POST)
+    @ResponseBody
+    public void banZhangVerifyQt(HttpServletRequest request,HttpServletResponse response) throws IOException {
         HttpSession session=request.getSession();
         String classmajor=session.getAttribute("classMajor").toString();
-        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass(classmajor,0);
-        return "scoring/verifyqt";
+        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass(classmajor,1);
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(VerifyQtScholarship st : list){
+
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                    + "\""+"classMajor"+"\""+":"+ "\""+ st.getClassMajor()+"\""+ ","
+                    + "\""+"bonus_name"+"\""+":"+ "\""+ st.getBonus_name()+"\""+ ","
+                    + "\""+"card_number"+"\""+":"+ "\""+ st.getCard_number()+"\""+ ","
+                    + "\""+"year"+"\""+":"+ "\""+ st.getYear()+"\""+ ","
+                    + "\""+"reason"+"\""+":"+ "\""+ st.getReason()+"\""
+                    +"}";
+
+        }
+        out.print("["+jstr+"]");
     }
     //管理员审核Qt奖学金
-    @GetMapping("/verifyQtGuanLi")
-    public String GuanLiVerifyQt(Model model,HttpServletRequest request){
-        String classMajor=request.getAttribute("classmajor").toString();//页面传回
-        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass("计算机18-4",1);//这里模糊
-        return "scoring/verifyqt";
+    @RequestMapping(value="/verifyQtGuanLi",method = RequestMethod.POST)
+    @ResponseBody
+    public void GuanLiVerifyQt(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
+       // HttpSession session=request.getSession();
+        //String classMajor=request.getAttribute("classmajor").toString();//页面传回
+        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass("计算机18-4",1);
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(VerifyQtScholarship st : list){
+
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                    + "\""+"classMajor"+"\""+":"+ "\""+ st.getClassMajor()+"\""+ ","
+                    + "\""+"bonus_name"+"\""+":"+ "\""+ st.getBonus_name()+"\""+ ","
+                    + "\""+"card_number"+"\""+":"+ "\""+ st.getCard_number()+"\""+ ","
+                    + "\""+"year"+"\""+":"+ "\""+ st.getYear()+"\""+ ","
+                    + "\""+"reason"+"\""+":"+ "\""+ st.getReason()+"\""
+                    +"}";
+
+        }
+        out.print("["+jstr+"]");
     }
+
+
     //班长审核Yx奖学金
-    @GetMapping("/verifyYxBanZhang")
-    public String banZhangVerifyYx(HttpServletRequest request){
+    @RequestMapping(value="/verifyYxBanZhang",method = RequestMethod.POST)
+    @ResponseBody
+    public void banZhangVerifyYx(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
         HttpSession session=request.getSession();
         String classmajor=session.getAttribute("classMajor").toString();
         List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classmajor,0);
-        return "scoring/verifyqt";
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(VerifyYxScholarship st : list){
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                    + "\""+"classMajor"+"\""+":"+ "\""+ st.getClassMajor()+"\""+ ","
+                    + "\""+"bonus_name"+"\""+":"+ "\""+ st.getScholarshipLevel()+"\""+ ","
+                    + "\""+"card_number"+"\""+":"+ "\""+ st.getCardNumber()+"\""+ ","
+                    + "\""+"year"+"\""+":"+ "\""+ st.getYear()+"\""+ ","
+                    + "\""+"reason"+"\""+":"+ "\""+ st.getReason()+"\""
+                    +"}";
+        }
+        out.print("["+jstr+"]");
     }
     //管理员审核Yx奖学金
-    @GetMapping("/verifyYxGuanLi")
-    public String GuanLiVerifyYx(Model model,HttpServletRequest request){
-        String classMajor=request.getAttribute("classmajor").toString();//页面传回
-        List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classMajor,1);//模糊
-        return "scoring/verifyqt";
+
+    @RequestMapping(value="/verifyYxGuanLi",method = RequestMethod.POST)
+    @ResponseBody
+    public void GuanLiVerifyYx(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
+        HttpSession session=request.getSession();
+        String classmajor=session.getAttribute("classMajor").toString();
+        List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classmajor,1);
+        response.setCharacterEncoding("utf-8");
+        PrintWriter out=response.getWriter();
+        String jstr = "{}";
+        for(VerifyYxScholarship st : list){
+            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ st.getNumber()+"\""+ ","
+                    + "\""+"name"+"\""+":"+ "\""+ st.getName()+"\""+ ","
+                    + "\""+"classMajor"+"\""+":"+ "\""+ st.getClassMajor()+"\""+ ","
+                    + "\""+"bonus_name"+"\""+":"+ "\""+ st.getScholarshipLevel()+"\""+ ","
+                    + "\""+"card_number"+"\""+":"+ "\""+ st.getCardNumber()+"\""+ ","
+                    + "\""+"year"+"\""+":"+ "\""+ st.getYear()+"\""+ ","
+                    + "\""+"reason"+"\""+":"+ "\""+ st.getReason()+"\""
+                    +"}";
+        }
+        out.print("["+jstr+"]");
+
     }
 
     //班长审核Qt奖学金后修改状态
-    @PostMapping("/BanAfterVerifyQt")
+    @GetMapping("/BanAfterVerifyQt")
+    @ResponseBody
     public String BanAfterVerifyQt(HttpServletRequest request){
-        String number=request.getAttribute("number").toString();
-        String year=request.getAttribute("year").toString();
-        String bonusname=request.getAttribute("bonusname").toString();
-        int state=Integer.parseInt(request.getAttribute("flag").toString());//返回1(审核通过)，-1（审核不通过）
-        return UpdateQtState(number,year,state,bonusname);
+        System.out.println("success!");
+        String number=request.getParameter("number");
+        String year=request.getParameter("year");
+        String bonusname=request.getParameter("bonusname");
+        System.out.println(number);
+        System.out.println(year);
+        System.out.println(bonusname);
+//        int state=Integer.parseInt(request.getAttribute("flag").toString());//返回1(审核通过)，-1（审核不通过） UpdateQtState(number,year,state,bonusname)
+        return number;
     }
     //管理员审核Qt奖学金后修改状态
     @PostMapping("/GuanLiAfterVerifyQt")
@@ -144,5 +225,13 @@ public class ScholarshipConterllor {
         }else {
             return "审核不通过";
         }
+    }
+
+    //修改信息
+    @PutMapping("/modifyqt")
+    public String upqtscholarship(qtScholarship qt){
+//        qtScholarshipRepository.save(qt);
+//        return "redirect:/";//返回到查询奖项信息页或者成功页
+        return null;
     }
 }

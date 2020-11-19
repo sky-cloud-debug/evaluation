@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>管理员审核学生奖项加分</title>
+    <title>班长审核学生奖项加分</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" href="/css/layui.css">
     <script src="/layui.all.js"></script>
@@ -35,34 +35,32 @@
 
         $(document).ready(function () {
             $.ajax({
-                type: "GET",
-                url: "/examine/showMaterials_admin",
-                data: "application/json",
+                type: "POST",
+                url: "/verifyQtGuanLi",//examine/showMaterials_monitor
+                //data: "application/json",
                 asnyc: false,
                 success: function (result) {
+                    console.log(result);
+                    Jdata=JSON.parse(result);
+                    $.each(Jdata,function (i,v) {
+                        if(i>=1){
+                            var str="<tr id="+v.number+ ">\n" +
+                                "            <td>"+v.classMajor+"</td>\n" +
+                                "            <td>"+v.number+"</td>\n" +
+                                "            <td>"+v.name+"</td>\n" +
+                                "            <td>"+v.card_number+"</td>\n" +
+                                "            <td>"+v.bonus_name+"</td>\n" +
+                                "            <td>"+v.year+"</td>\n" +
+                                "            <td>"+v.reason+"</td>\n" +
+                                "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
+                                "        </tr>"
 
-                    var obj = result;
-                    var trStr = '';
-                    for (var i = 0; i < obj.length; i++) {
-
-                        trStr += '<tr>\n';
-                        trStr += '       <td>' + obj[i].classMajor + '</td>\n';
-                        trStr += '       <td>' + obj[i].number + '</td>\n';
-                        trStr += '       <td>' + obj[i].name + '</td>\n';
-                        trStr += '       <td>' + obj[i].type + '</td>\n';
-                        trStr += '       <td>' + obj[i].awardName + '</td>\n';
-                        trStr += '       <td>' + obj[i].score + '</td>\n';
-                        trStr += '       <td><img src=' + obj[i].router + '  / height="116.2px" width="550px" alt=""/></td>\n';
-
-                        var info = obj[i].number + "-" + obj[i].awardName;
-
-                        trStr += '       <td><button class="layui-btn layui-btn-sm" id=' + info + ' onclick="accept(this)" >通过</button>' + '&nbsp;&nbsp;';
-                        trStr += '<button class="layui-btn layui-btn-sm layui-btn-danger" id=' + info + ' onclick="refuse(this)">不通过</button></td>\n';
-                    }
-                    document.getElementById("test").innerHTML = trStr;
+                            $('#test').append(str);
+                        }
+                    })
                 },
-                error: function (e) {
-                    console.log(e);
+                error: function (error) {
+                    console.log(error);
                 }
             });
         })
@@ -71,12 +69,12 @@
             var info = element.id.split('-');
             var number = info[0];
             var awardName = info[1];
+            var reason = "";
+
             $.ajax({
                 async: true,
-                //  data:{"name":$("#test").val()},
-                //   data: {"number": number, "awardName": awardName},
-                dataType: "json",
-                url: "/examine/judgeMaterials_admin?number=" + number + "&awardName=" + awardName + "&flag=true",
+                // data: {"number": number, "awardName": awardName},
+                url: "/examine/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=true" + "&reason=" + reason,
                 type: "get",
                 success: function (data) {
                     console.log(data);
@@ -87,7 +85,6 @@
 
         function refuse(element) {
 
-
             $(".alert-box").css("display", "block");
             $('#submit').on('click', function () {
                 var info = element.id.split('-');
@@ -95,13 +92,17 @@
                 var awardName = info[1];
                 var reason = $('#reason').val();
                 $(".alert-box").css('display', 'none');
+                console.log(reason);
                 $.ajax({
                     type: "get",
-                    // data: {"number":number,"awardName":awardName,"reason":reason},
-                    dataType: "json",
-                    url: "/examine/judgeMaterials_admin?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
+                    // data: {"number": number, "awardName": awardName,"reason":reason},
+                    url: "/examine/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
                     success: function (data) {
                         console.log(data);
+                        alert("提交成功");
+                    },
+                    error: function (e) {
+                        console.log(e);
                     }
                 })
             })
@@ -111,6 +112,7 @@
     </script>
 </head>
 <body>
+
 <div class="layui-inline">
     <div class="layui-input-inline">
         <input id="major" type="tel"   class="layui-input" placeholder="例如测绘18-1"/>
@@ -139,6 +141,8 @@
         })
     })
 </script>
+
+
 <div class="layui-form">
 
     <table class="layui-table">
@@ -157,10 +161,10 @@
             <th>班级</th>
             <th>学号</th>
             <th>姓名</th>
-            <th>申请类型</th>
+            <th>卡号</th>
             <th>申请奖项</th>
-            <th>加分数</th>
-            <th>佐证材料</th>
+            <th>学年</th>
+            <th>理由</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -171,12 +175,12 @@
 <div class="alert-box" style="display: none;">
     <div class="alert">
         <textarea placeholder="请输入理由" rows="8" cols="35" id="reason"></textarea>
-        <div class="layui-form-item">
-            <div class="layui-input-block" style="margin-left: 50px">
-                <input type="submit" id="submit" value="提交" class="layui-btn"/>
-                <input type="submit" id="reset" value="提交" class="layui-btn"/>
-            </div>
+        <div class="layui-form-item" style="margin-left: 50px;">
+
+            <input type="button" id="sumibt" value="提交" class="layui-btn"/>
+            <input type="button" id="reset" value="取消" class="layui-btn layui-btn-primary"/>
         </div>
+
     </div>
 </div>
 <script>

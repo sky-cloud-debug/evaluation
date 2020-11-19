@@ -1,19 +1,17 @@
 package com.evaluation.system.domain;
 
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.Proxy;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
 @Entity
 @Data
-@Setter
-@Getter
 @ToString
 @Proxy(lazy = false)
 public class qtScholarship {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
     private String number; //学号
@@ -22,6 +20,34 @@ public class qtScholarship {
     private String year;
     private int state;  //审核状态
     private String reason;  //驳回原因
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getBonus_name() {
+        return bonus_name;
+    }
+
+    public String getCard_number() {
+        return card_number;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public String getReason() {
+        return reason;
+    }
 
     public qtScholarship() {
     }
@@ -44,4 +70,5 @@ public class qtScholarship {
         this.state = state;
         this.reason = reason;
     }
+
 }
