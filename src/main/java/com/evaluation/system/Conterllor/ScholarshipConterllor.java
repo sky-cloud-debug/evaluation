@@ -171,10 +171,10 @@ public class ScholarshipConterllor {
     }
 
     //班长审核Qt奖学金后修改状态
-    @GetMapping("/BanAfterVerifyQt")
+    @PostMapping("/BanAfterVerifyQt")
     @ResponseBody
     public String BanAfterVerifyQt(HttpServletRequest request){
-        System.out.println("success!");
+        //System.out.println("success!");
         String number=request.getParameter("number");
         String year=request.getParameter("year");
         String bonusname=request.getParameter("bonusname");
@@ -205,21 +205,29 @@ public class ScholarshipConterllor {
     //班长审核Yx奖学金后修改状态
     @PostMapping("/BanAfterVerifyYx")
     public String BanAfterVerifyYx(HttpServletRequest request){
-        String number=request.getAttribute("number").toString();
-        String year=request.getAttribute("year").toString();
-        int state=Integer.parseInt(request.getAttribute("flag").toString());//返回1(审核通过)，-1（审核不通过）
+        String number=request.getParameter("number");
+        System.out.println(number);
+
+        String year=request.getParameter("year");
+        String flag=request.getParameter("flag");
+        int state=Integer.parseInt(flag);//返回1(审核通过)，-1（审核不通过）
+        System.out.println(year);
+        System.out.println(flag);
         return UpdateYxState(number,year,state);
     }
     //管理员审核Yx奖学金后修改状态
     @PostMapping("/GuanLiAfterVerifyYx")
     public String GuanAfterVerifyYx(HttpServletRequest request){
-        String number=request.getAttribute("number").toString();
-        String year=request.getAttribute("year").toString();
-        int state=Integer.parseInt(request.getAttribute("flag").toString());//返回2（审核通过），-2（不通过）
+        String number=request.getParameter("number");
+        String year=request.getParameter("year");
+        int state=Integer.parseInt(request.getParameter("flag"));//返回2（审核通过），-2（不通过）
+        System.out.println(year);
         return UpdateYxState(number,year,state);
     }
     private String UpdateYxState(String number,String year,int state){
         int i = ScholarshipService.updateYxScholarshipState(state, number, year);
+        System.out.println(i);
+        System.out.println(i==1?"yes":"no");
         if(i==1){
             return "审核通过";
         }else {
