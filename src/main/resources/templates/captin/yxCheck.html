@@ -50,7 +50,7 @@
                                 "            <td>"+v.name+"</td>\n" +
                                 "            <td>"+v.card_number+"</td>\n" +
                                 "            <td>"+v.bonus_name+"</td>\n" +
-                                "            <td>"+v.year+"</td>\n" +
+                                "            <td class='year'>"+v.year+"</td>\n" +
                                 "            <td>"+v.reason+"</td>\n" +
                                 "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
                                 "        </tr>"
@@ -66,39 +66,40 @@
         })
 
         function accept(element) {
-            var info = element.id.split('-');
-            var number = info[0];
-            var awardName = info[1];
-            var reason = "";
+            var $tr=$(element).parent().parent();
+             var number = $tr.attr('id');
+             var year = $tr.children('.year').text();
+            // var reason = "";
 
             $.ajax({
                 async: true,
-                // data: {"number": number, "awardName": awardName},
-                url: "/examine/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=true" + "&reason=" + reason,
-                type: "get",
-                success: function (data) {
-                    console.log(data);
+                 data: {"number": number, "year": year,"flag":"1"},
+                url: '/BanAfterVerifyYx',
+                type: "POST",
+                success: function () {
+                   // console.log(data);
+                    alert("已通过");
                 }
             });
-            alert("已通过");
+
         }
 
         function refuse(element) {
 
             $(".alert-box").css("display", "block");
-            $('#submit').on('click', function () {
-                var info = element.id.split('-');
-                var number = info[0];
-                var awardName = info[1];
+            $('#submit').click(function () {
+                $('.alert-box').css('display', 'none');
+                var $tr=$(element).parent().parent();
+                var number = $tr.attr('id');
+                var year = $tr.children('.year').text();
                 var reason = $('#reason').val();
-                $(".alert-box").css('display', 'none');
                 console.log(reason);
                 $.ajax({
-                    type: "get",
-                    // data: {"number": number, "awardName": awardName,"reason":reason},
-                    url: "/examine/judgeMaterials_monitor?number=" + number + "&awardName=" + awardName + "&flag=false" + "&reason=" + reason,
-                    success: function (data) {
-                        console.log(data);
+                    type: "POST",
+                    data: {"number": number, "year": year,"flag":"-1","reason":reason},
+                    url: '/BanAfterVerifyYx',
+                    success: function () {
+                        //console.log(data);
                         alert("提交成功");
                     },
                     error: function (e) {
@@ -147,7 +148,7 @@
         <textarea placeholder="请输入理由" rows="8" cols="35" id="reason"></textarea>
         <div class="layui-form-item" style="margin-left: 50px;">
 
-            <input type="button" id="sumibt" value="提交" class="layui-btn"/>
+            <input type="button" id="submit" value="提交" class="layui-btn"/>
             <input type="button" id="reset" value="取消" class="layui-btn layui-btn-primary"/>
         </div>
 
