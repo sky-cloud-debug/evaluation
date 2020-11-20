@@ -33,8 +33,8 @@ public class HonorServicelmpl implements HonorService {
     }
 
     @Override
-    public List<VerifyHonor> findHonorByClassMajorAndYear(String classmajor, String year,int state) {
-        return honorRepository.findByClssMajorAndYearAndState(classmajor,year,state);
+    public List<VerifyHonor> findHonorByClassMajorAndYear(String classmajor,int state) {
+        return honorRepository.findByClssMajorAndYearAndState(classmajor,state);
     }
 
     @Override

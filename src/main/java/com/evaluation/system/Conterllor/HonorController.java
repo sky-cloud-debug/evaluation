@@ -58,16 +58,16 @@ public class HonorController {
     }
 
     @GetMapping("/findToBan")
-    public List<VerifyHonor> findHonorToBan(String year, HttpServletRequest request){
+    public List<VerifyHonor> findHonorToBan(HttpServletRequest request){
         HttpSession session=request.getSession();
         String classmajor=session.getAttribute("classMajor").toString();
-        List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor, year,0);
+        List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor,0);
         return honor_list;
     }
 
     @GetMapping("/findToGuan")
     public List<VerifyHonor> findHonorToGuan(String year,String classmajor, HttpServletRequest request){
-        List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor, year,1);
+        List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor, 1);
         return honor_list;
     }
 
