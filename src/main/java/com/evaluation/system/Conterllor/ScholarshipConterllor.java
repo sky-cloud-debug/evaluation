@@ -94,9 +94,8 @@ public class ScholarshipConterllor {
     @RequestMapping(value="/verifyQtGuanLi",method = RequestMethod.POST)
     @ResponseBody
     public void GuanLiVerifyQt(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
-       // HttpSession session=request.getSession();
-        //String classMajor=request.getAttribute("classmajor").toString();//页面传回
-        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass("计算机18-4",1);
+        String classMajor=request.getParameter("major");
+        List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass(classMajor,1);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
@@ -143,9 +142,8 @@ public class ScholarshipConterllor {
     @RequestMapping(value="/verifyYxGuanLi",method = RequestMethod.POST)
     @ResponseBody
     public void GuanLiVerifyYx(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
-        HttpSession session=request.getSession();
-        String classmajor=session.getAttribute("classMajor").toString();
-        List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classmajor,1);
+        String classMajor=request.getParameter("major");
+        List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classMajor,1);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";
