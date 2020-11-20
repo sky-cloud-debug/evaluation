@@ -21,20 +21,6 @@
     <div class="layuimini-main">
 
         <div id="Main" class="layui-form layuimini-form" style="margin-top: 30px">
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">卡号</label>
-                <div class="layui-input-block">
-                    <input id="Card" type="tel" name="cardNumber"  disabled value="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label ">学号</label>
-                <div class="layui-input-block">
-                    <input id="Sno" type="text" name="number"  disabled  value="" class="layui-input">
-
-                </div>
-            </div>
             <div class="layui-form-item" style="margin-left: 68px">
 
             </div>
@@ -44,14 +30,15 @@
                     <colgroup>
                         <col width="200">
                         <col width="150">
-                        <col width="800">
+                        <col width="500">
+                        <col>
                     </colgroup>
                     <thead>
                     <tr >
                         <th style="margin-left: 100px">奖学金等级</th>
                         <th>审核情况</th>
+                        <th>申请卡号</th>
                         <th>审核理由</th>
-
                     </tr>
                     </thead>
                     <tbody id="yx">
@@ -83,6 +70,26 @@
                 </table>
             </div>
 
+            <div style="width: 1400px; margin-left: 86px" >
+                <table class="layui-table" >
+                    <colgroup>
+                        <col width="200">
+                        <col width="200">
+                        <col width="150">
+                    </colgroup>
+                    <thead>
+                    <tr >
+                        <th style="margin-left: 100px">荣誉名称</th>
+                        <th>学年</th>
+                        <th>审核情况</th>
+                        <th>审核理由</th>
+                    </tr>
+                    </thead>
+                    <tbody id="good3">
+                    </tbody>
+                </table>
+            </div>
+
 
         </div>
     </div>
@@ -103,26 +110,31 @@
                 type: "POST",
                 url: "/BasicController/showawards",
                 success: function (data) {
-                    Jdata=JSON.parse(data);
-                  //  console.log(data);
-                     //var Jdata=$.parseJSON(data);
+                    var info = data.split('-');
+                    var Jdata1=JSON.parse(info[0]);
+                    var Jdata2=JSON.parse(info[1]);
+                    var Jdata3=JSON.parse(info[2]);
+                  // //  console.log(data);
+                  //    var Jdata=$.parseJSON(data);
+                  //
+                    $.each(Jdata1,function (i,v) {
+                        if(i>=1){
+                            // $('#Sno').val(v.number);
+                            // $('#Card').val(v.card);
 
-                    $.each(Jdata,function (k,v) {
-                        if(k<=1){
-                            if(k<1){}else {
-                                $('#Sno').val(v.number);
-                                $('#Card').val(v.card);
+                            var str="<tr >\n" +
+                                "            <td>"+v.scholarshipLevel+"</td>\n" +
+                                "            <td>"+v.state+"</td>\n" +
+                                "            <td>"+v.card+"</td>\n" +
+                                "            <td>"+v.reason+"</td>\n" +
+                                "        </tr>"
+                            $('#yx').append(str);
+                            // $('div').append(str);
+                        }
+                    })
 
-                                var str="<tr >\n" +
-                                    "            <td>"+v.scholarshipLevel+"</td>\n" +
-                                    "            <td>"+v.state+"</td>\n" +
-                                    "            <td>"+v.reason+"</td>\n" +
-                                    "        </tr>"
-                                $('#yx').append(str);
-
-                            }
-
-                        }else{
+                    $.each(Jdata2,function (i,v) {
+                        if(i>=1){
                             var str="<tr >\n" +
                                 "            <td>"+v.bonus_name+"</td>\n" +
                                 "            <td>"+v.state+"</td>\n" +
@@ -130,8 +142,44 @@
                                 "        </tr>"
                             $('#tb').append(str);
                         }
+                    })
 
-                    });
+                    $.each(Jdata3,function (i,v) {
+                        if(i>=1){
+                            var str="<tr >\n" +
+                                "            <td>"+v.studentHonor+"</td>\n" +
+                                "            <td>"+v.year+"</td>\n" +
+                                "            <td>"+v.state+"</td>\n" +
+                                "            <td>"+v.reason+"</td>\n" +
+                                "        </tr>"
+                            $('#good3').append(str);
+                        }
+                    })
+                    // $.each(Jdata1,function (k,v) {
+                    //     if(k<=1){
+                    //         if(k<1){}else {
+                    //             $('#Sno').val(v.number);
+                    //             $('#Card').val(v.card);
+                    //
+                    //             var str="<tr >\n" +
+                    //                 "            <td>"+v.scholarshipLevel+"</td>\n" +
+                    //                 "            <td>"+v.state+"</td>\n" +
+                    //                 "            <td>"+v.reason+"</td>\n" +
+                    //                 "        </tr>"
+                    //             $('#yx').append(str);
+                    //
+                    //         }
+                    //
+                    //     }else{
+                    //         var str="<tr >\n" +
+                    //             "            <td>"+v.bonus_name+"</td>\n" +
+                    //             "            <td>"+v.state+"</td>\n" +
+                    //             "            <td>"+v.reason+"</td>\n" +
+                    //             "        </tr>"
+                    //         $('#tb').append(str);
+                    //     }
+
+                    //});
 
                     layui.form.render();
                 },

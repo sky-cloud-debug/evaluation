@@ -77,9 +77,11 @@ public class BasicController {
         List<honor> honorlist = honorService.findByNumber(number);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
-        String jstr = "{}";
+        String jstr1 = "{}";
+        String jstr2 = "{}";
+        String jstr3 = "{}";
         for(yxScholarship i : allyxaward){
-            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
+            jstr1=jstr1+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
                     + "\""+"card"+"\""+":"+ "\""+ i.getCardNumber()+"\""+ ","
                     + "\""+"scholarshipLevel"+"\""+":"+ "\""+ i.getScholarshipLevel()+"\""+ ","
                     + "\""+"state"+"\""+":"+ "\""+PanDuan(i.getState()) +"\""+ ","
@@ -88,7 +90,7 @@ public class BasicController {
                     +"}";
         }
         for(qtScholarship i : allqtaward){
-            jstr=jstr+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
+            jstr2=jstr2+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
                     + "\""+"card"+"\""+":"+ "\""+ i.getCard_number()+"\""+ ","
                     + "\""+"bonus_name"+"\""+":"+ "\""+ i.getBonus_name()+"\""+ ","
                     + "\""+"state"+"\""+":"+ "\""+PanDuan(i.getState() )+"\""+ ","
@@ -96,8 +98,16 @@ public class BasicController {
                     + "\""+"reason"+"\""+":"+ "\""+i.getReason() +"\""
                     +"}";
         }
+        for(honor i : honorlist){
+            jstr3=jstr3+","+"{"+"\""+"number"+"\""+":"+ "\""+ i.getNumber()+"\""+ ","
+                    + "\""+"studentHonor"+"\""+":"+ "\""+ i.getStudentHonor()+"\""+ ","
+                    + "\""+"state"+"\""+":"+ "\""+PanDuan(i.getState() )+"\""+ ","
+                    + "\""+"year"+"\""+":"+ "\""+i.getYear() +"\""+ ","
+                    + "\""+"reason"+"\""+":"+ "\""+i.getReason() +"\""
+                    +"}";
+        }
 
-        out.print("["+jstr+"]");
+        out.print("["+jstr1+"]"+"-"+"["+jstr2+"]"+"-"+"["+jstr3+"]");
     }
 
     private String PanDuan(int i){

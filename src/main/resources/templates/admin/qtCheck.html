@@ -78,9 +78,11 @@
                 url: "/GuanLiAfterVerifyQt",
                 success: function (data) {
                     console.log(data);
+                    alert("已通过");
+                    window.location.reload();
                 }
             });
-            alert("已通过");
+
         }
 
         function refuse(element) {
@@ -101,9 +103,11 @@
                     success: function (data) {
                         console.log(data);
                         alert("提交成功");
+                        window.location.reload();
                     },
                     error: function (e) {
                         console.log(e);
+
                     }
                 })
             })

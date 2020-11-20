@@ -73,7 +73,7 @@
             var reason = "";
 
             $.ajax({
-                data: {"number": number, "year": year,"flag":"1","bonusname":bonusname},
+                data: {"number": number, "year": year,"flag":"1","bonusname":bonusname,"reason":reason},
                 url: "/BanAfterVerifyQt",
                 type:"POST",
                 success: function (data) {

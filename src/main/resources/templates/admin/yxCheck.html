@@ -78,6 +78,7 @@
                 success: function () {
                     console.log(data);
                     alert("已通过");
+                    window.location.reload();
                 }
             });
 
@@ -100,6 +101,7 @@
                     success: function () {
                         //console.log(data);
                         alert("已驳回");
+                        window.location.reload();
                     },
                     error: function (e) {
                         console.log(e);
