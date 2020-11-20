@@ -1,6 +1,7 @@
 package com.evaluation.system.Conterllor;
 
 import com.evaluation.system.Service.BasicService;
+import com.evaluation.system.Service.HonorService;
 import com.evaluation.system.Service.ScholarshipService;
 import com.evaluation.system.Service.TembasicService;
 import com.evaluation.system.domain.ExtraEntity.AllqtAwards;
@@ -8,6 +9,7 @@ import com.evaluation.system.domain.ExtraEntity.AllxyAwards;
 import com.evaluation.system.domain.ExtraEntity.ShowStu;
 import com.evaluation.system.domain.ExtraEntity.temporarybasic;
 import com.evaluation.system.domain.basic;
+import com.evaluation.system.domain.honor;
 import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class BasicController {
 
     @Autowired
     TembasicService tembasicService;
+
+    @Autowired
+    HonorService honorService;
 
     //这里是精准查询，查询全班的，需要删去智育成绩，和总分。
     @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
@@ -69,6 +74,7 @@ public class BasicController {
         String number=(String)request.getSession().getAttribute("number");
         List<qtScholarship> allqtaward=scholarshipService.findqtByNumber(number);
         List<yxScholarship> allyxaward=scholarshipService.findyxByNumber(number);
+        List<honor> honorlist = honorService.findByNumber(number);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
         String jstr = "{}";

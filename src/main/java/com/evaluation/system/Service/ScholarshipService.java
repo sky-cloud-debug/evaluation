@@ -22,7 +22,7 @@ public interface ScholarshipService {
 
     public boolean delete_xy(String numbre,int level,String year);
 
-    public int updateQtScholarshipState(int state,String number,String year,String name,String reason);
+    public int updateQtScholarshipState(int state,String number,String year,String bonusname,String reason);
     public int updateYxScholarshipState(int state,String number,String year,String reason);
     public List<VerifyYxScholarship> verifyYxscholarshipByClass(String classmajor, int state);
     public List<VerifyQtScholarship> verifyQtscholarshipByClass(String classmajor, int state);

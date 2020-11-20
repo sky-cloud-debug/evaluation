@@ -71,7 +71,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
 
     @Override
     public int updateQtScholarshipState(int state, String number, String year,String name,String reason) {
-        return qtScholarshipRepository.updateQtScholarshipState(1,number,year,name,reason);
+        return qtScholarshipRepository.updateQtScholarshipState(state,number,year,name,reason);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class ScholarshipServiceImpl implements ScholarshipService {
 
     @Override
     public List<AllqtAwards> findqtByYearAndClassMajor(String year, String classmajor) {
-        return qtScholarshipRepository.findByYearAndClassMajor(year,classmajor);
+        return qtScholarshipRepository.findByYearAndClassMajorAndState(year,classmajor);
     }
 
     @Override

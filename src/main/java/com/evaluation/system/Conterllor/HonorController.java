@@ -33,14 +33,6 @@ public class HonorController {
         return result;
     }
 
-    @RequestMapping(value = "/findHonor", method= RequestMethod.GET)
-    public List<honor> findHonor(HttpServletRequest request){
-        HttpSession session=request.getSession();
-        String number=session.getAttribute("number").toString();
-        List<honor> list = honorService.findByNumber(number);//个人的所有获奖情况
-        //PanDuan(list.get(i).getState());在这里把状态转换一下
-        return list;
-    }
     private String PanDuan(int state){
         if(state==1){
             return "班长审核通过";

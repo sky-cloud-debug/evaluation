@@ -20,7 +20,7 @@ public interface yxScholarshipRepository extends JpaRepository<yxScholarship,Str
 
     public List<yxScholarship> findByNumber(String number);
 
-    @Query(value = "select new com.evaluation.system.domain.ExtraEntity.AllxyAwards(a.number,b.name,a.scholarshipLevel) from yxScholarship a,basic b where a.number=b.number and a.year=?1 and b.classMajor=?2")
+    @Query(value = "select new com.evaluation.system.domain.ExtraEntity.AllxyAwards(a.number,b.name,a.scholarshipLevel) from yxScholarship a,basic b where a.number=b.number and a.year=?1 and b.classMajor=?2 and a.state=2")
     public List<AllxyAwards> findByYearAndClassMajor(String year, String classmajor);
 
     @Modifying
