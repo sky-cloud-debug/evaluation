@@ -5,10 +5,8 @@ import com.evaluation.system.domain.ExtraEntity.VerifyHonor;
 import com.evaluation.system.domain.honor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,15 +20,18 @@ public class HonorController {
     HonorService honorService;
 
     @PostMapping("/addhonor")
-    public String addHonor(honor honor){
-        boolean b = honorService.addHonor(honor);
-        String result=null;
+    public String addHonor(HttpServletRequest request, Model model){
+        HttpSession session=request.getSession();
+        String number=session.getAttribute("number").toString();
+        String year=request.getParameter("year");
+        String honor=request.getParameter("honor");
+        boolean b = honorService.addHonor(new honor(number,honor,year,0,""));
         if(b){
-            result="申请成功";
+            model.addAttribute("mes","申请成功");
         }else {
-            result="申请失败";
+            model.addAttribute("mes","申请失败");
         }
-        return result;
+        return "/scholarship/honorform.html";
     }
 
     private String PanDuan(int state){

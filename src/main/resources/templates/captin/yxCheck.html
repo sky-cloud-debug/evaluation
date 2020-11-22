@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>班长审核学生奖项加分</title>
+    <title>班长审核奖学金</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" href="/css/layui.css">
     <script src="/layui.all.js"></script>
@@ -69,11 +69,11 @@
             var $tr=$(element).parent().parent();
              var number = $tr.attr('id');
              var year = $tr.children('.year').text();
-            // var reason = "";
+             var reason = "";
 
             $.ajax({
                 async: true,
-                 data: {"number": number, "year": year,"flag":"1"},
+                 data: {"number": number, "year": year,"flag":"1","reason":reason},
                 url: '/BanAfterVerifyYx',
                 type: "POST",
                 success: function () {

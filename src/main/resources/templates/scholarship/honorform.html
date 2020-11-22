@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>优秀奖学金申报</title>
+    <title>三优一好申报</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/css/layui.css" media="all">
-    <link rel="stylesheet" href="/css/public.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/public.css" media="all">
     <script th:inline="javascript">
         var data = [[${mes}]];
         alert(data)
@@ -21,23 +21,18 @@
             <legend>添加申请</legend>
         </fieldset>
 
-        <form class="layui-form" action="/yxScholarship" method="post">
+        <form class="layui-form" action="/honor/addhonor" method="post">
             <div class="layui-form-item">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">奖学金等级</label>
+                    <label class="layui-form-label">荣誉名称</label>
                     <div class="layui-input-block">
-                        <select class="layui-select" name="level" lay-filter="aihao">
-                            <option th:value="一等奖学金">一等奖学金</option>
-                            <option th:value="二等奖学金">二等奖学金</option>
-                            <option th:value="三等奖学金">三等奖学金</option>
+                        <select name="honor" lay-filter="aihao">
+                            <option th:value="优秀学生干部">优秀学生干部</option>
+                            <option th:value="优秀团干部">优秀团干部</option>
+                            <option th:value="优秀团员">优秀团员</option>
+                            <option th:value="三好学生">三好学生</option>
                         </select>
                     </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">银行卡号</label>
-                <div class="layui-input-block">
-                    <input type="text" id="card" name="card" lay-verify="required" lay-reqtext="银行卡号是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -61,12 +56,13 @@
     </div>
 </div>
 
-<script src="/layui.js" charset="utf-8"></script>
+    <script src="/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form'], function(){
-        var form = layui.form
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
     });
 </script>
-
 </body>
 </html>

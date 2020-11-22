@@ -1,61 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>导入</title>
+    <meta charset="utf-8">
+    <title>导入数据</title>
+    <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="stylesheet" href="/css/layui.css">
-    <link rel="stylesheet" href="/css/import.css">
-    <script src="/layui.all.js"></script>
-    <script src="/layui.js"></script>
-    <script src="/lay/modules/jquery.js"></script>
-    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/public.css" media="all">
+    <script th:inline="javascript">
+        var data = [[${mes}]];
+        alert(data)
+    </script>
 </head>
 <body>
-<input type="text" id="textfield" /><br/>
-<a class="a-upload">
-    <input type="file" name="file" id="fileField" onchange="document.getElementById('textfield').value=document.getElementById('fileField').value">点击这里上传文件
-</a>
+<div class="layuimini-container">
+    <div class="layuimini-main">
 
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>导入用户信息</legend>
+        </fieldset>
 
+        <form class="layui-form" action="/Excel/importbasic" method="post">
+            <div class="layui-form-item">
+                <div>
+                    <label class="layui-form-label" style="width: 207px;">文件路径（例如:F:/basic.xlsx)</label>
+                </div>
+                <div class="layui-input-block" style="margin-left: 36px">
+                    <input type="text" id="path" name="path" lay-verify="required" lay-reqtext="文件路径是必填项，岂能为空？"
+                           placeholder="请输入" autocomplete="off" class="layui-input" style="margin-left:0px">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/layui.js" charset="utf-8"></script>
 <script>
-    var fileId=document.getElementById("fileField");
-    var textId=document.getElementById("textfield");
-
-    function getFileURL(file) {
-        var getUrl = null;
-        if (window.createObjectURL != undefined) { // basic
-            getUrl = window.createObjectURL(file);
-        } else if (window.URL != undefined) { // mozilla(firefox)
-            getUrl = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) { // webkit or chrome
-            getUrl = window.webkitURL.createObjectURL(file);
-        }
-        return getUrl;
-    }
-
-    var selectFile = function()
-    {
-        var url = getFileURL(this.files[0]);//把当前的 files[0] 传进去
-        if (url)
-        {
-            //textId.value = url;
-            var obj={}
-            obj.url=url;
-            $.ajax({
-                type:'POST',
-                url:'/verifyYxGuanLi',
-                data:obj,
-                success(){
-                    console.log("success!");
-                },error(e){
-                    console.log(e);
-                }
-            })
-            console.log(url);
-        }
-    }
-    fileId.addEventListener('change', selectFile);
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+    });
 </script>
 </body>
 </html>

@@ -14,13 +14,14 @@ import com.evaluation.system.util.ExcelUtils.Excellmpl.basicExceImpl;
 import com.evaluation.system.util.ExcelUtils.Excellmpl.qualityExceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -40,13 +41,13 @@ public class ExcelController {
     AwardService awardService;
 
     @PostMapping("/importbasic")
-    public String importbasic(HttpServletRequest request, RedirectAttributesModelMap modelMap){
+    public String importbasic(HttpServletRequest request, ModelMap modelMap){
         EntityExcelUtil<basic> excelUtil=new basicExceImpl();
         String path=request.getParameter("path");
         List<basic> list = excelUtil.importExcel(path);
         int should=list.size();
-        List<String> number=new ArrayList<>();
         int all=0;
+        StringBuilder s=new StringBuilder();
         for(basic a:list){
             boolean flag = basicService.addbasic(a);
             user u=new user(a.getNumber(),a.getNumber(),1);
@@ -54,29 +55,33 @@ public class ExcelController {
             if(flag&&flag1){
                 all++;
             }else {
-                number.add(a.getNumber());
+                s.append(a.getNumber()+" ");
             }
         }
+        String mes="应导入用户"+should+"人，"+"实际导入用户"+all+"人,";
         if(all==should){
-            return "成员全部导入完毕!";
+            mes+="用户全部导入完毕！";
         }else {
-            modelMap.addFlashAttribute("number",number);
-            return null;//需要返回的页面
+            mes+="未导入的学号为："+s;
         }
+        modelMap.addAttribute("mes",mes);
+        return "/imANDex/import.html";
     }
+
     //导出quality到Excel
     @PostMapping("/exportquality")
-    public String exportquality(HttpServletRequest request){
+    public String exportquality(HttpServletRequest request, Model model){
         String path=request.getParameter("path");
         path+="\\quality.xlsx";
         EntityExcelUtil<exportquality> excelUtil=new qualityExceImpl();
         List<exportquality> all=quailtyService.exportquality();
         boolean i=excelUtil.exportExcel(all,path,"sheet1");
         if(i){
-            return "导出信息成功！";
+            model.addAttribute("mes","导出信息成功");
         }else {
-            return "导出信息失败！";
+            model.addAttribute("mes","导出信息失败");
         }
+        return "/imANDex/export.html";
     }
     //导出Award到Excel
     @PostMapping("/exportAward")

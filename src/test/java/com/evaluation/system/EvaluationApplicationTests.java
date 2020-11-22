@@ -8,6 +8,8 @@ import com.evaluation.system.Service.QuailtyService;
 //import com.evaluation.system.Service.RoleService;
 import com.evaluation.system.Service.ScholarshipService;
 import com.evaluation.system.domain.*;
+import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
+import com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship;
 import com.evaluation.system.domain.ExtraEntity.exportquality;
 import com.evaluation.system.util.DateUtils;
 import com.evaluation.system.util.ExcelUtils.EntityExcelUtil;
@@ -36,9 +38,10 @@ class EvaluationApplicationTests {
 
     @Test
     public void contextLoads() {
-        //int state,String number,String year
-        int u = scholarshipService.updateYxScholarshipState(2, "2018212405", "第三学年","我是你爸爸");
-        System.out.println(u);
+        List<VerifyQtScholarship> all = scholarshipService.verifyQtscholarshipByClass("null", 0);
+        for (VerifyQtScholarship a : all
+        ) {
+            System.out.println(a);
+        }
     }
-
 }
