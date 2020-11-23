@@ -41,7 +41,7 @@
                 asnyc: false,
                 success: function (result) {
                     console.log(result);
-                    Jdata=JSON.parse(result);
+                     var Jdata=JSON.parse(result);
                     $.each(Jdata,function (i,v) {
                         if(i>=1){
                             var str="<tr id="+v.number+ ">\n" +

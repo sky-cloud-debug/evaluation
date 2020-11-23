@@ -5,8 +5,10 @@ import com.evaluation.system.domain.ExtraEntity.VerifyHonor;
 import com.evaluation.system.domain.honor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,18 +22,15 @@ public class HonorController {
     HonorService honorService;
 
     @PostMapping("/addhonor")
-    public String addHonor(HttpServletRequest request, Model model){
-        HttpSession session=request.getSession();
-        String number=session.getAttribute("number").toString();
-        String year=request.getParameter("year");
-        String honor=request.getParameter("honor");
-        boolean b = honorService.addHonor(new honor(number,honor,year,0,""));
+    public String addHonor(honor honor){
+        boolean b = honorService.addHonor(honor);
+        String result=null;
         if(b){
-            model.addAttribute("mes","申请成功");
+            result="申请成功";
         }else {
-            model.addAttribute("mes","申请失败");
+            result="申请失败";
         }
-        return "/scholarship/honorform.html";
+        return result;
     }
 
     private String PanDuan(int state){
@@ -59,7 +58,8 @@ public class HonorController {
     }
 
     @GetMapping("/findToBan")
-    public List<VerifyHonor> findHonorToBan(HttpServletRequest request){
+    @ResponseBody
+    public List<VerifyHonor> findHonorToBan(String year, HttpServletRequest request){
         HttpSession session=request.getSession();
         String classmajor=session.getAttribute("classMajor").toString();
         List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor,0);
@@ -67,20 +67,36 @@ public class HonorController {
     }
 
     @GetMapping("/findToGuan")
-    public List<VerifyHonor> findHonorToGuan(String year,String classmajor, HttpServletRequest request){
-        List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor, 1);
+    @ResponseBody
+    public List<VerifyHonor> findHonorToGuan(String year, HttpServletRequest request){
+        String classmajor=request.getParameter("classmajor");
+        if(classmajor==null){
+            classmajor="计算机18-4";
+        }
+        System.out.println(classmajor);
+        List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor,1);
         return honor_list;
     }
 
     @PostMapping("/verifyAfterBan")
-    public String verifyAfterBan(String number,String honor,String year,int state,HttpServletRequest request){
-        String result=updateStateOfHonor(number,honor,year,state);//返回的状态为1（通过），-1（不通过）
+    @ResponseBody
+    public String verifyAfterBan(HttpServletRequest request){
+        String number=request.getParameter("number");
+        String studentHonor=request.getParameter("studentHonor");
+        String year=request.getParameter("year");
+        int state=Integer.parseInt(request.getParameter("state"));
+        String result=updateStateOfHonor(number,studentHonor,year,state);//返回的状态为1（通过），-1（不通过）
         return result;
     }
 
     @PostMapping("/verifyAfterGuan")
-    public String verifyAfterGuan(String number,String honor,String year,int state,HttpServletRequest request){
-        String result=updateStateOfHonor(number,honor,year,state);//返回的状态为2（通过），-2（不通过）
+    @ResponseBody
+    public String verifyAfterGuan(HttpServletRequest request){
+        String number=request.getParameter("number");
+        String studentHonor=request.getParameter("studentHonor");
+        String year=request.getParameter("year");
+        int state=Integer.parseInt(request.getParameter("state"));
+        String result=updateStateOfHonor(number,studentHonor,year,state);//返回的状态为2（通过），-2（不通过）
         return result;
     }
     private String updateStateOfHonor(String number,String honor,String year,int state){

@@ -35,29 +35,28 @@
 
         $(document).ready(function () {
             $.ajax({
-                type: "POST",
-                url: "/verifyQtGuanLi",//examine/showMaterials_monitor
+                type: "get",
+                url: "/honor/findToGuan",//examine/showMaterials_monitor
                 //data: "application/json",
                 asnyc: false,
-                success: function (result) {
-                    console.log(result);
-                   var Jdata=JSON.parse(result);
-                    $.each(Jdata,function (i,v) {
-                        if(i>=1){
+                    success: function (result) {
+                        console.log(result);
+                        // var Jdata=JSON.parse(result);
+                        $.each(result,function (i,v) {
+
                             var str="<tr id="+v.number+ ">\n" +
                                 "            <td>"+v.classMajor+"</td>\n" +
                                 "            <td>"+v.number+"</td>\n" +
                                 "            <td>"+v.name+"</td>\n" +
-                                "            <td>"+v.card_number+"</td>\n" +
-                                "            <td class='bonusname'>"+v.bonus_name+"</td>\n" +
+                                "            <td class='studentHonor'>"+v.studentHonor+"</td>\n" +
                                 "            <td class='year'>"+v.year+"</td>\n" +
                                 "            <td>"+v.reason+"</td>\n" +
                                 "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
                                 "        </tr>"
 
                             $('#test').append(str);
-                        }
-                    })
+
+                        })
                 },
                 error: function (error) {
                     console.log(error);
@@ -69,14 +68,13 @@
             var $tr=$(element).parent().parent();
             var number = $tr.attr('id');
             var year = $tr.children('.year').text();
-            var bonusname = $tr.children('.bonusname').text();
             var reason = "";
 
             $.ajax({
-                type:'POST',
-                data: {"number": number, "year": year,"flag":"2","bonusname":bonusname},
-                url: "/GuanLiAfterVerifyQt",
-                success: function (data) {
+                url:'/honor/verifyAfterGuan',
+                type: "POST",
+                data: {"number": number, "year": year,"state":"2","reason":reason},
+                success: function () {
                     console.log(data);
                     alert("已通过");
                     window.location.reload();
@@ -92,22 +90,20 @@
                 var $tr=$(element).parent().parent();
                 var number = $tr.attr('id');
                 var year = $tr.children('.year').text();
-                var bonusname = $tr.children('.bonusname').text();
                 var reason = $('#reason').val();
                 $(".alert-box").css('display', 'none');
                 console.log(reason);
                 $.ajax({
-                    type:'POST',
-                    data: {"number": number, "year": year,"flag":"-2","bonusname":bonusname},
-                    url: "/GuanLiAfterVerifyQt",
-                    success: function (data) {
-                        console.log(data);
-                        alert("提交成功");
+                    url:'/honor/verifyAfterGuan',
+                    type: "POST",
+                    data: {"number": number, "year": year,"state":"-2","reason":reason},
+                    success: function () {
+                        //console.log(data);
+                        alert("已驳回");
                         window.location.reload();
                     },
                     error: function (e) {
                         console.log(e);
-
                     }
                 })
             })
@@ -134,28 +130,25 @@
 
         $.ajax({
             type: "GET",
-            url: "/verifyQtGuanLi",
+            url: "/honor/findToGuan",
             data: {"classmajor":major},
             asnyc: false,
             success(result){
                 console.log(result);
-                var Jdata=JSON.parse(result);
                 $('#test').empty();
-                $.each(Jdata,function (i,v) {
-                    if(i>=1){
-                        var str="<tr id="+v.number+ ">\n" +
-                            "            <td>"+v.classMajor+"</td>\n" +
-                            "            <td>"+v.number+"</td>\n" +
-                            "            <td>"+v.name+"</td>\n" +
-                            "            <td>"+v.card_number+"</td>\n" +
-                            "            <td class='bonusname'>"+v.bonus_name+"</td>\n" +
-                            "            <td class='year'>"+v.year+"</td>\n" +
-                            "            <td>"+v.reason+"</td>\n" +
-                            "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
-                            "        </tr>"
+                $.each(result,function (i,v) {
+                    var str="<tr id="+v.number+ ">\n" +
+                        "            <td>"+v.classMajor+"</td>\n" +
+                        "            <td>"+v.number+"</td>\n" +
+                        "            <td>"+v.name+"</td>\n" +
+                        "            <td class='studentHonor'>"+v.studentHonor+"</td>\n" +
+                        "            <td class='year'>"+v.year+"</td>\n" +
+                        "            <td>"+v.reason+"</td>\n" +
+                        "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
+                        "        </tr>"
 
-                        $('#test').append(str);
-                    }
+                    $('#test').append(str);
+
                 })
             },error(e){
                 console.log(e);
@@ -183,8 +176,7 @@
             <th>班级</th>
             <th>学号</th>
             <th>姓名</th>
-            <th>卡号</th>
-            <th>申请奖项</th>
+            <th>荣誉名称</th>
             <th>学年</th>
             <th>理由</th>
             <th>操作</th>

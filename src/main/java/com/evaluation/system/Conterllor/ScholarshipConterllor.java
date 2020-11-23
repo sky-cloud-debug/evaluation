@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -112,7 +111,10 @@ public class ScholarshipConterllor {
     @RequestMapping(value="/verifyQtGuanLi",method = RequestMethod.POST)
     @ResponseBody
     public void GuanLiVerifyQt(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
-        String classMajor=request.getParameter("major");
+        String classMajor=request.getParameter("classmajor");
+        if(classMajor==null){
+            classMajor="计算机18-4";
+        }
         List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass(classMajor,1);
         System.out.println(list.size());
         response.setCharacterEncoding("utf-8");
@@ -161,7 +163,10 @@ public class ScholarshipConterllor {
     @RequestMapping(value="/verifyYxGuanLi",method = RequestMethod.POST)
     @ResponseBody
     public void GuanLiVerifyYx(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
-        String classMajor=request.getParameter("major");
+        String classMajor=request.getParameter("classmajor");
+        if(classMajor==null){
+            classMajor="计算机18-4";
+        }
         System.out.println("major------"+classMajor);
         List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classMajor,1);
         response.setCharacterEncoding("utf-8");
