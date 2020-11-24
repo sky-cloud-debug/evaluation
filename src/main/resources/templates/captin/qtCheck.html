@@ -36,8 +36,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: "POST",
-                url: "/verifyQtbanZhang",//examine/showMaterials_monitor
-                //data: "application/json",
+                url: "/verifyQtbanZhang",
                 asnyc: false,
                 success: function (result) {
                     console.log(result);
@@ -51,10 +50,9 @@
                                 "            <td>"+v.card_number+"</td>\n" +
                                 "            <td class='bonusname'>"+v.bonus_name+"</td>\n" +
                                 "            <td class='year'>"+v.year+"</td>\n" +
-                                "            <td>"+v.reason+"</td>\n" +
+                                "            <td id='reason'>"+v.reason+"</td>\n" +
                                 "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
                                 "        </tr>"
-
                              $('#test').append(str);
                         }
                     })
@@ -77,8 +75,7 @@
                 url: "/BanAfterVerifyQt",
                 type:"POST",
                 success: function (data) {
-                    console.log(data);
-                    alert("已通过");
+                    alert(data);
                     window.location.reload();
                 }
             });
@@ -101,8 +98,7 @@
                     data: {"number": number, "year": year,"flag":"-1","bonusname":bonusname,"reason":reason},
                     url: "/BanAfterVerifyQt",
                     success: function (data) {
-                        console.log(data);
-                        alert("已驳回");
+                        alert(data);
                         window.location.reload();
                     },
                     error: function (e) {

@@ -1,5 +1,6 @@
 package com.evaluation.system.Conterllor;
 
+import com.evaluation.system.Service.BasicService;
 import com.evaluation.system.Service.ScholarshipService;
 import com.evaluation.system.domain.ExtraEntity.VerifyQtScholarship;
 import com.evaluation.system.domain.ExtraEntity.VerifyYxScholarship;
@@ -24,6 +25,9 @@ public class ScholarshipConterllor {
     @Autowired
     ScholarshipService ScholarshipService;
 
+    @Autowired
+    BasicService basicService;
+
     @GetMapping("/test")
     @ResponseBody
     public String test(HttpServletRequest request){
@@ -38,7 +42,6 @@ public class ScholarshipConterllor {
      * @param
      * @return
      */
-    //这里建议使用@ResponseBody//直接将提示信息返回原来页面
     @PostMapping("/yxScholarship")
     public String yxScholarship(HttpServletRequest request, ModelMap model){
         HttpSession session=request.getSession();
@@ -112,8 +115,9 @@ public class ScholarshipConterllor {
     @ResponseBody
     public void GuanLiVerifyQt(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
         String classMajor=request.getParameter("classmajor");
+        System.out.println(classMajor);
         if(classMajor==null){
-            classMajor="计算机18-4";
+            classMajor=basicService.findClass();
         }
         List<VerifyQtScholarship> list=ScholarshipService.verifyQtscholarshipByClass(classMajor,1);
         System.out.println(list.size());
@@ -134,7 +138,6 @@ public class ScholarshipConterllor {
         }
         out.print("["+jstr+"]");
     }
-
 
     //班长审核Yx奖学金
     @RequestMapping(value="/verifyYxBanZhang",method = RequestMethod.POST)
@@ -159,15 +162,15 @@ public class ScholarshipConterllor {
         out.print("["+jstr+"]");
     }
 
-    //管理员审核Yx奖学金
+    //管理员审核Yx奖学金classmajor
     @RequestMapping(value="/verifyYxGuanLi",method = RequestMethod.POST)
     @ResponseBody
     public void GuanLiVerifyYx(Model model,HttpServletRequest request,HttpServletResponse response) throws IOException {
         String classMajor=request.getParameter("classmajor");
+        System.out.println(classMajor);
         if(classMajor==null){
-            classMajor="计算机18-4";
+            classMajor=basicService.findClass();
         }
-        System.out.println("major------"+classMajor);
         List<VerifyYxScholarship> list=ScholarshipService.verifyYxscholarshipByClass(classMajor,1);
         response.setCharacterEncoding("utf-8");
         PrintWriter out=response.getWriter();
@@ -210,11 +213,13 @@ public class ScholarshipConterllor {
     }
     private String UpdateQtState(String number,String year,int state,String bonusname,String reason){
         int i = ScholarshipService.updateQtScholarshipState(state, number, year,bonusname,reason);
-        if(i==1){
-            return "审核通过";
-        }else {
+        if(i>0){
+            if(state>0){
+                return "审核通过";
+            }
             return "审核不通过";
         }
+        return "系统错误";
     }
 
     //班长审核Yx奖学金后修改状态
@@ -240,9 +245,13 @@ public class ScholarshipConterllor {
     private String UpdateYxState(String number,String year,int state,String reason){
         int i = ScholarshipService.updateYxScholarshipState(state, number, year,reason);
         if(i==1){
-            return "审核通过";
+            if(state>0){
+                return "审核通过";
+            }else {
+                return "审核不通过";
+            }
         }else {
-            return "审核不通过";
+            return "系统错误";
         }
     }
 }

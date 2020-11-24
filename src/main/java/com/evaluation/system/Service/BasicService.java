@@ -12,7 +12,7 @@ import java.util.List;
 public interface BasicService {
 
     public basic findByNumber(String number);
-
+    public String findClass();
     public boolean updatebasic(basic b);
     public ArrayList<basic> findByClassMajorOrderByNumber(String classMajor);
     public boolean addbasic(basic b);

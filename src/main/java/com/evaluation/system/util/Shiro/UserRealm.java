@@ -26,15 +26,19 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        System.out.println("来到授权------------------");
         String PrimaryPrincipal=(String) principalCollection.getPrimaryPrincipal();
         String duty = basicService.findDutyByNumber(PrimaryPrincipal);
         SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
         if(duty.equals("班长")){
             simpleAuthorizationInfo.addRole("monitor");
+            System.out.println("monitor");
         }else if(duty.equals("管理员")){
             simpleAuthorizationInfo.addRole("admin");
+            System.out.println("admin");
         }else {
             simpleAuthorizationInfo.addRole("student");
+            System.out.println("student");
         }
         return simpleAuthorizationInfo;
     }
@@ -43,7 +47,7 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String principal=(String)authenticationToken.getPrincipal();
         user us=userService.findByNumber(principal);
-        System.out.println(us);
+        System.out.println("来到认证========="+us);
         if(!ObjectUtils.isEmpty(us)){
             return new SimpleAuthenticationInfo(principal,us.getPassword(), ByteSource.Util.bytes(us.getNumber()),getName());
         }

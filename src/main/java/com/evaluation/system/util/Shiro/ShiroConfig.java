@@ -37,22 +37,33 @@ public class ShiroConfig {
         //iltermap.put("/updata", "perms[updata]");
         //设置拦截
         // 这个必须在前面
-//        filtermap.put("/", "anon");
-//        filtermap.put("/api/**", "anon");
-//        filtermap.put("/css/**", "anon");
-//        filtermap.put("/excel/**", "anon");
-//        filtermap.put("/font/**", "anon");
-//        filtermap.put("/font-awesome-4.7.0/**", "anon");
-//        filtermap.put("/images/**", "anon");
-//        filtermap.put("/jq-module/**", "anon");
-//        filtermap.put("/jquery-3.4.1/**", "anon");
-//        filtermap.put("/js/**", "anon");
-//        filtermap.put("/lay/**", "anon");
-//        filtermap.put("/layui.all.js", "anon");
-//        filtermap.put("/layui.js", "anon");
-//        filtermap.put("/main/**", "anon");
-//        filtermap.put("/login/Login", "anon");
-//        filtermap.put("/**", "authc");
+        filtermap.put("/", "anon");
+        filtermap.put("/api/**", "anon");
+        filtermap.put("/css/**", "anon");
+        filtermap.put("/excel/**", "anon");
+        filtermap.put("/font/**", "anon");
+        filtermap.put("/font-awesome-4.7.0/**", "anon");
+        filtermap.put("/images/**", "anon");
+        filtermap.put("/jq-module/**", "anon");
+        filtermap.put("/jquery-3.4.1/**", "anon");
+        filtermap.put("/js/**", "anon");
+        filtermap.put("/lay/**", "anon");
+        filtermap.put("/layui.all.js", "anon");
+        filtermap.put("/layui.js", "anon");
+        filtermap.put("/main/**", "anon");
+        filtermap.put("/login/Login", "anon");
+//        filtermap.put("/captin/**", "anon");
+//        filtermap.put("/extra/**", "anon");
+//        filtermap.put("/imANDex/**", "anon");
+//        filtermap.put("/login/**", "anon");
+//        filtermap.put("/admin/**", "anon");
+//        filtermap.put("/page/**", "anon");
+//        filtermap.put("/power/**", "anon");
+//        filtermap.put("/scholarship/**", "anon");
+//        filtermap.put("/xywjyx/**", "anon");
+//        filtermap.put("/scoring/**", "anon");
+//        filtermap.put("/table/**", "anon");
+        filtermap.put("/**", "authc");
         shiroFilterFactoryBean.setUnauthorizedUrl("/power/nopower");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filtermap);
 //        修改默认的跳转登陆页面
@@ -62,10 +73,10 @@ public class ShiroConfig {
 
     /*创建DefaultWebSecurityManager*/
     @Bean
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("getRealm")Realm userRealm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(Realm userRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(userRealm);
         securityManager.setRememberMeManager(rememberMeManager());
+        securityManager.setRealm(userRealm);
         return securityManager;
     }
 
@@ -95,6 +106,7 @@ public class ShiroConfig {
     public ShiroDialect getshiroDialect() {
         return new ShiroDialect();
     }
+
 
     //设置cookie对象，记住我功能
     public SimpleCookie rememberMeCookie() {

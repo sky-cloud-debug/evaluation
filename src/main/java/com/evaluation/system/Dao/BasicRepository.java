@@ -14,6 +14,9 @@ public interface BasicRepository extends JpaRepository<basic, String> {
 
     public basic findByNumber(String number);
 
+    @Query(value = "select class_major from basic limit 1",nativeQuery = true)
+    public String findClass();
+
     public ArrayList<basic> findByClassMajorOrderByNumber(String classMajor);
 
     @Query(value = "select duty from basic where number=?1")

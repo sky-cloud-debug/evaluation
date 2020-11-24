@@ -4,7 +4,9 @@ import com.evaluation.system.Dao.UserRepository;
 import com.evaluation.system.Service.Impl.userServicelmpl;
 import com.evaluation.system.domain.ExtraEntity.ChangePwd;
 import com.evaluation.system.domain.user;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,20 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @GetMapping("/tofindpower")
+    @ResponseBody
+    public String tofindpower(){
+        System.out.println("来到了这里获取群贤");
+        Subject subject= SecurityUtils.getSubject();
+        if(subject.hasRole("monitor")){
+            return "monitor";
+        }else if(subject.hasRole("admin")){
+            return "admin";
+        }else {
+            return "student";
+        }
+    }
     //查找用户
     public user finduserbynumber(String number){
         user us=null;

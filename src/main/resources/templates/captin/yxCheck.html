@@ -36,8 +36,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: "POST",
-                url: "/verifyYxBanZhang",//examine/showMaterials_monitor
-                //data: "application/json",
+                url: "/verifyYxBanZhang",
                 asnyc: false,
                 success: function (result) {
                     console.log(result);
@@ -51,7 +50,7 @@
                                 "            <td>"+v.card_number+"</td>\n" +
                                 "            <td>"+v.bonus_name+"</td>\n" +
                                 "            <td class='year'>"+v.year+"</td>\n" +
-                                "            <td>"+v.reason+"</td>\n" +
+                                "            <td id='reason'>"+v.reason+"</td>\n" +
                                 "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
                                 "        </tr>"
 
@@ -76,9 +75,8 @@
                  data: {"number": number, "year": year,"flag":"1","reason":reason},
                 url: '/BanAfterVerifyYx',
                 type: "POST",
-                success: function () {
-                   // console.log(data);
-                    alert("已通过");
+                success: function (result) {
+                    alert(result);
                     window.location.reload();
                 }
             });
@@ -99,9 +97,8 @@
                     type: "POST",
                     data: {"number": number, "year": year,"flag":"-1","reason":reason},
                     url: '/BanAfterVerifyYx',
-                    success: function () {
-                        //console.log(data);
-                        alert("提交成功");
+                    success: function (result) {
+                        alert(result);
                         window.location.reload();
                     },
                     error: function (e) {

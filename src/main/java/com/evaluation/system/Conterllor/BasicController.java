@@ -12,13 +12,14 @@ import com.evaluation.system.domain.basic;
 import com.evaluation.system.domain.honor;
 import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
+import jdk.nashorn.internal.objects.annotations.Getter;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,10 +43,12 @@ public class BasicController {
     @Autowired
     HonorService honorService;
 
+
     //这里是精准查询，查询全班的，需要删去智育成绩，和总分。
     @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public void insertUserInfo(@RequestBody(required=false)Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
+        System.out.println("来到公式信息");
         String classMajor=(String)request.getSession().getAttribute("classMajor");
         List<ShowStu> list= basicService.ShowScore(classMajor);
         response.setCharacterEncoding("utf-8");

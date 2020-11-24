@@ -22,6 +22,7 @@
           "href": "",
           "icon": "fa fa-home",
           "target": "_self",
+          "power": "a",
           "child": [
             {
               "title": "基础分成绩",
@@ -43,6 +44,7 @@
           "href": "page/table.html",
           "icon": "fa fa-file-text",
           "target": "_self",
+          "power": "b",
           "child": [
             {
               "title": "奖学金查询",
@@ -69,6 +71,7 @@
           "href": "",
           "icon": "fa fa-calendar",
           "target": "_self",
+          "power": "c",
           "child": [
 
             {
@@ -84,6 +87,7 @@
           "href": "",
           "icon": "fa fa-flag-o",
           "target": "_self",
+          "power": "d",
           "child": [
             {
               "title": "优秀奖学金",
@@ -98,15 +102,9 @@
               "target": "_self"
             },
             {
-              "title": "三优一好申报",
+              "title": "三优一好",
               "href": "scholarship/honorform.html",
               "icon": "fa fa-shield",
-              "target": "_self"
-            },
-            {
-              "title": "奖项申报",
-              "href": "xywjyx/submit2.html",
-              "icon": "fa fa-viacoin",
               "target": "_self"
             }
           ]
@@ -116,6 +114,7 @@
           "href": "",
           "icon": "fa fa-home",
           "target": "_self",
+          "power": "e",
           "child": [
             {
               "title": "测评小组打分",
@@ -130,6 +129,7 @@
           "href": "",
           "icon": "fa fa-snowflake-o",
           "target": "",
+          "power": "f",
           "child": [
             {
               "title": "奖学金审核",
@@ -162,6 +162,7 @@
           "href": "",
           "icon": "fa fa-snowflake-o",
           "target": "",
+          "power": "g",
           "child": [
             {
               "title": "奖学金审核",
@@ -183,7 +184,7 @@
             },
             {
               "title": "加分项审核",
-              "href": "ywjyx/bonusadmin.html",
+              "href": "xywjyx/bonusadmin.html",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             }
@@ -193,19 +194,15 @@
           "title": "重置密码",
           "href": "admin/ResetPwd.html",
           "icon": "fa fa-refresh",
-          "target": ""
+          "target": "",
+          "power": "k"
         },
         {
           "title": "管理员审核信息",
           "href": "admin/check.html",
           "icon": "fa fa-refresh",
-          "target": ""
-        },
-        {
-          "title": "管理员公示",
-          "href": "page/publicity.html",
-          "icon": "fa fa-square-o",
-          "target": ""
+          "target": "",
+          "power": "l"
         }
       ]
     }

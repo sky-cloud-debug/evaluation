@@ -39,7 +39,7 @@ public class HonorServicelmpl implements HonorService {
     }
 
     @Override
-    public int updateStateByNumAndHorAndYe(String number, String honor, String year, int state) {
-        return honorRepository.updateStateByNumAndHorAndYe(number,honor,year,state);
+    public int updateStateByNumAndHorAndYe(String number, String honor, String year, int state,String reason) {
+        return honorRepository.updateStateByNumAndHorAndYe(number,honor,year,state,reason);
     }
 }

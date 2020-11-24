@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>班长审核学生奖项加分</title>
+    <title>管理员审核单项奖</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" href="/css/layui.css">
     <script src="/layui.all.js"></script>
@@ -36,11 +36,9 @@
         $(document).ready(function () {
             $.ajax({
                 type: "POST",
-                url: "/verifyQtGuanLi",//examine/showMaterials_monitor
-                //data: "application/json",
+                url: "/verifyQtGuanLi",
                 asnyc: false,
                 success: function (result) {
-                    console.log(result);
                    var Jdata=JSON.parse(result);
                     $.each(Jdata,function (i,v) {
                         if(i>=1){
@@ -51,7 +49,7 @@
                                 "            <td>"+v.card_number+"</td>\n" +
                                 "            <td class='bonusname'>"+v.bonus_name+"</td>\n" +
                                 "            <td class='year'>"+v.year+"</td>\n" +
-                                "            <td>"+v.reason+"</td>\n" +
+                                "            <td id='reason'>"+v.reason+"</td>\n" +
                                 "            <td><button class=\"layui-btn layui-btn-sm\" id=' + info + ' onclick=\"accept(this)\">通过</button ><button class=\"layui-btn layui-btn-sm layui-btn-danger\" id=' + info + ' onclick=\"refuse(this)\">不通过</button></td>\n" +
                                 "        </tr>"
 
@@ -77,9 +75,7 @@
                 data: {"number": number, "year": year,"flag":"2","bonusname":bonusname},
                 url: "/GuanLiAfterVerifyQt",
                 success: function (data) {
-                    console.log(data);
-                    alert("已通过");
-                    window.location.reload();
+                    alert(data);
                 }
             });
 
@@ -95,15 +91,12 @@
                 var bonusname = $tr.children('.bonusname').text();
                 var reason = $('#reason').val();
                 $(".alert-box").css('display', 'none');
-                console.log(reason);
                 $.ajax({
                     type:'POST',
                     data: {"number": number, "year": year,"flag":"-2","bonusname":bonusname},
                     url: "/GuanLiAfterVerifyQt",
                     success: function (data) {
-                        console.log(data);
-                        alert("提交成功");
-                        window.location.reload();
+                        alert(data);
                     },
                     error: function (e) {
                         console.log(e);
@@ -131,14 +124,12 @@
 <script>
     $('#selectMajor').click(function () {
         var major=$('#major').val();
-
         $.ajax({
-            type: "GET",
+            type: "post",
             url: "/verifyQtGuanLi",
             data: {"classmajor":major},
             asnyc: false,
             success(result){
-                console.log(result);
                 var Jdata=JSON.parse(result);
                 $('#test').empty();
                 $.each(Jdata,function (i,v) {

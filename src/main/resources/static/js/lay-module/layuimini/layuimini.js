@@ -141,7 +141,7 @@ layui.define(["element", "jquery"], function (exports) {
                 leftMenuHtml += '<ul class="layui-nav layui-nav-tree layui-left-nav-tree ' + leftMenuCheckDefault + '" id="' + key + '">\n';
                 var menuList = val.child;
                 $.each(menuList, function (index, menu) {
-                    leftMenuHtml += '<li class="layui-nav-item">\n';
+                    leftMenuHtml += '<li class="layui-nav-item" id="'+menu.power+'">\n';
                     if (menu.child != undefined && menu.child != []) {
                         leftMenuHtml += '<a href="javascript:;" class="layui-menu-tips" ><i class="' + menu.icon + '"></i><span class="layui-left-nav"> ' + menu.title + '</span> </a>';
                         var buildChildHtml = function (html, child, menuParameId) {
@@ -149,7 +149,7 @@ layui.define(["element", "jquery"], function (exports) {
                             $.each(child, function (childIndex, childMenu) {
                                 html += '<dd>\n';
                                 if (childMenu.child != undefined && childMenu.child != []) {
-                                    html += '<a href="javascript:;" class="layui-menu-tips" ><i class="' + childMenu.icon + '"></i><span class="layui-left-nav"> ' + childMenu.title + '</span></a>';
+                                    html += '<a href="javascript:;" class="layui-menu-tips"><i class="' + childMenu.icon + '"></i><span class="layui-left-nav"> ' + childMenu.title + '</span></a>';
                                     html = buildChildHtml(html, childMenu.child, menuParameId);
                                 } else {
                                     html += '<a href="javascript:;" class="layui-menu-tips" data-type="tabAdd"  data-tab-mpi="m-p-i-' + menuParameId + '" data-tab="' + childMenu.href + '" target="' + childMenu.target + '"><i class="' + childMenu.icon + '"></i><span class="layui-left-nav"> ' + childMenu.title + '</span></a>\n';
@@ -212,7 +212,6 @@ layui.define(["element", "jquery"], function (exports) {
                                 }
                             }
                         }
-
                         if (checkHref == tabId) {
                             title = $(this).html();
                             title = title.replace('style="display: none;"', '');

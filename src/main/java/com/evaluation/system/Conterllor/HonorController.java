@@ -1,5 +1,7 @@
 package com.evaluation.system.Conterllor;
 
+import com.evaluation.system.Dao.BasicRepository;
+import com.evaluation.system.Service.BasicService;
 import com.evaluation.system.Service.HonorService;
 import com.evaluation.system.domain.ExtraEntity.VerifyHonor;
 import com.evaluation.system.domain.honor;
@@ -21,6 +23,9 @@ public class HonorController {
 
     @Autowired
     HonorService honorService;
+
+    @Autowired
+    BasicService basicService;
 
     @PostMapping("/addhonor")
     public String addHonor(HttpServletRequest request, Model model){
@@ -56,11 +61,10 @@ public class HonorController {
     public List<VerifyHonor> findHonorToGuan(String year, HttpServletRequest request){
         String classmajor=request.getParameter("classmajor");
         if(classmajor==null){
-            classmajor="计算机18-4";
+            classmajor=basicService.findClass();
         }
         System.out.println(classmajor);
-        List<VerifyHonor> honor_list = honorService.findHonorByClassMajorAndYear(classmajor,1);
-        return honor_list;
+        return  honorService.findHonorByClassMajorAndYear(classmajor,1);
     }
 
     @PostMapping("/verifyAfterBan")
@@ -69,9 +73,9 @@ public class HonorController {
         String number=request.getParameter("number");
         String studentHonor=request.getParameter("studentHonor");
         String year=request.getParameter("year");
+        String reason=request.getParameter("reason");
         int state=Integer.parseInt(request.getParameter("state"));
-        String result=updateStateOfHonor(number,studentHonor,year,state);//返回的状态为1（通过），-1（不通过）
-        return result;
+        return updateStateOfHonor(number,studentHonor,year,state,reason);//返回的状态为1（通过），-1（不通过）
     }
 
     @PostMapping("/verifyAfterGuan")
@@ -80,15 +84,19 @@ public class HonorController {
         String number=request.getParameter("number");
         String studentHonor=request.getParameter("studentHonor");
         String year=request.getParameter("year");
+        String reason=request.getParameter("reason");
         int state=Integer.parseInt(request.getParameter("state"));
-        String result=updateStateOfHonor(number,studentHonor,year,state);//返回的状态为2（通过），-2（不通过）
-        return result;
+        System.out.println(number+" "+studentHonor+" "+year+" "+state+" "+reason);
+        return updateStateOfHonor(number,studentHonor,year,state,reason);//返回的状态为2（通过），-2（不通过）
     }
-    private String updateStateOfHonor(String number,String honor,String year,int state){
-        int i = honorService.updateStateByNumAndHorAndYe(number, honor, year, state);
+    private String updateStateOfHonor(String number,String honor,String year,int state,String reason){
+        int i = honorService.updateStateByNumAndHorAndYe(number, honor, year, state,reason);
         if(i>0){
-            return "审核通过";
+            if(state>0){
+                return "审核通过";
+            }
+            return "审核不通过";
         }
-        return "审核已拒绝";
+        return "系统错误";
     }
 }

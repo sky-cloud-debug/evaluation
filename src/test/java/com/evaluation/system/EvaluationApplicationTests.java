@@ -35,13 +35,12 @@ class EvaluationApplicationTests {
     @Autowired
     ScholarshipService scholarshipService;
 
+    @Autowired
+    BasicRepository basicRepository;
 
     @Test
     public void contextLoads() {
-        List<VerifyQtScholarship> all = scholarshipService.verifyQtscholarshipByClass("null", 0);
-        for (VerifyQtScholarship a : all
-        ) {
-            System.out.println(a);
-        }
+        String aClass = basicRepository.findClass();
+        System.out.println("-----------------"+aClass);
     }
 }

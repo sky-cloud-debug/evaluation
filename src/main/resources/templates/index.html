@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ang="en" xmlns:th="http://www.thymeleaf.org">
+<html ang="en" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>学生操作主页</title>
@@ -15,6 +15,52 @@
     <link rel="stylesheet" type="text/css" href="/css/layuimini.css" media="all">
     <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <style id="layuimini-bg-color"></style>
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/tofindpower",//examine/showMaterials_monitor
+                asnyc: false,
+                success: function (result) {
+                    console.log(result);
+                    var gs=document.getElementById("a");
+                    var hjxx=document.getElementById("b");
+                    var jfxsb=document.getElementById("c");
+                    var jxsb=document.getElementById("d");
+                    var pcxz=document.getElementById("e");
+                    var bzsh=document.getElementById("f");
+                    var glysh=document.getElementById("g");
+                    var czmm=document.getElementById("k");
+                    var glyshxx=document.getElementById("l");
+                    if (result=="monitor"){
+                        glysh.style.display="none";
+                        glysh.style.display="none";
+                        czmm.style.display="none";
+                        glyshxx.style.display="none";
+                    }
+                    if (result=="admin"){
+                        gs.style.display="none";
+                        hjxx.style.display="none";
+                        jfxsb.style.display="none";
+                        jxsb.style.display="none";
+                        pcxz.style.display="none";
+                        bzsh.style.display="none";
+                    }
+                    if (result=="student") {
+                        glysh.style.display="none";
+                        czmm.style.display="none";
+                        glyshxx.style.display="none";
+                        pcxz.style.display="none";
+                        bzsh.style.display="none";
+                    }
+                },
+                error: function (error) {
+                console.log(error);
+            }
+            });
+        })
+    </script>
 </head>
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
@@ -80,14 +126,16 @@
             </div>
         </div>
     </div>
-</div><!--百度统计代码-开始 正式使用请删除-->
-<script> var _hmt = _hmt || [];
-(function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?d97abf6d61c21d773f97835defbdef4e";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();</script><!--百度统计代码-结束-->
+    <ul>
+        <li shiro:hasAnyRoles="monitor,tian">
+            我是你mam
+        </li>
+        <li shiro:hasRole="tain">
+            我是你爸爸
+        </li>
+
+    </ul>
+</div>
 <script src="/layui.js?v=1.0.4" charset="utf-8"></script>
 <script src="/js/lay-config.js" charset="utf-8"></script>
 <script> layui.use(['jquery', 'element', 'layer', 'layuimini'], function () {

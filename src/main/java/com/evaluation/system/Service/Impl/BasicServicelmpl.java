@@ -26,6 +26,11 @@ public class BasicServicelmpl implements BasicService {
     }
 
     @Override
+    public String findClass() {
+        return basicRepository.findClass();
+    }
+
+    @Override
     public boolean updatebasic(basic b) {
         basic save = basicRepository.save(b);
         return save!=null;
