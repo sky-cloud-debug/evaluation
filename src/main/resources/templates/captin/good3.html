@@ -44,7 +44,7 @@
                     $.each(result,function (i,v) {
 
                             var str="<tr id="+v.number+ ">\n" +
-                                "            <td>"+v.classMajor+"</td>\n" +
+                                "            <td>"+v.classmajor+"</td>\n" +
                                 "            <td>"+v.number+"</td>\n" +
                                 "            <td>"+v.name+"</td>\n" +
                                 "            <td class='studentHonor'>"+v.studentHonor+"</td>\n" +
@@ -96,7 +96,7 @@
                 console.log(reason);
                 $.ajax({
                     type:'POST',
-                    data: {"number": number, "year": year,"state":"-1","studentHonor":studentHonor},
+                    data: {"number": number, "year": year,"state":"-1","studentHonor":studentHonor,"reason":reason},
                     url: "/honor/verifyAfterBan",
                     success: function (data) {
                         console.log(data);
