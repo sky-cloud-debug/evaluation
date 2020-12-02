@@ -30,13 +30,15 @@
                     <colgroup>
                         <col width="200">
                         <col width="150">
-                        <col width="500">
+                        <col width="150">
+                        <col width="200">
                         <col>
                     </colgroup>
                     <thead>
                     <tr >
                         <th style="margin-left: 100px">奖学金等级</th>
                         <th>审核情况</th>
+                        <th>学年</th>
                         <th>申请卡号</th>
                         <th>审核理由</th>
                     </tr>
@@ -55,14 +57,17 @@
                     <colgroup>
                         <col width="200">
                         <col width="150">
-                        <col width="800">
+                        <col width="150">
+                        <col width="200">
+                        <col>
                     </colgroup>
                     <thead>
                     <tr >
                         <th style="margin-left: 100px">单项奖名称</th>
                         <th>审核情况</th>
+                        <th>学年</th>
+                        <th>申请卡号</th>
                         <th>审核理由</th>
-
                     </tr>
                     </thead>
                     <tbody id="tb">
@@ -74,14 +79,15 @@
                 <table class="layui-table" >
                     <colgroup>
                         <col width="200">
-                        <col width="200">
                         <col width="150">
+                        <col width="150">
+                        <col>
                     </colgroup>
                     <thead>
                     <tr >
                         <th style="margin-left: 100px">荣誉名称</th>
-                        <th>学年</th>
                         <th>审核情况</th>
+                        <th>学年</th>
                         <th>审核理由</th>
                     </tr>
                     </thead>
@@ -125,6 +131,7 @@
                             var str="<tr >\n" +
                                 "            <td>"+v.scholarshipLevel+"</td>\n" +
                                 "            <td>"+v.state+"</td>\n" +
+                                "            <td>"+v.year+"</td>\n" +
                                 "            <td>"+v.card+"</td>\n" +
                                 "            <td>"+v.reason+"</td>\n" +
                                 "        </tr>"
@@ -138,6 +145,8 @@
                             var str="<tr >\n" +
                                 "            <td>"+v.bonus_name+"</td>\n" +
                                 "            <td>"+v.state+"</td>\n" +
+                                "            <td>"+v.year+"</td>\n" +
+                                "            <td>"+v.card+"</td>\n" +
                                 "            <td>"+v.reason+"</td>\n" +
                                 "        </tr>"
                             $('#tb').append(str);
@@ -148,8 +157,8 @@
                         if(i>=1){
                             var str="<tr >\n" +
                                 "            <td>"+v.studentHonor+"</td>\n" +
-                                "            <td>"+v.year+"</td>\n" +
                                 "            <td>"+v.state+"</td>\n" +
+                                "            <td>"+v.year+"</td>\n" +
                                 "            <td>"+v.reason+"</td>\n" +
                                 "        </tr>"
                             $('#good3').append(str);
