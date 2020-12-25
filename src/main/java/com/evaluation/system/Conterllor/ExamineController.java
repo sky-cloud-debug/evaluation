@@ -174,14 +174,31 @@ public class ExamineController {
      * @return
      */
     @GetMapping("/judgeResult")
-    public String judgeResult(HttpServletRequest request, Model model, HttpSession session) {
+    @ResponseBody
+    public ArrayList<AwardTemp> judgeResult(HttpServletRequest request, Model model, HttpSession session) {
         String number = (String) session.getAttribute("number"); // 获取当前登录用户
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getJudgeResult(number);
-        model.addAttribute("awardTemp", awardTemps);
-        return "scoring/materials";
+        for (AwardTemp a:awardTemps) {
+            a.setName(PanDuan(a.getFlag()));
+        }
+        return awardTemps;
     }
-
+    private  String PanDuan(int i){
+        String states=null;
+        if(i==0){
+            states="未审核";
+        }else if(i==1){
+            states="班长审核通过";
+        }else if(i==-1){
+            states="班长审核未通过";
+        }else if(i==2){
+            states="审核通过";
+        }else {
+            states="管理员审核未通过";
+        }
+        return states;
+    }
     /**
      * 通过条件查找所有未审批的awardTemp
      *

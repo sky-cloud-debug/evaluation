@@ -114,7 +114,7 @@ public class BasicController {
         out.print("["+jstr1+"]"+"-"+"["+jstr2+"]"+"-"+"["+jstr3+"]");
     }
 
-    private String PanDuan(int i){
+    private  String PanDuan(int i){
         String states=null;
         if(i==0){
             states="未审核";

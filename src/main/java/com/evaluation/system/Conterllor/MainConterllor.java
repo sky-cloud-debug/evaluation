@@ -66,7 +66,14 @@ public class MainConterllor {
             session.setAttribute("name",b.getName());
             session.setAttribute("duty",b.getDuty());
             session.setAttribute("classMajorlike",classMajorLike);
-            return "redirect:/index.html";
+            if(subject.hasRole("monitor")){
+                return "redirect:/index_captin.html";
+            }else if(subject.hasRole("admin")){
+                return "redirect:/index.html";
+            }else {
+                return "redirect:/index_stu.html";
+            }
+
         }catch (UnknownAccountException e){
             e.printStackTrace();
             model.addFlashAttribute("mes","用户名错误！");

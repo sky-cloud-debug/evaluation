@@ -44,7 +44,6 @@ public class ExamineServiceImpl implements ExamineService {
         awardTemps = awardTempRepository.findByClassMajorAndFlag(classMajor, flag);
         return awardTemps;
     }
-
     /**
      * 导出所有审核表中的班级
      *
