@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>班长审核学生奖项加分</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/css/layui.css">
+    <script src="/layui.all.js"></script>
+    <script src="/layui.js"></script>
+    <script src="/lay/modules/jquery.js"></script>
+    <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <style>
+
+        .alert-box {
+            display: table;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .alert {
+            width: 200px;
+            height: 200px;
+            margin: 200px auto;
+        }
+
+    </style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/examine/judgeResult",
+                data: "application/json",
+                asnyc: false,
+                success: function (result) {
+                    console.log(result)
+                    var obj = result;
+                    var trStr = '';
+                    for (var i = 0; i < obj.length; i++) {
+
+                        trStr += '<tr>\n';
+                        trStr += '       <td>' + obj[i].awardName + '</td>\n';
+                        trStr += '       <td>' + obj[i].type + '</td>\n';
+                        trStr += '       <td>' + obj[i].level + '</td>\n';
+                        trStr += '       <td>' + obj[i].score + '</td>\n';
+                        trStr += '       <td>' + obj[i].name + '</td>\n';
+                        trStr += '       <td><img src=' + obj[i].router + '  / height="116.2px" width="550px" alt=""/></td>\n';
+                        trStr += '       <td>' + obj[i].reason + '</td>\n';
+                        trStr += '       <td>' + obj[i].updateTime + '</td>\n';
+
+                    }
+                    document.getElementById("test").innerHTML = trStr;
+                },
+                error: function (error) {
+                    console.log(data);
+                }
+            });
+        })
+
+
+
+
+
+    </script>
+</head>
+<body>
+
+<div class="layui-form">
+
+    <table class="layui-table">
+        <colgroup>
+            <col width="180">
+            <col width="120">
+            <col width="120">
+            <col width="100">
+            <col width="150">
+            <col width="150">
+            <col width="200">
+            <col width="200"/>
+        </colgroup>
+        <thead>
+        <tr>
+
+            <th>奖项名称</th>
+            <th>奖项类型</th>
+            <th>奖项等级</th>
+            <th>加分数</th>
+            <th>申报状态</th>
+            <th>佐证材料</th>
+            <th>备注</th>
+            <th>申报时间</th>
+        </tr>
+        </thead>
+        <tbody id="test"></tbody>
+    </table>
+</div>
+
+<div class="alert-box" style="display: none;">
+    <div class="alert">
+        <textarea placeholder="请输入理由" rows="8" cols="35" id="reason"></textarea>
+        <div class="layui-form-item" style="margin-left: 50px;">
+
+            <input type="button" id="submit" value="提交" class="layui-btn"/>
+            <input type="button" id="reset" value="取消" class="layui-btn layui-btn-primary"/>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#reset').click(function () {
+            $('.alert-box').css('display', 'none');
+        })
+    })
+
+</script>
+</body>
+</html>

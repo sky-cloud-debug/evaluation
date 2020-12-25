@@ -57,6 +57,12 @@
               "target": "_self"
             },
             {
+              "title": "加分项查询",
+              "href": "xywjyx/estate.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
               "title": "个人获奖情况",
               "href": "scholarship/idScholarship.html",
               "icon": "fa fa-tachometer",
