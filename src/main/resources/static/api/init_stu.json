@@ -1,0 +1,133 @@
+{
+  "clearInfo": {
+    "clearUrl": "api/clear.json"
+  },
+  "homeInfo": {
+    "title": "首页",
+    "icon": "fa fa-home",
+    "href": "page/userInfoshow.html"
+  },
+  "logoInfo": {
+    "title": "素质评价系统",
+    "image": "images/logo.png",
+    "href": ""
+  },
+  "menuInfo": {
+    "currency": {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "child": [
+        {
+          "title": "公示",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "基础分成绩",
+              "href": "scoring/totalGrade.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "总成绩",
+              "href": "scoring/stu.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+
+        {
+          "title": "获奖信息",
+          "href": "page/table.html",
+          "icon": "fa fa-file-text",
+          "target": "_self",
+          "child": [
+            {
+              "title": "奖学金查询",
+              "href": "scholarship/showyx.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "单项奖查询",
+              "href": "scholarship/showqt.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "个人获奖情况",
+              "href": "scholarship/idScholarship.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "加分项申报",
+          "href": "",
+          "icon": "fa fa-calendar",
+          "target": "_self",
+          "child": [
+
+            {
+              "title": "上传加分项",
+              "href": "xywjyx/submit2.html",
+              "icon": "fa fa-navicon",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "奖项申报",
+          "href": "",
+          "icon": "fa fa-flag-o",
+          "target": "_self",
+          "child": [
+            {
+              "title": "优秀奖学金",
+              "href": "scholarship/yxform.html",
+              "icon": "fa fa-stumbleupon-circle",
+              "target": "_self"
+            },
+            {
+              "title": "单项奖学金",
+              "href": "scholarship/qtform.html",
+              "icon": "fa fa-viacoin",
+              "target": "_self"
+            },
+            {
+              "title": "三优一好申报",
+              "href": "scholarship/honorform.html",
+              "icon": "fa fa-shield",
+              "target": "_self"
+            },
+            {
+              "title": "奖项申报",
+              "href": "xywjyx/submit2.html",
+              "icon": "fa fa-viacoin",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "信息导入导出",
+          "href": "",
+          "icon": "fa fa-snowflake-o",
+          "target": "",
+          "power": "h",
+          "child": [
+            {
+              "title": "导出",
+              "href": "imANDex/export.html",
+              "icon": "fa fa-snowflake-o",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+
+  }
+}
