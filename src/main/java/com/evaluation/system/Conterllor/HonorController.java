@@ -40,7 +40,7 @@ public class HonorController {
         }else {
             model.addAttribute("mes","申请失败");
         }
-        return "/scholarship/honorform.html";
+        return "/scholarship/honorform";
     }
 
     @PostMapping("/deleteHonor")
@@ -63,8 +63,16 @@ public class HonorController {
         if(classmajor==null){
             classmajor=basicService.findClass();
         }
-        System.out.println(classmajor);
         return  honorService.findHonorByClassMajorAndYear(classmajor,1);
+    }
+
+    @GetMapping("/findToBan")
+    @ResponseBody
+    public List<VerifyHonor> findHonorToBan(String year, HttpServletRequest request){
+        HttpSession session=request.getSession();
+        String classmajor=session.getAttribute("classMajor").toString();
+        List<VerifyHonor> honor = honorService.findHonorByClassMajorAndYear(classmajor, 0);
+        return  honor;
     }
 
     @PostMapping("/verifyAfterBan")

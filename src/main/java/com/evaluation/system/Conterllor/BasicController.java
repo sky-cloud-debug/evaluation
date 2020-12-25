@@ -14,6 +14,7 @@ import com.evaluation.system.domain.qtScholarship;
 import com.evaluation.system.domain.yxScholarship;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class BasicController {
 
 
     //这里是精准查询，查询全班的，需要删去智育成绩，和总分。
+    @RequiresRoles(value = {"student","monitor"},logical = Logical.OR)
     @RequestMapping(value="/BasicController/insertUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public void insertUserInfo(@RequestBody(required=false)Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -70,10 +72,11 @@ public class BasicController {
         }
         out.print("["+jstr+"]");
     }
-
+    @RequiresRoles(value = {"student","monitor"},logical = Logical.OR)
     @RequestMapping(value="/BasicController/showawards",method = RequestMethod.POST)
     @ResponseBody
     public void showawards(@RequestBody(required=false) Model model, HttpServletRequest request,HttpServletResponse response) throws IOException {
+        System.out.println("个人 获奖情况查询");
         String number=(String)request.getSession().getAttribute("number");
         List<qtScholarship> allqtaward=scholarshipService.findqtByNumber(number);
         List<yxScholarship> allyxaward=scholarshipService.findyxByNumber(number);

@@ -28,13 +28,6 @@ public class ScholarshipConterllor {
     @Autowired
     BasicService basicService;
 
-    @GetMapping("/test")
-    @ResponseBody
-    public String test(HttpServletRequest request){
-        String s=request.getParameter("s");
-        System.out.println(s);
-        return s;
-    }
     /**
      * 申报优秀学生奖学金
      * @create：song
@@ -56,7 +49,7 @@ public class ScholarshipConterllor {
         }else {
             model.addAttribute("mes","申请失败");
         }
-        return "/scholarship/yxform.html";//可选
+        return "/scholarship/yxform";//可选
     }
     private int PanduanYx(String level){
         switch (level){
@@ -83,7 +76,7 @@ public class ScholarshipConterllor {
         }else {
             model.addAttribute("mes","申请失败");
         }
-        return "/scholarship/qtform.html";
+        return "/scholarship/qtform";
     }
 
     //班长审核Qt奖学金

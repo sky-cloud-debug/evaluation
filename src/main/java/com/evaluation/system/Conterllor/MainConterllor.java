@@ -30,7 +30,7 @@ public class MainConterllor {
     @Autowired
     fileService fileService;
 
-    @GetMapping("index")
+    @GetMapping("/index")
     public String login(){return "login/Login";}
 
     @GetMapping("/add")

@@ -1,16 +1,15 @@
 package com.evaluation.system.Conterllor.extraItem;
 
-import com.evaluation.system.Service.AwardService;
-import com.evaluation.system.Service.BasicService;
-import com.evaluation.system.Service.QuailtyService;
-import com.evaluation.system.Service.userService;
+import com.evaluation.system.Service.*;
 import com.evaluation.system.domain.Award;
 import com.evaluation.system.domain.ExtraEntity.exportquality;
 import com.evaluation.system.domain.basic;
+import com.evaluation.system.domain.honor;
 import com.evaluation.system.domain.user;
 import com.evaluation.system.util.ExcelUtils.EntityExcelUtil;
 import com.evaluation.system.util.ExcelUtils.Excellmpl.awardExcelmpl;
 import com.evaluation.system.util.ExcelUtils.Excellmpl.basicExceImpl;
+import com.evaluation.system.util.ExcelUtils.Excellmpl.honorExcelmpl;
 import com.evaluation.system.util.ExcelUtils.Excellmpl.qualityExceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +39,10 @@ public class ExcelController {
     @Autowired
     AwardService awardService;
 
+    @Autowired
+    HonorService honorService;
+
+    //导入用户信息
     @PostMapping("/importbasic")
     public String importbasic(HttpServletRequest request, ModelMap modelMap){
         EntityExcelUtil<basic> excelUtil=new basicExceImpl();
@@ -68,6 +71,33 @@ public class ExcelController {
         return "/imANDex/import.html";
     }
 
+    //导入学生荣誉信息
+    @PostMapping("/importhonor")
+    public String importhonor(HttpServletRequest request, ModelMap modelMap){
+        EntityExcelUtil<honor> excelUtil=new honorExcelmpl();
+        String path=request.getParameter("path");
+        List<honor> list = excelUtil.importExcel(path);
+        int should=list.size();
+        int all=0;
+        StringBuilder s=new StringBuilder();
+        for(honor a:list){
+            boolean flag = honorService.addHonor(a);
+            if(flag){
+                all++;
+            }else {
+                s.append(a.getNumber()+" ");
+            }
+        }
+        String mes="应导入数据"+should+"条，"+"实际导入数据"+all+"条,";
+        if(all==should){
+            mes+="用户全部导入完毕！";
+        }else {
+            mes+="未导入的学号为："+s;
+        }
+        modelMap.addAttribute("mes",mes);
+        return "/imANDex/import.html";
+    }
+
     //导出quality到Excel
     @PostMapping("/exportquality")
     public String exportquality(HttpServletRequest request, Model model){
@@ -83,6 +113,7 @@ public class ExcelController {
         }
         return "/imANDex/export.html";
     }
+
     //导出Award到Excel
     @PostMapping("/exportAward")
     public String exportAward(HttpServletRequest request){

@@ -40,7 +40,6 @@
                 data: "application/json",
                 asnyc: false,
                 success: function (result) {
-
                     var obj = result;
                     var trStr = '';
                     for (var i = 0; i < obj.length; i++) {
@@ -132,7 +131,25 @@
             data: data,
             asnyc: false,
             success(result){
-                console.log(result);
+                var obj = result;
+                var trStr = '';
+                for (var i = 0; i < obj.length; i++) {
+
+                    trStr += '<tr>\n';
+                    trStr += '       <td>' + obj[i].classMajor + '</td>\n';
+                    trStr += '       <td>' + obj[i].number + '</td>\n';
+                    trStr += '       <td>' + obj[i].name + '</td>\n';
+                    trStr += '       <td>' + obj[i].type + '</td>\n';
+                    trStr += '       <td>' + obj[i].awardName + '</td>\n';
+                    trStr += '       <td>' + obj[i].score + '</td>\n';
+                    trStr += '       <td><img src=' + obj[i].router + '  / height="116.2px" width="550px" alt=""/></td>\n';
+
+                    var info = obj[i].number + "-" + obj[i].awardName;
+
+                    trStr += '       <td><button class="layui-btn layui-btn-sm" id=' + info + ' onclick="accept(this)" >通过</button>' + '&nbsp;&nbsp;';
+                    trStr += '<button class="layui-btn layui-btn-sm layui-btn-danger" id=' + info + ' onclick="refuse(this)">不通过</button></td>\n';
+                }
+                document.getElementById("test").innerHTML = trStr;
             },error(e){
                 console.log(e);
             }

@@ -190,6 +190,29 @@
             }
           ]
         },
+
+        {
+          "title": "信息导入导出",
+          "href": "",
+          "icon": "fa fa-snowflake-o",
+          "target": "",
+          "power": "h",
+          "child": [
+            {
+              "title": "导入",
+              "href": "imANDex/import.html",
+              "icon": "fa fa-stumbleupon-circle",
+              "target": "_self"
+            },
+            {
+              "title": "导出",
+              "href": "imANDex/export.html",
+              "icon": "fa fa-snowflake-o",
+              "target": "_self"
+            }
+          ]
+        },
+
         {
           "title": "重置密码",
           "href": "admin/ResetPwd.html",

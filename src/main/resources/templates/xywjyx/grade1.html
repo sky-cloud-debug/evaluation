@@ -5,7 +5,7 @@
 		<title>测评小组打分</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<link rel="stylesheet" href="/css/layui.css">
-        <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+		<script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
     	<script src="/layui.all.js"></script>
     	<script type="text/javascript">
     		$(document).ready(function(){
@@ -146,21 +146,22 @@
 											"name":$(tds[2]).html(),
 											"moral":$(tds[3]).html(),
 											"health":$(tds[4]).html(),
-											"tech":$(tds[5]).html(),
+											"technology":$(tds[5]).html(),
 											"reason":$(tds[6]).html()
 										};
 							}
 						}
 						console.log(res);
-						var Jres=JSON.parse(res);
 
 						$.ajax({
-							type:"get",
-							url:  "" ,
-							data:Jres,
+							type:"post",
+							contentType : "application/json",
+							url:  "/score/submittest",
+							dataType: "json",
+							data:JSON.stringify(res),
 							success:function(data){
 								console.log(data);
-								alert("提交成功");
+								alert(data);
 							}
 						});
 
@@ -168,6 +169,7 @@
 				})
 
 			</script>
+
 		</div>
 		<div id="demo7"></div>
 		<div  style="color: red; float: left;margin-left: 20px;">备注：若打基本合格，理由必填。</div>

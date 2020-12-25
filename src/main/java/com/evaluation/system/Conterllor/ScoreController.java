@@ -117,7 +117,6 @@ public class ScoreController {
     @GetMapping("/setTeamMember")
     public String setTestMember() {
         String classMajor = "计算机18-4";
-        String type = "Moral";
         ArrayList<testGroup> testGroupList = new ArrayList<testGroup>();
         testGroupList = scoreService.getTestInfo(classMajor);
         ArrayList<String> nameList = new ArrayList<String>();
@@ -142,6 +141,7 @@ public class ScoreController {
     }
 
     @RequestMapping("/submittest")
+    @ResponseBody
     public String test(@RequestBody Map<String, Map<String, String>> res,HttpSession session) {
         String classMajor = (String) session.getAttribute("classMajor");
         String name = (String) session.getAttribute("name");
@@ -157,7 +157,7 @@ public class ScoreController {
         scoreService.submitScore(classMajor, name, "Moral", moralList);
         scoreService.submitScore(classMajor, name, "Heart", heartList);
         scoreService.submitScore(classMajor, name, "Technology", technologyList);
-        return "";
+        return "上传成功";
     }
 
     /**

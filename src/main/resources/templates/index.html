@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>学生操作主页</title>
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -16,51 +19,6 @@
     <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <style id="layuimini-bg-color"></style>
     <script src="/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "/tofindpower",//examine/showMaterials_monitor
-                asnyc: false,
-                success: function (result) {
-                    console.log(result);
-                    var gs=document.getElementById("a");
-                    var hjxx=document.getElementById("b");
-                    var jfxsb=document.getElementById("c");
-                    var jxsb=document.getElementById("d");
-                    var pcxz=document.getElementById("e");
-                    var bzsh=document.getElementById("f");
-                    var glysh=document.getElementById("g");
-                    var czmm=document.getElementById("k");
-                    var glyshxx=document.getElementById("l");
-                    if (result=="monitor"){
-                        glysh.style.display="none";
-                        glysh.style.display="none";
-                        czmm.style.display="none";
-                        glyshxx.style.display="none";
-                    }
-                    if (result=="admin"){
-                        gs.style.display="none";
-                        hjxx.style.display="none";
-                        jfxsb.style.display="none";
-                        jxsb.style.display="none";
-                        pcxz.style.display="none";
-                        bzsh.style.display="none";
-                    }
-                    if (result=="student") {
-                        glysh.style.display="none";
-                        czmm.style.display="none";
-                        glyshxx.style.display="none";
-                        pcxz.style.display="none";
-                        bzsh.style.display="none";
-                    }
-                },
-                error: function (error) {
-                console.log(error);
-            }
-            });
-        })
-    </script>
 </head>
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
@@ -106,6 +64,7 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll layui-left-menu"></div>
     </div>
+
     <div class="layui-body">
         <div class="layui-tab" lay-filter="layuiminiTab" id="top_tabs_box">
             <ul class="layui-tab-title" id="top_tabs">
@@ -126,15 +85,6 @@
             </div>
         </div>
     </div>
-    <ul>
-        <li shiro:hasAnyRoles="monitor,tian">
-            我是你mam
-        </li>
-        <li shiro:hasRole="tain">
-            我是你爸爸
-        </li>
-
-    </ul>
 </div>
 <script src="/layui.js?v=1.0.4" charset="utf-8"></script>
 <script src="/js/lay-config.js" charset="utf-8"></script>

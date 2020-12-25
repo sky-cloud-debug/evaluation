@@ -1,5 +1,6 @@
 package com.evaluation.system.Conterllor;
 
+import com.evaluation.system.Service.BasicService;
 import com.evaluation.system.Service.Impl.ExamineServiceImpl;
 import com.evaluation.system.domain.AwardTemp;
 import com.evaluation.system.util.DateUtils;
@@ -25,6 +26,9 @@ public class ExamineController {
 
     @Autowired
     ExamineServiceImpl examineService;
+
+    @Autowired
+    BasicService basicService;
 
     @GetMapping("/test")
     public int test(HttpSession session) {
@@ -92,8 +96,9 @@ public class ExamineController {
     public ArrayList<AwardTemp> showMaterials_admin(@RequestBody(required=false)String major,HttpServletRequest request, HttpSession session) {
         //TODO 自己选择班级
         String classMajor=request.getParameter("major");
-        System.out.println(classMajor);
-        //String classMajor = (String) session.getAttribute("classMajor");
+        if(classMajor==null){
+            classMajor=basicService.findClass();
+        }
         ArrayList<AwardTemp> awardTemps = new ArrayList<AwardTemp>();
         awardTemps = examineService.getAwardTempInfo(classMajor, 1);
         return awardTemps;

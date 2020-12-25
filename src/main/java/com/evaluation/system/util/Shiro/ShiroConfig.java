@@ -52,22 +52,12 @@ public class ShiroConfig {
         filtermap.put("/layui.js", "anon");
         filtermap.put("/main/**", "anon");
         filtermap.put("/login/Login", "anon");
-//        filtermap.put("/captin/**", "anon");
-//        filtermap.put("/extra/**", "anon");
-//        filtermap.put("/imANDex/**", "anon");
-//        filtermap.put("/login/**", "anon");
-//        filtermap.put("/admin/**", "anon");
-//        filtermap.put("/page/**", "anon");
-//        filtermap.put("/power/**", "anon");
-//        filtermap.put("/scholarship/**", "anon");
-//        filtermap.put("/xywjyx/**", "anon");
-//        filtermap.put("/scoring/**", "anon");
-//        filtermap.put("/table/**", "anon");
-        filtermap.put("/**", "authc");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/power/nopower");
+
+        filtermap.put("/**", "roles");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/extra/error");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filtermap);
 //        修改默认的跳转登陆页面
-        shiroFilterFactoryBean.setLoginUrl("/login/Login");
+        shiroFilterFactoryBean.setLoginUrl("/main/index");
         return shiroFilterFactoryBean;
     }
 
